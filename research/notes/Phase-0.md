@@ -57,21 +57,5 @@ eg: Crab Nebula, Andromeda Galaxy, etc
 
 - NGC Catalog (New General Catalogue): contains Galaxies, Nebulae, Star clusters, etc. 
 
-How does app use use the Catalog: 
-Camera opens
-      ↓
-Phone location
-      ↓
-Current time
-      ↓
-Skyfield predicts visible stars
-      ↓
-Load nearby Hipparcos entries
-      ↓
-Computer Vision finds stars
-      ↓
-Plate Solver matches stars
-      ↓
-User taps Sirius
-      ↓
-Display all stored information
+- How does app use use the Catalog: 
+Camera opens ➡ Phone location ➡ Current time ➡ Skyfield predicts visible stars ➡ Load nearby Hipparcos entries ➡ Computer Vision finds stars ➡ Plate Solver matches stars ➡ User taps Sirius ➡ Display all stored information
