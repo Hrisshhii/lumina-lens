@@ -1,0 +1,48 @@
+# Module-1: Astronomy Fundamentals
+- Latitude only exists on Earth, so imagine a sphere around the earth called Celestial Sphere.
+- Every start assumed to be attached to the sphere
+- The Celestial Sphere has Right Ascension (RA) and Declination (Dec) -> addresses of each star
+
+1. Declination (Dec): similar to Earth's Latitude, range +90 to -90
+eg: 
++90° -> North Celestial Pole
++45°
+0° -> Celestial Equator
+-45°
+-90° -> South Celestial Pole
+
+2. Right Ascension (RA): Longitude doesn't work cuz Earth rotates
+- Hours are used
+- full sky divided in 24 hrs -> every hr corresponds to 15 degrees.
+eg: 24hr -> 360 , 1hr -> 15 , 2hr -> 30
+
+# Star Catalog
+
+Every star has an entry like this:
+
+Star	RA	Dec
+Sirius	06h45m	-16°
+Vega	18h37m	+38°
+Polaris	02h31m	+89°
+Betelgeuse	05h55m	+07°
+
+Hipparcos and Gaia catalogs stores this. 
+
+- but phone doesn't answer that -> so converted to local coordinates: Altitude & Azimuth
+- Altitude: How high something is above horizon, range 0 to 90
+- Azimuth: Compass direction from North, range 0 to 360
+
+
+- So the app does not search the entire sky but uses: Current time + GPS + Phone Orientation + What stars should be visible? and then compares with the camera image.
+
+Process: 
+When the app opens:
+
+1. Read GPS coordinates.
+2. Get the current date and time.
+3. Read the phone's compass and orientation.
+4. Use an astronomy library (like Skyfield) to compute the Altitude and Azimuth of nearby stars from their RA/Dec values.
+5. Overlay those predicted positions on the camera.
+6. Finally, use computer vision and plate solving to refine the match and identify every visible star.
+
+# Module-2: Star Catalogs
