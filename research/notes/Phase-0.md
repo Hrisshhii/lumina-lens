@@ -46,3 +46,32 @@ When the app opens:
 6. Finally, use computer vision and plate solving to refine the match and identify every visible star.
 
 # Module-2: Star Catalogs
+- info comes from astronomical catalogs
+
+- Major Catalogs used:
+1. Hipparcos (~118,000 stars)
+2. Gaia (~1.8 Billion)
+
+- Messier Catalog: not a star catalog, contains famous deep sky objects
+eg: Crab Nebula, Andromeda Galaxy, etc 
+
+- NGC Catalog (New General Catalogue): contains Galaxies, Nebulae, Star clusters, etc. 
+
+How does app use use the Catalog: 
+Camera opens
+      ↓
+Phone location
+      ↓
+Current time
+      ↓
+Skyfield predicts visible stars
+      ↓
+Load nearby Hipparcos entries
+      ↓
+Computer Vision finds stars
+      ↓
+Plate Solver matches stars
+      ↓
+User taps Sirius
+      ↓
+Display all stored information
