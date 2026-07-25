@@ -70,3 +70,30 @@ Camera opens ➡ Phone location ➡ Current time ➡ Skyfield predicts visible s
 
 Combining all the sensors
 
+- App needs: Location + Latitude & Longitude + Current Time + Phone Orientation
+
+## Understanding Orientation
+- three types of rotation 
+- Heading (Yaw): Turning left and right
+- Pitch: Looking up or down.
+- Roll: Portrait & Landscape
+
+## Pipeline: 
+GPS + Current Time + Compass + Gyroscope + Accelerometer + Camera FOV
+
+↓
+
+Astronomy Engine
+
+↓
+
+Predict Visible Stars
+
+↓
+
+Only then
+
+↓
+
+Computer Vision
+
