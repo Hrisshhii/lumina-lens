@@ -102,24 +102,31 @@ Computer Vision
 - Architecture now:
 
 Phone Sensors
-│
-▼
+
+↓
+
 Sensor Engine
-│
-▼
+
+↓
+
 Astronomy Engine
-│
-▼
+
+↓
+
 Visible Object Prediction
-│
-▼
+
+↓
+
 Computer Vision
-│
-▼
+
+↓
+
 Plate Solver
-│
-▼
+
+↓
+
 Catalog Engine
-│
-▼
+
+↓
+
 AI Assistant
