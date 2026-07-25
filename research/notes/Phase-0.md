@@ -59,3 +59,14 @@ eg: Crab Nebula, Andromeda Galaxy, etc
 
 - How does app use use the Catalog: 
 Camera opens ➡ Phone location ➡ Current time ➡ Skyfield predicts visible stars ➡ Load nearby Hipparcos entries ➡ Computer Vision finds stars ➡ Plate Solver matches stars ➡ User taps Sirius ➡ Display all stored information
+
+# Module-3: Phone Sensors & Camera Geometry
+
+- Sensors used: 
+1. GPS : Loaction on Earth
+2. Compass (Magnetometer): Direction of phone
+3. Accelerometer : measures acceleration and gravity -> orientation of phone
+4. Gyroscope : measures rotation
+
+Combining all the sensors
+
