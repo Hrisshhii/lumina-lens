@@ -97,3 +97,29 @@ Only then
 
 Computer Vision
 
+## Camera Coordinate System
+- Astronomy Engine predicts positions in angles (Altitude and Azimuth) but camera works in <b>pixels</b>
+- Architecture now:
+
+Phone Sensors
+        │
+        ▼
+Sensor Engine
+        │
+        ▼
+Astronomy Engine
+        │
+        ▼
+Visible Object Prediction
+        │
+        ▼
+Computer Vision
+        │
+        ▼
+Plate Solver
+        │
+        ▼
+Catalog Engine
+        │
+        ▼
+AI Assistant
