@@ -144,3 +144,32 @@ AI Assistant
 - classify the objects so no unnecessay detection
 - Later we can eliminate the aeroplace by identifying motion
 - same for satellites
+
+## Architecture:
+Vision Engine
+
+Camera
+
+↓
+
+Grayscale
+
+↓
+
+Noise Reduction
+
+↓
+
+Threshold
+
+↓
+
+Blob Detection
+
+↓
+
+Centroid Detection
+
+↓
+
+Pixel Coordinates
