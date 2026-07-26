@@ -139,3 +139,8 @@ AI Assistant
 5. Blob Detection : The computer groups connected bright pixels call it blob, one detected light source
 6. Find the Center : Find the center of blob
 7. Detect Every Star : repeat
+
+- When clouds detected show a message "No stars detected" to avoid identifying random noises
+- classify the objects so no unnecessay detection
+- Later we can eliminate the aeroplace by identifying motion
+- same for satellites
