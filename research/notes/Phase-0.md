@@ -132,10 +132,10 @@ Catalog Engine
 AI Assistant
 
 ## Module-4: Computer Vision
-1. Capture Image
-2. Convert to Grayscale
-3. Remove Noise
-4. Thresholding
-5. Blob Detection
-6. Find the Center
-7. Detect Every Star
+1. Capture Image : Around 12 million pixels
+2. Convert to Grayscale : color doesn't really help only brightness matters
+3. Remove Noise : remove camera noise due to atmosphere, heat, etc
+4. Thresholding : remove objects below a threshold to avoid unnecessary catches
+5. Blob Detection : The computer groups connected bright pixels call it blob, one detected light source
+6. Find the Center : Find the center of blob
+7. Detect Every Star : repeat
