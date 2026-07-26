@@ -130,3 +130,12 @@ Catalog Engine
 ↓
 
 AI Assistant
+
+## Module-4: Computer Vision
+1. Capture Image
+2. Convert to Grayscale
+3. Remove Noise
+4. Thresholding
+5. Blob Detection
+6. Find the Center
+7. Detect Every Star
