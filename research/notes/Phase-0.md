@@ -255,3 +255,36 @@ Optimization
 Version 3
 
 Build an optimized Lumina Lens plate solver.
+
+
+## Module-6: System Architecture: 
+                    Lumina Lens
+
+                    Mobile App
+                         │
+                         ▼
+              ┌────────────────────┐
+              │   Presentation UI  │
+              └────────────────────┘
+                         │
+                         ▼
+              ┌────────────────────┐
+              │   Application Core │
+              └────────────────────┘
+                         │
+      ┌──────────────┬───────────────┬───────────────┐
+      ▼              ▼               ▼
+ Sensor Engine   Vision Engine   Astronomy Engine
+                                      │
+                                      ▼
+                              Pattern Engine
+                                      │
+                                      ▼
+                               Plate Solver
+                                      │
+                                      ▼
+                               Catalog Engine
+                                      │
+                                      ▼
+                                 AI Engine
+
