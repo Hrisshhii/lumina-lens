@@ -475,3 +475,26 @@ No code changes elsewhere.
 - Later: Gaia
 - Then: Messier and NGC
 The Catalog Engine should hide which source the data came from.
+
+## MVP Definition:
+### Version 1: 
+Open Camera
+↓
+Predict Sky
+↓
+Detect Stars
+↓
+Identify Stars
+↓
+Tap Star
+↓
+View Information
+
+### Version 2
+- AI Assistant
+- AR Labels
+- Constellation Outlines
+### Version 3
+- Deep Sky Objects
+- Offline Mode
+- Astrophotography
