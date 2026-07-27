@@ -411,3 +411,28 @@ Favorites
 Settings
 Downloads
 
+- The star catalogs themselves will likely live as optimized files or specialized indexes rather than ordinary relational tables because they are large, mostly read-only datasets.
+
+## Data Flow: 
+Open Camera
+↓
+Sensor Engine
+↓
+Astronomy Engine
+↓
+Predict Stars
+↓
+Vision Engine
+↓
+Detect Stars
+↓
+Pattern Engine
+↓
+Plate Solver
+↓
+Catalog Engine
+↓
+UI
+↓
+AI
+
