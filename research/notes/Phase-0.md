@@ -288,3 +288,65 @@ Build an optimized Lumina Lens plate solver.
                                       ▼
                                  AI Engine
 
+## The Engines: 
+
+1. Sensor Engine: 
+Responsible for:
+- GPS
+- Compass
+- Gyroscope
+- Accelerometer
+- Device orientation
+Never does astronomy.
+
+2. Vision Engine:
+Responsible for:
+- Camera
+- Frames
+- Grayscale
+- Blob Detection
+- Star Detection
+
+3. Astronomy Engine:
+Responsible for:
+Given:
+- Latitude
+- Longitude
+- Time
+Calculate: 
+Visible Stars
+
+↓
+
+Altitude
+
+↓
+
+Azimuth
+
+4. Pattern Engine: 
+Responsible for:
+- Generate Triangles
+or
+- Quads from detected stars.
+
+5. Plate Solver:
+- Pattern matching.
+
+6. Catalog Engine: 
+- database
+Given: HIP 32349
+Return : 
+
+Everything
+↓
+Distance
+↓
+Mass
+↓
+Temperature
+↓
+Description
+
+7. AI Engine: 
+- It provides explanations, comparisons, and educational responses
