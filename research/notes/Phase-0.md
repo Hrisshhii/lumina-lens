@@ -350,3 +350,55 @@ Description
 
 7. AI Engine: 
 - It provides explanations, comparisons, and educational responses
+
+## Folder Structure:
+lumina-lens/
+
+├── app/                 # React Native application
+├── backend/             # FastAPI backend
+├── docs/
+├── research/
+├── assets/
+├── datasets/
+└── shared/
+
+## App Structure: 
+app/
+
+src/
+    screens/
+    components/
+    services/
+    hooks/
+    store/
+    types/
+    utils/
+    engines/
+        sensor/
+        vision/
+        astronomy/
+        pattern/
+        plateSolver/
+        catalog/
+        ai/
+
+## Backend:
+- initial:
+FastAPI
+↓
+Catalog API
+↓
+AI API
+↓
+Future APIs
+
+- Later:
+FastAPI
+↓
+Authentication
+↓
+User Profiles
+↓
+Observation History
+↓
+Cloud Sync
