@@ -436,3 +436,42 @@ UI
 ↓
 AI
 
+## Technology Choices
+### Mobile
+- React Native
+- Expo
+- TypeScript
+### Backend
+- FastAPI
+- Python
+### Astronomy
+- Skyfield
+- Astropy
+### Computer Vision
+- OpenCV
+### AI
+
+Keep this flexible.
+Create an interface:
+```
+interface AIProvider {
+
+    explain()
+
+    compare()
+
+    answer()
+}
+```
+
+- Today: Gemini
+- Tomorrow: OpenAI
+- Later: Local LLM
+No code changes elsewhere.
+
+### Catalogs
+
+- Start: Hipparcos
+- Later: Gaia
+- Then: Messier and NGC
+The Catalog Engine should hide which source the data came from.
