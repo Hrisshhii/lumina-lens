@@ -196,37 +196,21 @@ Calculate:
 ## The Complete Recognition Pipeline: 
 
 Camera
-
 ↓
-
 Vision Engine
-
 ↓
-
 Bright Star Coordinates
-
 ↓
-
 Pattern Generation
-
 ↓
-
 Pattern Matching
-
 ↓
-
 Plate Solving
-
 ↓
-
 Identified Stars
-
 ↓
-
 Catalog Lookup
-
 ↓
-
 AI Explanation
 
 ## What If the Camera Misses a Star?
@@ -314,14 +298,11 @@ Given:
 - Longitude
 - Time
 Calculate: 
+
 Visible Stars
-
 ↓
-
 Altitude
-
 ↓
-
 Azimuth
 
 4. Pattern Engine: 
@@ -455,11 +436,8 @@ Keep this flexible.
 Create an interface:
 ```
 interface AIProvider {
-
     explain()
-
     compare()
-
     answer()
 }
 ```
