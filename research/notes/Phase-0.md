@@ -173,3 +173,58 @@ Centroid Detection
 ↓
 
 Pixel Coordinates
+
+# Module-5: Plate Solving
+
+The Key Insight
+- distance between stars changes if you zoom
+- position changes if you rotate
+- brightness changes depending on your camera
+
+Steps: 
+1. Detect Stars
+2. Build Triangles
+3. Normalize the Triangle - makes the pattern scale invariant.
+4. Search the Catalog - We generate triangle fingerprints from the star catalog
+5. Solve the Camera 
+Calculate: 
+- Camera direction
+- Camera rotation
+- Camera field of view
+- Exact sky coordinates
+
+## The Complete Recognition Pipeline: 
+
+Camera
+
+↓
+
+Vision Engine
+
+↓
+
+Bright Star Coordinates
+
+↓
+
+Pattern Generation
+
+↓
+
+Pattern Matching
+
+↓
+
+Plate Solving
+
+↓
+
+Identified Stars
+
+↓
+
+Catalog Lookup
+
+↓
+
+AI Explanation
