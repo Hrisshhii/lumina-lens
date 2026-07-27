@@ -228,3 +228,30 @@ Catalog Lookup
 ↓
 
 AI Explanation
+
+## What If the Camera Misses a Star?
+- maybe faint star detected
+- Professional plate solvers are designed to tolerate this by searching many overlapping geometric patterns rather than relying on a single exact match.
+
+Version 1
+
+Use an existing, proven plate-solving library or service.
+
+Goal:
+
+Learn the pipeline
+Validate the app idea
+Build the rest of Lumina Lens
+Version 2
+
+Write your own simplified plate solver.
+
+You'll understand:
+
+Geometry
+Spatial indexing
+Search algorithms
+Optimization
+Version 3
+
+Build an optimized Lumina Lens plate solver.
