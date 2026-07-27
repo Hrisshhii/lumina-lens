@@ -402,3 +402,12 @@ User Profiles
 Observation History
 ↓
 Cloud Sync
+
+## Database: 
+PostgreSQL
+Users
+Observations
+Favorites
+Settings
+Downloads
+
