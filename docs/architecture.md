@@ -1,7 +1,20 @@
 # Lumina Lens Architecture (Draft)
 
-Camera ↓ Phone Sensors ↓ Astronomy Engine ↓ Computer Vision ↓ Plate
-Solver ↓ Object Database ↓ AI Assistant ↓ User Interface
+Camera
+↓
+Phone Sensors
+↓
+Astronomy Engine 
+↓ 
+Computer Vision 
+↓ 
+Plate Solver
+↓ 
+Object Database 
+↓ 
+AI Assistant 
+↓ 
+User Interface
 
 ## Responsibilities
 
