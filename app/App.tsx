@@ -4,9 +4,7 @@ import { healthCheck } from "./src/services/api";
 
 export default function App() {
   useEffect(() => {
-    healthCheck()
-      .then(console.log)
-      .catch(console.error);
+    healthCheck().then(console.log).catch(console.error);
   }, []);
 
   return (
