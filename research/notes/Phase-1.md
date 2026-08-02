@@ -215,9 +215,7 @@ lumina-lens/
 At the end of Phase 1, Lumina Lens should be capable of taking:
 
 ```text
-User Location
-+
-Current Date & Time
+User Location + Current Date & Time
         ↓
 Astronomy Engine
         ↓
