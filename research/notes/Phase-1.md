@@ -235,3 +235,14 @@ Magnitude: 0.03
 ```
 
 This will be the first functional astronomy capability of Lumina Lens.
+
+## Next:
+Astronomy Engine v1
+We'll install:
+- Skyfield
+- Astropy
+Then answer the first astronomy question:
+```bash
+"Given my latitude, longitude, and the current time, which stars are visible above the horizon?"
+```
+That will be the first feature that makes Lumina Lens more than a template—it will become an actual astronomy application.
