@@ -249,12 +249,12 @@ That will be the first feature that makes Lumina Lens more than a template—it 
 ## Astronomy Engines:
 ```text
 Latitude + Longitude + Current Time
-↓
+                ↓
 Skyfield
-↓
+                ↓
 Visible Stars
-↓
+                ↓
 Altitude
-↓
+                ↓
 Azimuth
 ```
