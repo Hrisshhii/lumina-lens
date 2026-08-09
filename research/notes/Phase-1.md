@@ -250,11 +250,11 @@ That will be the first feature that makes Lumina Lens more than a template—it 
 ```text
 Latitude + Longitude + Current Time
                 ↓
-Skyfield
+            Skyfield
                 ↓
-Visible Stars
+          Visible Stars
                 ↓
-Altitude
+            Altitude
                 ↓
-Azimuth
+            Azimuth
 ```
