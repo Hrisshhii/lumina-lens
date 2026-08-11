@@ -194,24 +194,25 @@ Calculate:
 - Exact sky coordinates
 
 ## The Complete Recognition Pipeline: 
-
-Camera
-↓
-Vision Engine
-↓
-Bright Star Coordinates
-↓
-Pattern Generation
-↓
-Pattern Matching
-↓
-Plate Solving
-↓
-Identified Stars
-↓
-Catalog Lookup
-↓
-AI Explanation
+```text
+          Camera
+            ↓
+        Vision Engine
+            ↓
+    Bright Star Coordinates
+            ↓
+      Pattern Generation
+            ↓
+      Pattern Matching
+            ↓
+        Plate Solving
+            ↓
+        Identified Stars
+            ↓
+        Catalog Lookup
+            ↓
+        AI Explanation
+```
 
 ## What If the Camera Misses a Star?
 - maybe faint star detected
@@ -242,6 +243,7 @@ Build an optimized Lumina Lens plate solver.
 
 
 ## Module-6: System Architecture: 
+```text
                     Lumina Lens
 
                     Mobile App
@@ -271,6 +273,7 @@ Build an optimized Lumina Lens plate solver.
                                       │
                                       ▼
                                  AI Engine
+```
 
 ## The Engines: 
 
