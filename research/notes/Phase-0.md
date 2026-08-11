@@ -79,57 +79,38 @@ Combining all the sensors
 - Roll: Portrait & Landscape
 
 ## Pipeline: 
-GPS + Current Time + Compass + Gyroscope + Accelerometer + Camera FOV
-
-↓
-
-Astronomy Engine
-
-↓
-
-Predict Visible Stars
-
-↓
-
-Only then
-
-↓
-
-Computer Vision
+```text
+    GPS + Current Time + Compass + Gyroscope + Accelerometer + Camera FOV
+                                        ↓
+                                Astronomy Engine
+                                        ↓
+                              Predict Visible Stars
+                                        ↓
+                                    Only then
+                                        ↓
+                                  Computer Vision
+```
 
 ## Camera Coordinate System
 - Astronomy Engine predicts positions in angles (Altitude and Azimuth) but camera works in <b>pixels</b>
 - Architecture now:
-
-Phone Sensors
-
-↓
-
-Sensor Engine
-
-↓
-
-Astronomy Engine
-
-↓
-
-Visible Object Prediction
-
-↓
-
-Computer Vision
-
-↓
-
-Plate Solver
-
-↓
-
-Catalog Engine
-
-↓
-
-AI Assistant
+```text
+      Phone Sensors
+            ↓
+      Sensor Engine
+            ↓
+      Astronomy Engine
+            ↓
+  Visible Object Prediction
+            ↓
+      Computer Vision
+            ↓
+      Plate Solver
+            ↓
+      Catalog Engine
+            ↓
+      AI Assistant
+```
 
 ## Module-4: Computer Vision
 1. Capture Image : Around 12 million pixels
@@ -147,32 +128,21 @@ AI Assistant
 
 ## Architecture:
 Vision Engine
-
-Camera
-
-↓
-
-Grayscale
-
-↓
-
-Noise Reduction
-
-↓
-
-Threshold
-
-↓
-
-Blob Detection
-
-↓
-
-Centroid Detection
-
-↓
-
-Pixel Coordinates
+```text
+      Camera
+        ↓
+      Grayscale
+        ↓
+    Noise Reduction
+        ↓
+      Threshold
+        ↓
+    Blob Detection
+        ↓
+  Centroid Detection
+        ↓
+  Pixel Coordinates
+```
 
 # Module-5: Plate Solving
 
