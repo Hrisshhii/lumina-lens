@@ -344,8 +344,8 @@ lumina-lens/
 └── shared/
 
 ## App Structure: 
+```text
 app/
-
 src/
     screens/
     components/
@@ -362,27 +362,32 @@ src/
         plateSolver/
         catalog/
         ai/
+```
 
 ## Backend:
 - initial:
-FastAPI
-↓
-Catalog API
-↓
-AI API
-↓
-Future APIs
+```text
+      FastAPI
+        ↓
+    Catalog API
+        ↓
+      AI API
+        ↓
+    Future APIs
+```
 
 - Later:
-FastAPI
-↓
-Authentication
-↓
-User Profiles
-↓
-Observation History
-↓
-Cloud Sync
+```text
+    FastAPI
+        ↓
+  Authentication
+        ↓
+  User Profiles
+        ↓
+  Observation History
+        ↓
+    Cloud Sync
+```text
 
 ## Database: 
 PostgreSQL
@@ -395,27 +400,29 @@ Downloads
 - The star catalogs themselves will likely live as optimized files or specialized indexes rather than ordinary relational tables because they are large, mostly read-only datasets.
 
 ## Data Flow: 
-Open Camera
-↓
-Sensor Engine
-↓
-Astronomy Engine
-↓
-Predict Stars
-↓
-Vision Engine
-↓
-Detect Stars
-↓
-Pattern Engine
-↓
-Plate Solver
-↓
-Catalog Engine
-↓
-UI
-↓
-AI
+```text
+    Open Camera
+        ↓
+    Sensor Engine
+        ↓
+    Astronomy Engine
+        ↓
+    Predict Stars
+        ↓
+    Vision Engine
+        ↓
+    Detect Stars
+        ↓
+    Pattern Engine
+        ↓
+    Plate Solver
+        ↓
+    Catalog Engine
+        ↓
+        UI
+        ↓
+        AI
+```
 
 ## Technology Choices
 ### Mobile
@@ -456,17 +463,19 @@ The Catalog Engine should hide which source the data came from.
 
 ## MVP Definition:
 ### Version 1: 
-Open Camera
-↓
-Predict Sky
-↓
-Detect Stars
-↓
-Identify Stars
-↓
-Tap Star
-↓
-View Information
+```text
+    Open Camera
+        ↓
+    Predict Sky
+        ↓
+    Detect Stars
+        ↓
+    Identify Stars
+        ↓
+    Tap Star
+        ↓
+    View Information
+```
 
 ### Version 2
 - AI Assistant
