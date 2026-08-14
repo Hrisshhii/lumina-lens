@@ -353,3 +353,28 @@ Longitude: 73.8567
 ```
 The /sky/visible endpoint now successfully performs the astronomy calculation.
 
+### Current Data Flow
+```text
+      Location + Time
+            ↓
+      Astronomy Engine
+            ↓
+      Skyfield
+            ↓
+      Star RA/Dec
+            ↓
+      Altitude + Azimuth
+            ↓
+      Horizon Filtering
+            ↓
+      Visible Stars
+```
+
+Status
+ Python 3.12 environment
+ Astronomy dependencies
+ Astronomy Engine v1
+ Test star dataset
+ Skyfield Earth observer
+ /sky/visible API
+ Successful astronomy calculation
