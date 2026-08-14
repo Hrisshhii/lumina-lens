@@ -258,3 +258,26 @@ Latitude + Longitude + Current Time
                 ↓
             Azimuth
 ```
+
+
+### Lumina Lens Astronomy Engine:
+```text
+It takes: Latitude & Longitude & Time
+
+and does: 
+
+        RA/Dec
+          ↓
+        Skyfield
+          ↓
+    Observer position
+          ↓
+    Celestial coordinates
+          ↓
+      Altitude/Azimuth
+
+then: 
+if position["altitude"] > 0:
+means:
+The star is above the local horizon.
+```
