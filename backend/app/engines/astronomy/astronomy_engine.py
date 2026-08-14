@@ -1,18 +1,16 @@
 from datetime import datetime, timezone
-
-from skyfield.api import Star, load, wgs84
-
+from skyfield.api import Star, load, wgs84 # type: ignore
 from app.engines.astronomy.star_data import STARS
 
 
 class AstronomyEngine:
     def __init__(self):
-        self.ts = load.timescale()
+        self.ts=load.timescale()
 
         # Load planetary ephemeris so we can calculate
         # the observer's position relative to Earth.
-        self.planets = load("de421.bsp")
-        self.earth = self.planets["earth"]
+        self.planets=load("de421.bsp")
+        self.earth=self.planets["earth"]
 
     def get_star_position(
         self,

@@ -1,5 +1,5 @@
 from datetime import datetime
-from fastapi import APIRouter, Query
+from fastapi import APIRouter, Query # type: ignore
 from app.engines.astronomy.astronomy_engine import AstronomyEngine
 
 
