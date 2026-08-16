@@ -12,22 +12,14 @@ class AstronomyEngine:
         self.planets=load("de421.bsp")
         self.earth=self.planets["earth"]
 
-    def get_star_position(
-        self,
-        star_data: dict,
-        latitude: float,
-        longitude: float,
-        observation_time: datetime | None = None,
-    ):
+    def get_star_position(self,star_data: dict,latitude: float,longitude: float,observation_time: datetime | None = None):
         if observation_time is None:
-            observation_time = datetime.now(timezone.utc)
+            observation_time=datetime.now(timezone.utc)
 
         if observation_time.tzinfo is None:
-            observation_time = observation_time.replace(
-                tzinfo=timezone.utc
-            )
+            observation_time=observation_time.replace(tzinfo=timezone.utc)
 
-        t = self.ts.from_datetime(observation_time)
+        t=self.ts.from_datetime(observation_time)
 
         # Create the star from its catalog coordinates.
         star = Star(
@@ -42,7 +34,7 @@ class AstronomyEngine:
             longitude,
         )
 
-        observer = self.earth + observer_location
+        observer=self.earth + observer_location
 
         # Calculate the star's apparent position from the observer.
         astrometric = observer.at(t).observe(star)
@@ -58,12 +50,7 @@ class AstronomyEngine:
             "magnitude": star_data["magnitude"],
         }
 
-    def get_visible_stars(
-        self,
-        latitude: float,
-        longitude: float,
-        observation_time: datetime | None = None,
-    ):
+    def get_visible_stars(self,latitude: float,longitude: float,observation_time: datetime | None = None):
         stars = []
 
         for star in STARS:
