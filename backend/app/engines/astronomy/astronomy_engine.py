@@ -54,12 +54,7 @@ class AstronomyEngine:
         stars = []
 
         for star in STARS:
-            position = self.get_star_position(
-                star,
-                latitude,
-                longitude,
-                observation_time,
-            )
+            position = self.get_star_position(star,latitude,longitude,observation_time)
 
             # Above the mathematical horizon.
             if position["altitude"] > 0:
