@@ -3,7 +3,7 @@ import { View, Text } from "react-native";
 import { healthCheck } from "./src/services/api";
 
 export default function App() {
-  useEffect(() => {
+  useEffect(()=>{
     healthCheck().then(console.log).catch(console.error);
   }, []);
 
