@@ -271,13 +271,13 @@ Given:
 - Longitude
 - Time
 Calculate: 
-
-Visible Stars
-↓
-Altitude
-↓
-Azimuth
-
+```text
+    Visible Stars
+        ↓
+    Altitude
+        ↓
+    Azimuth
+```
 4. Pattern Engine: 
 Responsible for:
 - Generate Triangles
@@ -291,17 +291,17 @@ or
 - database
 Given: HIP 32349
 Return : 
-
-Everything
-↓
-Distance
-↓
-Mass
-↓
-Temperature
-↓
-Description
-
+```text
+      Everything
+          ↓
+      Distance
+          ↓
+        Mass
+          ↓
+      Temperature
+          ↓
+      Description
+```
 7. AI Engine: 
 - It provides explanations, comparisons, and educational responses
 
@@ -414,7 +414,7 @@ Downloads
 
 Keep this flexible.
 Create an interface:
-```
+```text
 interface AIProvider {
     explain()
     compare()
