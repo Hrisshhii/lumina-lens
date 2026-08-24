@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware # pyright: ignore[reportMissi
 
 from app.api import sky
 
-app = FastAPI(
+app=FastAPI(
     title="Lumina Lens API",
     version="0.1.0",
     description="Backend API for Lumina Lens",

@@ -5,12 +5,13 @@
 
 1. Declination (Dec): similar to Earth's Latitude, range +90 to -90
 eg: 
+```text
 +90° -> North Celestial Pole
 +45°
 0° -> Celestial Equator
 -45°
 -90° -> South Celestial Pole
-
+```
 2. Right Ascension (RA): Longitude doesn't work cuz Earth rotates
 - Hours are used
 - full sky divided in 24 hrs -> every hr corresponds to 15 degrees.
