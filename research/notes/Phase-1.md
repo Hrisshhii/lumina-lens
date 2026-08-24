@@ -240,7 +240,7 @@ We'll install:
 - Skyfield
 - Astropy
 Then answer the first astronomy question:
-```bash
+```text
 "Given my latitude, longitude, and the current time, which stars are visible above the horizon?"
 ```
 That will be the first feature that makes Lumina Lens more than a template—it will become an actual astronomy application.
