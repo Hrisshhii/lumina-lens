@@ -29,7 +29,7 @@ class AstronomyEngine:
 
         # Create a topocentric observer:
         # Earth + the observer's geographic location.
-        observer_location = wgs84.latlon(latitude,longitude,)
+        observer_location = wgs84.latlon(latitude,longitude)
 
         observer=self.earth + observer_location
 
