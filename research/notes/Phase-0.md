@@ -309,6 +309,7 @@ Return :
 - It provides explanations, comparisons, and educational responses
 
 ## Folder Structure:
+```text
 lumina-lens/
 
 ├── app/                 # React Native application
@@ -318,7 +319,7 @@ lumina-lens/
 ├── assets/
 ├── datasets/
 └── shared/
-
+```
 ## App Structure: 
 ```text
 app/
