@@ -15,18 +15,20 @@ eg:
 2. Right Ascension (RA): Longitude doesn't work cuz Earth rotates
 - Hours are used
 - full sky divided in 24 hrs -> every hr corresponds to 15 degrees.
-eg: 24hr -> 360 , 1hr -> 15 , 2hr -> 30
-
+eg: 
+```text
+24hr -> 360 , 1hr -> 15 , 2hr -> 30
+```
 # Star Catalog
 
 Every star has an entry like this:
-
+```text
 Star	RA	Dec
 Sirius	06h45m	-16°
 Vega	18h37m	+38°
 Polaris	02h31m	+89°
 Betelgeuse	05h55m	+07°
-
+```
 Hipparcos and Gaia catalogs stores this. 
 
 - but phone doesn't answer that -> so converted to local coordinates: Altitude & Azimuth
