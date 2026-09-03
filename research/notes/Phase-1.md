@@ -378,3 +378,20 @@ Status
  Skyfield Earth observer
  /sky/visible API
  Successful astronomy calculation
+
+## Step 4: Hipparcos Catalog Integration:
+- Moving to real astronomical star catalog
+- We want:
+```text
+Hipparcos Catalog
+        ↓
+Thousands of stars
+        ↓
+Astronomy Engine
+        ↓
+Altitude / Azimuth
+        ↓
+Visible stars
+```
+
+- The Hipparcos catalog gives us standardized astronomical data for stars, including identifiers and positional information
