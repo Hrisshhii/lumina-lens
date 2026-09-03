@@ -13,12 +13,15 @@ idna==3.18
 jplephem==2.24
 numpy==1.26.4
 packaging==26.2
+pandas==3.0.5
 pydantic==2.13.4
 pydantic_core==2.46.4
 pyerfa==2.0.1.5
+python-dateutil==2.9.0.post0
 python-dotenv==1.2.1
 PyYAML==6.0.3
 sgp4==2.25
+six==1.17.0
 skyfield==1.54
 starlette==0.49.3
 typing-inspection==0.4.2
