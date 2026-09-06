@@ -1,14 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  FlatList,
-  ActivityIndicator,
-  TouchableOpacity,
-  RefreshControl,
-  SafeAreaView,
-} from "react-native";
+import { StyleSheet,Text,View,FlatList,ActivityIndicator,TouchableOpacity,RefreshControl,SafeAreaView,} from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { getVisibleStars, Star, VisibleStarsResponse } from "./src/services/api";
 
@@ -26,10 +17,10 @@ function getCompassDirection(azimuth: number): string {
 }
 
 export default function App() {
-  const [data, setData] = useState<VisibleStarsResponse | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [refreshing, setRefreshing] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [data,setData]=useState<VisibleStarsResponse | null>(null);
+  const [loading,setLoading]=useState(true);
+  const [refreshing,setRefreshing]=useState(false);
+  const [error,setError]=useState<string | null>(null);
 
   const fetchStars = useCallback(async (isRefresh = false) => {
     if (isRefresh) {
@@ -40,7 +31,7 @@ export default function App() {
     setError(null);
 
     try {
-      const response = await getVisibleStars(DEFAULT_LATITUDE, DEFAULT_LONGITUDE, 50);
+      const response=await getVisibleStars(DEFAULT_LATITUDE, DEFAULT_LONGITUDE, 50);
       setData(response);
     } catch (err: any) {
       setError(err.message || "Failed to load visible stars");
@@ -50,13 +41,13 @@ export default function App() {
     }
   }, []);
 
-  useEffect(() => {
+  useEffect(()=>{
     fetchStars();
   }, [fetchStars]);
 
-  const renderStarItem = ({ item, index }: { item: Star; index: number }) => {
-    const isProminent = !item.name.startsWith("HIP ");
-    const cardinal = getCompassDirection(item.azimuth);
+  const renderStarItem=({ item, index }: { item: Star; index: number }) => {
+    const isProminent=!item.name.startsWith("HIP ");
+    const cardinal=getCompassDirection(item.azimuth);
 
     return (
       <View style={styles.starCard}>
@@ -151,7 +142,7 @@ export default function App() {
   );
 }
 
-const styles = StyleSheet.create({
+const styles=StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#070b14",
