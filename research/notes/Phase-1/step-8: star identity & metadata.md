@@ -195,3 +195,26 @@ GET /stars/{hip_id}
 Example: GET /stars/91262
 
 This should answer: <b>What do we know about HIP 91262?</b>
+
+### Camera Flow: 
+```text
+          Camera
+            ↓ 
+  Detected star position
+            ↓ 
+  Camera coordinate system
+            ↓
+      Sky coordinates
+            ↓
+  Candidate Hipparcos stars
+            ↓
+      Star matching
+            ↓
+          HIP ID
+            ↓
+        Star Profile
+            ↓ 
+      User taps star
+            ↓ 
+    Information screen
+```
