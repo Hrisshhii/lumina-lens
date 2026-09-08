@@ -1,6 +1,6 @@
 from datetime import datetime, timezone
 from skyfield.api import Star, load, wgs84  # type: ignore
-from skyfield.data import hipparcos
+from skyfield.data import hipparcos # type: ignore
 
 # Mapping famous stars from Hipparcos catalog numbers to human-readable names
 PROMINENT_STARS = {
