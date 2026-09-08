@@ -1,7 +1,26 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { StyleSheet,Text,View,FlatList,ActivityIndicator,TouchableOpacity,RefreshControl,SafeAreaView,} from "react-native";
 import { StatusBar } from "expo-status-bar";
-import { getVisibleStars, Star, VisibleStarsResponse } from "./src/services/api";
+
+import { getVisibleStars, getStarByHip, Star, StarProfile, VisibleStarsResponse } from "./src/services/api";
+
+const [selectedStar, setSelectedStar] = useState<StarProfile | null>(null);
+const [detailLoading, setDetailLoading] = useState(false);
+const [modalVisible, setModalVisible] = useState(false);
+
+// Handler for pressing a star
+const handleStarPress = async (hipId: number) => {
+  setDetailLoading(true);
+  try {
+    const profile = await getStarByHip(hipId);
+    setSelectedStar(profile);
+    setModalVisible(true);
+  } catch (e: any) {
+    console.warn('Failed to load star profile:', e);
+  } finally {
+    setDetailLoading(false);
+  }
+};
 
 // Default coordinates (Pune, India - Phase 1 test observer)
 const DEFAULT_LATITUDE = 18.5204;
