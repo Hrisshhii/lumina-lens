@@ -1,7 +1,7 @@
 from fastapi import FastAPI # pyright: ignore[reportMissingImports]
 from fastapi.middleware.cors import CORSMiddleware # pyright: ignore[reportMissingImports]
 
-from app.api import sky
+from app.api import sky, stars
 
 app=FastAPI(
     title="Lumina Lens API",
@@ -31,3 +31,4 @@ async def health():
     }
 
 app.include_router(sky.router)
+app.include_router(stars.router)
