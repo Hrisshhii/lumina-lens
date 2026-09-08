@@ -1,4 +1,4 @@
-## Step 5: Connect Mobile App to Visible Stars API
+## Step 7: Connect Mobile App to Visible Stars API
 - Connecting the React Native / Expo application to the backend's `/sky/visible` endpoint.
 
 ### What We Did:

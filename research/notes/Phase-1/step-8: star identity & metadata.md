@@ -1,4 +1,4 @@
-## Step 5: Star Identity & Metadata;
+## Step 8: Star Identity & Metadata;
 
 - The current Astronomy Engine can determine where visible stars are located in the sky.
 - For example:

@@ -1,4 +1,4 @@
-## Step 4: Hipparcos Catalog Integration:
+## Step 6: Hipparcos Catalog Integration:
 - Moving to real astronomical star catalog
 - We want:
 ```text

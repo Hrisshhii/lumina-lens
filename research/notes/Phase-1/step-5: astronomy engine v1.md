@@ -1,4 +1,4 @@
-## Step 3: Astronomy Engine v1
+## Step 5: Astronomy Engine v1
 - Build the first real astronomy functionality of Lumina Lens: calculate the position of known stars based on the observer's location and current time.
 
 What We Did: 
