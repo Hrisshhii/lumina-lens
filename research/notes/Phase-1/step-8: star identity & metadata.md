@@ -128,3 +128,70 @@ Descriptions
 Cross-identifications
 Additional scientific metadata
 ```
+### Potential Metadata Sources
+1. Hipparcos
+Role: Primary astrometric catalog.
+Useful for:
+```text
+HIP ID
+RA
+Dec
+V magnitude
+Parallax
+Proper motion
+```
+Hipparcos is already integrated into Lumina Lens through Skyfield.
+
+2. SIMBAD
+Role: Candidate scientific metadata and cross-identification source.
+SIMBAD is useful for connecting astronomical objects with multiple identifiers and additional scientific information.
+Potentially useful information includes:
+```text
+Object identifiers
+Coordinates
+Magnitudes
+Spectral classifications
+Proper motion
+Parallax
+Cross-identifications
+Bibliographic information
+```
+SIMBAD should not be queried individually for every visible star during normal app usage. Instead, it should be considered part of a metadata ingestion/enrichment process.
+
+### Architecture: 
+```bash
+              DATA INGESTION
+                    │
+        ┌───────────┴───────────┐
+        ↓                       ↓
+    Hipparcos                 SIMBAD
+        │                       │
+        └───────────┬───────────┘
+                    ↓
+          Lumina Lens Database
+                    │
+          ┌─────────┴─────────┐
+          ↓                   ↓
+   Astronomy Engine      Star Service
+          │                   │
+          └─────────┬─────────┘
+                    ↓
+                 FastAPI
+                    ↓
+               Mobile App
+```
+
+- Proposed API
+The existing endpoint:
+```text
+GET /sky/visible
+```
+answers: <b>Which stars are visible?</b>
+
+We should add a separate endpoint:
+```text
+GET /stars/{hip_id}
+```
+Example: GET /stars/91262
+
+This should answer: <b>What do we know about HIP 91262?</b>
