@@ -494,3 +494,63 @@ Status
   Mobile app connected to /sky/visible
   Dynamic star list UI with coordinates and compass heading
 
+## Step 5: Star Identity & Metadata;
+
+- The current Astronomy Engine can determine where visible stars are located in the sky.
+- For example:
+```text
+{
+  "hip": 91262,
+  "name": "Vega",
+  "altitude": 59.776,
+  "azimuth": 42.429,
+  "magnitude": 0.03
+}
+```
+- This is enough for sky-position calculations, but it is not enough for the main Lumina Lens experience:
+```text
+Point the camera at a star → identify the star → tap it → display useful information about it.
+```
+<b>Therefore, Lumina Lens needs a separate Star Identity & Metadata layer.</b>
+
+### Current flow:
+```text
+Device Location + Time
+        ↓
+Astronomy Engine
+        ↓
+Hipparcos Catalog
+        ↓
+Skyfield
+        ↓
+Altitude + Azimuth
+        ↓
+Visible Stars
+        ↓
+FastAPI
+        ↓
+React Native
+```
+- The next layer will extend this to:
+```text
+Hipparcos
+    ↓
+Star Identity / Metadata
+    ↓
+Star Profile
+    ↓
+FastAPI
+    ↓
+Lumina Lens UI
+```
+
+- we currently use Hipparcos catalog through skyfield. It provides important astrometric and photometric info:
+```text
+- HIP identifier
+- Right Ascension
+- Declination
+- Visual magnitude
+- Trigonometric parallax
+- Proper motion in Right Ascension
+- Proper motion in Declination
+```
