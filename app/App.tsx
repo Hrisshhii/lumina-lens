@@ -1,12 +1,12 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, {useEffect,useState,useCallback} from "react";
 import { StyleSheet,Text,View,FlatList,ActivityIndicator,TouchableOpacity,RefreshControl,SafeAreaView,} from "react-native";
 import { StatusBar } from "expo-status-bar";
 
 import { getVisibleStars, getStarByHip, Star, StarProfile, VisibleStarsResponse } from "./src/services/api";
 
-const [selectedStar,setSelectedStar] = useState<StarProfile | null>(null);
-const [detailLoading,setDetailLoading] = useState(false);
-const [modalVisible,setModalVisible] = useState(false);
+const [selectedStar,setSelectedStar]=useState<StarProfile | null>(null);
+const [detailLoading,setDetailLoading]=useState(false);
+const [modalVisible,setModalVisible]=useState(false);
 
 // Handler for pressing a star
 const handleStarPress=async (hipId:number)=>{
