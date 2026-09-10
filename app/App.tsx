@@ -4,15 +4,15 @@ import { StatusBar } from "expo-status-bar";
 
 import { getVisibleStars, getStarByHip, Star, StarProfile, VisibleStarsResponse } from "./src/services/api";
 
-const [selectedStar, setSelectedStar] = useState<StarProfile | null>(null);
-const [detailLoading, setDetailLoading] = useState(false);
-const [modalVisible, setModalVisible] = useState(false);
+const [selectedStar,setSelectedStar] = useState<StarProfile | null>(null);
+const [detailLoading,setDetailLoading] = useState(false);
+const [modalVisible,setModalVisible] = useState(false);
 
 // Handler for pressing a star
-const handleStarPress = async (hipId: number) => {
+const handleStarPress=async (hipId:number)=>{
   setDetailLoading(true);
   try {
-    const profile = await getStarByHip(hipId);
+    const profile=await getStarByHip(hipId);
     setSelectedStar(profile);
     setModalVisible(true);
   } catch (e: any) {
@@ -23,8 +23,9 @@ const handleStarPress = async (hipId: number) => {
 };
 
 // Default coordinates (Pune, India - Phase 1 test observer)
-const DEFAULT_LATITUDE = 18.5204;
-const DEFAULT_LONGITUDE = 73.8567;
+// Temporarily hardcoded for testing; in a real app, you would get this from device GPS or user input.
+const DEFAULT_LATITUDE=18.5204;
+const DEFAULT_LONGITUDE=73.8567;
 
 function getCompassDirection(azimuth: number): string {
   const directions = [
