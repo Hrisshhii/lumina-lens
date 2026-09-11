@@ -219,3 +219,54 @@ This should answer: <b>What do we know about HIP 91262?</b>
     Information screen
 ```
 
+------------------------------------------------------------------------
+
+# Step 8 Status:
+The backend half of this step (the <code>GET /stars/{hip_id}</code> endpoint and <code>StarService</code> metadata layer) was already complete.
+
+```text
+User taps star in list
+        ↓
+GET /stars/{hip_id}
+        ↓
+Star Profile (Pydantic Star)
+        ↓
+StarDetailModal renders identity & metadata
+```
+
+## Changes Made (frontend only — no backend changes)
+
+### 1. `app/App.tsx` — Fixed launch-blocking crash
+- The star-detail state (`selectedStar`, `detailLoading`, `modalVisible`) and the `handleStarPress` handler had been declared at <b>module scope, outside the component</b>. Calling hooks at module level throws React's <i>"Invalid hook call"</i> — the app crashed at import time.
+- All of it is now moved <b>inside the `App()` component</b>, wrapped in `useCallback` with correct dependencies.
+- Added supporting state: `selectedHip` (for Retry) and `detailError` (so 404/network failures are visible instead of a silent `console.warn`).
+- Star cards in the list are now pressable (`TouchableOpacity`, with a "Tap to view profile →" hint) wired to `handleStarPress(item.hip)`.
+- `StarDetailModal` is rendered at the root of the screen, receiving `visible / loading / error / profile / onClose / onRetry`.
+
+### 2. `app/src/components/StarDetailModal.tsx` — New component
+Renders the tapped star's identity & metadata in the existing dark theme, with three states:
+```text
+Loading  → spinner + "Fetching star profile…"
+Error    → visible message + Retry + Close buttons (handles backend 404)
+Profile  → full metadata, every section rendered only when data exists
+```
+Profile sections (gracefully handles missing fields, per this step's requirement that not every star has every field):
+```text
+Header    → primary name (falls back to "HIP <id>"), constellation, close button
+Badges    → HIP id, apparent magnitude
+Identity  → alternate names, Bayer designation, Flamsteed designation, constellation
+Catalog Position → RA (h), Dec (°), parallax (mas), proper motion RA/Dec (mas/yr)
+Physical Properties → apparent magnitude, spectral type, distance (light-years)
+About     → scientific description
+```
+
+### 3. `app/src/services/api.ts` — Fixed `StarProfile` contract bug
+- The interface previously declared the identifier as `hip`, but the backend serializes the Pydantic `Star` model, so `GET /stars/{hip_id}` returns <code>hip_id</code>. The modal would have rendered `undefined`.
+- Changed to `hip_id: number` and made `primary_name` optional (`primary_name?: string | null`), with a comment documenting that `/stars/{id}` uses `hip_id` while `/sky/visible` items use `hip`.
+
+## Next After This Step
+- <b>Sensor Engine</b> (GPS / compass / gyroscope / accelerometer) — replaces the hardcoded Pune observer coordinates.
+- <b>Debug sky visualization</b> — then test astronomical predictions (Phase 1 success condition).
+- Deferred hardening (from the architecture analysis): env-driven <code>BASE_URL</code> (<code>EXPO_PUBLIC_API_URL</code>), typed <code>response_model</code> for <code>/sky/visible</code>, single catalog load in the backend.
+
+
