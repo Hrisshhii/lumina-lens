@@ -1,14 +1,5 @@
 import React from "react";
-import {
-  ActivityIndicator,
-  Modal,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
-
+import {ActivityIndicator,Modal,ScrollView,StyleSheet,Text,TouchableOpacity,View,} from "react-native";
 import type { StarProfile } from "../services/api";
 
 interface StarDetailModalProps {
@@ -31,16 +22,8 @@ function DetailRow({ label, value }: { label: string; value: string }) {
 
 // Star identity & metadata modal (Step 8).
 // Not every star has every field, so optional metadata renders gracefully.
-export default function StarDetailModal({
-  visible,
-  loading,
-  error,
-  profile,
-  onClose,
-  onRetry,
-}: StarDetailModalProps) {
-  const displayName =
-    profile?.primary_name?.trim() || `HIP ${profile?.hip_id ?? ""}`;
+export default function StarDetailModal({visible,loading,error,profile,onClose,onRetry,}: StarDetailModalProps) {
+  const displayName = profile?.primary_name?.trim() || `HIP ${profile?.hip_id ?? ""}`;
   const alternateNames = profile?.alternate_names ?? [];
   const hasIdentity = !!(
     profile?.bayer_designation ||
@@ -59,16 +42,10 @@ export default function StarDetailModal({
     !!profile?.spectral_type ||
     profile?.distance_light_years != null;
   const hasDescription = !!profile?.description;
-  const hasAnyMetadata =
-    hasIdentity || hasAstrometry || hasPhysical || hasDescription;
+  const hasAnyMetadata = hasIdentity || hasAstrometry || hasPhysical || hasDescription;
 
   return (
-    <Modal
-      visible={visible}
-      animationType="slide"
-      transparent
-      onRequestClose={onClose}
-    >
+    <Modal visible={visible} animationType="slide" transparent onRequestClose={onClose}>
       <View style={styles.backdrop}>
         <View style={styles.sheet}>
           {/* Header */}
