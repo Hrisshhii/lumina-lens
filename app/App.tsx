@@ -3,24 +3,7 @@ import { StyleSheet,Text,View,FlatList,ActivityIndicator,TouchableOpacity,Refres
 import { StatusBar } from "expo-status-bar";
 
 import { getVisibleStars, getStarByHip, Star, StarProfile, VisibleStarsResponse } from "./src/services/api";
-
-const [selectedStar,setSelectedStar]=useState<StarProfile | null>(null);
-const [detailLoading,setDetailLoading]=useState(false);
-const [modalVisible,setModalVisible]=useState(false);
-
-// Handler for pressing a star
-const handleStarPress=async (hipId:number)=>{
-  setDetailLoading(true);
-  try {
-    const profile=await getStarByHip(hipId);
-    setSelectedStar(profile);
-    setModalVisible(true);
-  } catch (e: any) {
-    console.warn('Failed to load star profile:', e);
-  } finally {
-    setDetailLoading(false);
-  }
-};
+import StarDetailModal from "./src/components/StarDetailModal";
 
 // Default coordinates (Pune, India - Phase 1 test observer)
 // Temporarily hardcoded for testing; in a real app, you would get this from device GPS or user input.
@@ -41,6 +24,13 @@ export default function App() {
   const [loading,setLoading]=useState(true);
   const [refreshing,setRefreshing]=useState(false);
   const [error,setError]=useState<string | null>(null);
+
+  // Star detail modal state (Step 8: Star Identity & Metadata)
+  const [selectedHip,setSelectedHip]=useState<number | null>(null);
+  const [selectedStar,setSelectedStar]=useState<StarProfile | null>(null);
+  const [detailLoading,setDetailLoading]=useState(false);
+  const [detailError,setDetailError]=useState<string | null>(null);
+  const [modalVisible,setModalVisible]=useState(false);
 
   const fetchStars = useCallback(async (isRefresh = false) => {
     if (isRefresh) {
@@ -64,6 +54,36 @@ export default function App() {
   useEffect(()=>{
     fetchStars();
   }, [fetchStars]);
+
+  // Fetch the full profile for a tapped star and open the detail modal.
+  const handleStarPress=useCallback(async (hipId:number)=>{
+    setSelectedHip(hipId);
+    setSelectedStar(null);
+    setDetailError(null);
+    setModalVisible(true);
+    setDetailLoading(true);
+    try {
+      const profile=await getStarByHip(hipId);
+      setSelectedStar(profile);
+    } catch (err: any) {
+      setDetailError(err?.message || "Failed to load star profile");
+    } finally {
+      setDetailLoading(false);
+    }
+  }, []);
+
+  const retryDetail=useCallback(()=>{
+    if (selectedHip!=null) {
+      handleStarPress(selectedHip);
+    }
+  }, [selectedHip, handleStarPress]);
+
+  const closeDetail=useCallback(()=>{
+    setModalVisible(false);
+    setSelectedStar(null);
+    setDetailError(null);
+    setSelectedHip(null);
+  }, []);
 
   const renderStarItem=({ item, index }: { item: Star; index: number }) => {
     const isProminent=!item.name.startsWith("HIP ");

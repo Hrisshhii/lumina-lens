@@ -43,9 +43,11 @@ export async function getVisibleStars(
 }
 
 // Star profile returned by GET /stars/{hip_id}
+// NOTE: this endpoint serializes the backend Pydantic `Star` model, so the
+// identifier key is `hip_id` (unlike /sky/visible items, which use `hip`).
 export interface StarProfile {
-  hip: number;
-  primary_name: string;
+  hip_id: number;
+  primary_name?: string | null;
   alternate_names?: string[];
   bayer_designation?: string;
   flamsteed_designation?: string;
