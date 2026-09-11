@@ -90,7 +90,11 @@ export default function App() {
     const cardinal=getCompassDirection(item.azimuth);
 
     return (
-      <View style={styles.starCard}>
+      <TouchableOpacity
+        style={styles.starCard}
+        activeOpacity={0.7}
+        onPress={() => handleStarPress(item.hip)}
+      >
         <View style={styles.starHeader}>
           <View style={styles.nameContainer}>
             <Text style={[styles.starName, isProminent && styles.prominentStarName]}>
@@ -119,7 +123,9 @@ export default function App() {
             <Text style={styles.coordValue}>#{index + 1}</Text>
           </View>
         </View>
-      </View>
+
+        <Text style={styles.tapHint}>Tap to view profile →</Text>
+      </TouchableOpacity>
     );
   };
 
@@ -178,6 +184,16 @@ export default function App() {
           }
         />
       )}
+
+      {/* Star detail modal (Step 8: Star Identity & Metadata) */}
+      <StarDetailModal
+        visible={modalVisible}
+        loading={detailLoading}
+        error={detailError}
+        profile={selectedStar}
+        onClose={closeDetail}
+        onRetry={retryDetail}
+      />
     </SafeAreaView>
   );
 }
@@ -295,6 +311,13 @@ const styles=StyleSheet.create({
     fontSize: 13,
     color: "#cbd5e1",
     fontWeight: "500",
+  },
+  tapHint: {
+    marginTop: 8,
+    fontSize: 11,
+    color: "#60a5fa",
+    fontWeight: "600",
+    textAlign: "right",
   },
   centered: {
     flex: 1,
