@@ -4,6 +4,8 @@
   "main": "index.ts",
   "dependencies": {
     "expo": "~57.0.9",
+    "expo-location": "~57.0.17",
+    "expo-sensors": "~57.0.3",
     "expo-status-bar": "~57.0.1",
     "react": "19.2.3",
     "react-dom": "19.2.3",
