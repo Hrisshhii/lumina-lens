@@ -5,6 +5,8 @@ import { StatusBar } from "expo-status-bar";
 import { getVisibleStars, getStarByHip, Star, StarProfile, VisibleStarsResponse } from "./src/services/api";
 import StarDetailModal from "./src/components/StarDetailModal";
 
+import { getDeviceLocation } from "./src/engines/sensor/location";
+
 // Default coordinates (Pune, India - Phase 1 test observer)
 // Temporarily hardcoded for testing; in a real app, you would get this from device GPS or user input.
 const DEFAULT_LATITUDE=18.5204;
@@ -31,6 +33,16 @@ export default function App() {
   const [detailLoading,setDetailLoading]=useState(false);
   const [detailError,setDetailError]=useState<string | null>(null);
   const [modalVisible,setModalVisible]=useState(false);
+
+  useEffect(() => {
+    getDeviceLocation()
+      .then((location) => {
+        console.log("DEVICE LOCATION:", location);
+      })
+      .catch((error) => {
+        console.error("LOCATION ERROR:", error);
+      });
+  }, []);
 
   const fetchStars = useCallback(async (isRefresh = false) => {
     if (isRefresh) {
