@@ -126,7 +126,57 @@ From our Phase 0 architecture:
 - [x] Integrate Hipparcos star catalog (5,000+ stars)
 - [x] Connect mobile app to `/sky/visible` endpoint
 - [x] Build Star Identity & Metadata layer (`/stars/{hip_id}` + `StarDetailModal`)
-- [ ] **Step 9: Sensor Engine (GPS location & device orientation)** ◄ *Current Focus*
-- [ ] Step 10: Debug Sky Visualization (2D sky dome plot)
+- [x] **Step 9: Sensor Engine (GPS location & device orientation)**
+- [ ] **Step 10: Debug Sky Visualization (2D sky dome plot)** ◄ *Current Focus*
 - [ ] Step 11: Astronomical Prediction Verification (cross-check with Stellarium)
+
+---
+
+# Step 9 Status:
+The Sensor Engine has been built and connected to the Astronomy API and mobile UI.
+
+```text
+Phone Sensors (GPS + Magnetometer + Accelerometer)
+                         ↓
+                   Sensor Engine
+        ┌────────────────┴────────────────┐
+        ▼                                 ▼
+   Live Location                  Device Orientation
+(Latitude, Longitude)             (Heading, Elevation)
+        ↓                                 ↓
+Visible Stars Calculation          Orientation HUD
+(/sky/visible?latitude&longitude)  (Heading & Elevation)
+```
+
+## Changes Made:
+
+### 1. `app/src/engines/sensor/location.ts` — GPS Location Engine
+- Implemented `getDeviceLocation()` using `expo-location`.
+- Requests foreground permissions dynamically.
+- Fetches accurate device latitude, longitude, and altitude.
+
+### 2. `app/src/engines/sensor/orientation.ts` — Device Orientation & Compass Engine
+- Implemented `useDeviceOrientation()` hook using `expo-sensors` (`Magnetometer` + `Accelerometer`).
+- Computes real-time compass heading / azimuth (`0°–360°`) from magnetic field vectors.
+- Computes sky elevation angle / pitch (`0°–90°`) from gravitational acceleration vectors.
+- Implements shortest-arc angular smoothing filter to prevent heading jump glitches across North (0°/360°).
+- Implements low-pass filtering on elevation to eliminate sensor jitter.
+- Gracefully handles devices/environments where hardware sensors are unavailable.
+
+### 3. `app/src/engines/sensor/index.ts` — Sensor Engine Entrypoint
+- Cleanly exports `location` and `orientation` APIs for the app.
+
+### 4. `app/App.tsx` — Dynamic Coordinates & Orientation HUD
+- Replaced hardcoded Pune constants with live GPS coordinates, automatically passing them to `getVisibleStars(lat, lon)` on mount and pull-to-refresh.
+- Added graceful fallback to default coordinates if GPS permissions are denied.
+- Added hemisphere-aware coordinate formatting (e.g. `18.5204° N, 73.8567° E`) with `[Live GPS]` and `[Default]` badges in the header.
+- Added real-time **Orientation HUD** bar displaying:
+  * **Heading**: e.g. `248° WSW`
+  * **Elevation**: e.g. `45°`
+  * **Aim**: e.g. `🌌 Sky` vs `🔭 Horizon`
+
+## Next After This Step
+- **Step 10: Debug Sky Visualization** — render a 2D celestial dome / radar map plotting stars by Alt/Az instead of just a text list.
+- **Step 11: Astronomical Prediction Verification** — cross-verify calculations against Stellarium / SkyView to finalize Phase 1.
+
 

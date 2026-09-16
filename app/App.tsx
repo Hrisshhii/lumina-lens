@@ -5,7 +5,7 @@ import { StatusBar } from "expo-status-bar";
 import { getVisibleStars, getStarByHip, Star, StarProfile, VisibleStarsResponse } from "./src/services/api";
 import StarDetailModal from "./src/components/StarDetailModal";
 
-import { getDeviceLocation, DeviceLocation } from "./src/engines/sensor/location";
+import { getDeviceLocation, DeviceLocation, useDeviceOrientation } from "./src/engines/sensor";
 
 // Default coordinates (Pune, India - Phase 1 test observer fallback)
 const DEFAULT_LATITUDE = 18.5204;
@@ -39,6 +39,10 @@ export default function App() {
   // Active observer coordinates
   const activeLatitude = location?.latitude ?? DEFAULT_LATITUDE;
   const activeLongitude = location?.longitude ?? DEFAULT_LONGITUDE;
+
+  // Live device orientation (Step 9: Sensor Engine)
+  const orientation = useDeviceOrientation();
+  const currentCardinal = getCompassDirection(orientation.azimuth);
 
   // Star detail modal state (Step 8: Star Identity & Metadata)
   const [selectedHip, setSelectedHip] = useState<number | null>(null);
@@ -201,6 +205,30 @@ export default function App() {
         </Text>
       </View>
 
+      {/* Orientation HUD (Step 9: Sensor Engine) */}
+      <View style={styles.hudBar}>
+        <View style={styles.hudItem}>
+          <Text style={styles.hudLabel}>HEADING</Text>
+          <Text style={styles.hudValue}>
+            {orientation.available ? `${Math.round(orientation.azimuth)}° ${currentCardinal}` : "—"}
+          </Text>
+        </View>
+        <View style={styles.hudDivider} />
+        <View style={styles.hudItem}>
+          <Text style={styles.hudLabel}>ELEVATION</Text>
+          <Text style={styles.hudValue}>
+            {orientation.available ? `${Math.round(orientation.altitude)}°` : "—"}
+          </Text>
+        </View>
+        <View style={styles.hudDivider} />
+        <View style={styles.hudItem}>
+          <Text style={styles.hudLabel}>AIM</Text>
+          <Text style={[styles.hudValue, orientation.altitude > 15 ? styles.aimSky : styles.aimHorizon]}>
+            {!orientation.available ? "Sensors Off" : orientation.altitude > 20 ? "🌌 Sky" : "🔭 Horizon"}
+          </Text>
+        </View>
+      </View>
+
       {/* Main Content */}
       {loading ? (
         <View style={styles.centered}>
@@ -294,6 +322,44 @@ const styles=StyleSheet.create({
   fallbackBadge: {
     color: "#f59e0b",
     fontWeight: "500",
+  },
+  hudBar: {
+    flexDirection: "row",
+    backgroundColor: "#090d16",
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: "#1e293b",
+    alignItems: "center",
+    justifyContent: "space-around",
+  },
+  hudItem: {
+    alignItems: "center",
+    flex: 1,
+  },
+  hudDivider: {
+    width: 1,
+    height: 24,
+    backgroundColor: "#1e293b",
+  },
+  hudLabel: {
+    fontSize: 9,
+    color: "#64748b",
+    textTransform: "uppercase",
+    letterSpacing: 0.5,
+    marginBottom: 2,
+    fontWeight: "600",
+  },
+  hudValue: {
+    fontSize: 14,
+    color: "#e2e8f0",
+    fontWeight: "600",
+  },
+  aimSky: {
+    color: "#38bdf8",
+  },
+  aimHorizon: {
+    color: "#94a3b8",
   },
   summaryBar: {
     paddingVertical: 10,
