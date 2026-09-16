@@ -1,5 +1,5 @@
 import React from "react";
-import {ActivityIndicator,Modal,ScrollView,StyleSheet,Text,TouchableOpacity,View,} from "react-native";
+import {ActivityIndicator,Modal,ScrollView,Text,TouchableOpacity,View,} from "react-native";
 import type { StarProfile } from "../services/api";
 
 interface StarDetailModalProps {
@@ -13,16 +13,23 @@ interface StarDetailModalProps {
 
 function DetailRow({ label, value }: { label: string; value: string }) {
   return (
-    <View style={styles.row}>
-      <Text style={styles.rowLabel}>{label}</Text>
-      <Text style={styles.rowValue}>{value}</Text>
+    <View className="flex-row justify-between py-1.5 border-b border-[#1e293b]">
+      <Text className="text-xs text-slate-400 flex-shrink mr-3">{label}</Text>
+      <Text className="text-xs text-slate-200 font-semibold text-right flex-shrink">{value}</Text>
     </View>
   );
 }
 
 // Star identity & metadata modal (Step 8).
 // Not every star has every field, so optional metadata renders gracefully.
-export default function StarDetailModal({visible,loading,error,profile,onClose,onRetry,}: StarDetailModalProps) {
+export default function StarDetailModal({
+  visible,
+  loading,
+  error,
+  profile,
+  onClose,
+  onRetry,
+}: StarDetailModalProps) {
   const displayName = profile?.primary_name?.trim() || `HIP ${profile?.hip_id ?? ""}`;
   const alternateNames = profile?.alternate_names ?? [];
   const hasIdentity = !!(
@@ -46,73 +53,77 @@ export default function StarDetailModal({visible,loading,error,profile,onClose,o
 
   return (
     <Modal visible={visible} animationType="slide" transparent onRequestClose={onClose}>
-      <View style={styles.backdrop}>
-        <View style={styles.sheet}>
+      <View className="flex-1 bg-slate-950/75 justify-end">
+        <View className="bg-[#0d1527] rounded-t-3xl max-h-[88%] border border-[#1e293b] overflow-hidden">
           {/* Header */}
-          <View style={styles.header}>
-            <View style={styles.headerTitles}>
-              <Text style={styles.title} numberOfLines={1}>
+          <View className="flex-row items-center justify-between px-5 pt-4 pb-3 border-b border-[#1e293b]">
+            <View className="flex-1 mr-3">
+              <Text className="text-[22px] font-bold text-slate-50" numberOfLines={1}>
                 {loading || error ? "Star Details" : displayName}
               </Text>
               {!loading && !error && profile?.constellation ? (
-                <Text style={styles.subtitle}>{profile.constellation}</Text>
+                <Text className="text-xs text-slate-400 mt-0.5">{profile.constellation}</Text>
               ) : null}
             </View>
             <TouchableOpacity
-              style={styles.closeButton}
+              className="w-8 h-8 rounded-full bg-[#1e293b] items-center justify-center"
               onPress={onClose}
               hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
             >
-              <Text style={styles.closeText}>✕</Text>
+              <Text className="text-slate-400 text-base font-semibold">✕</Text>
             </TouchableOpacity>
           </View>
 
           {/* Body */}
           {loading ? (
-            <View style={styles.centered}>
+            <View className="p-8 items-center">
               <ActivityIndicator size="large" color="#60a5fa" />
-              <Text style={styles.statusText}>Fetching star profile…</Text>
+              <Text className="mt-3 text-sm text-slate-400 text-center">Fetching star profile…</Text>
             </View>
           ) : error ? (
-            <View style={styles.centered}>
-              <Text style={styles.errorIcon}>⚠️</Text>
-              <Text style={styles.errorTitle}>Couldn't load this star</Text>
-              <Text style={styles.errorMessage}>{error}</Text>
-              <View style={styles.buttonRow}>
+            <View className="p-8 items-center">
+              <Text className="text-4xl mb-2">⚠️</Text>
+              <Text className="text-[17px] font-semibold text-red-400 mb-1.5">Couldn't load this star</Text>
+              <Text className="text-xs text-slate-400 text-center mb-4">{error}</Text>
+              <View className="flex-row gap-3">
                 <TouchableOpacity
-                  style={styles.secondaryButton}
+                  className="bg-[#1e293b] px-5 py-2.5 rounded-lg"
                   onPress={onRetry}
                 >
-                  <Text style={styles.secondaryButtonText}>Retry</Text>
+                  <Text className="text-slate-200 font-semibold text-sm">Retry</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  style={styles.primaryButton}
+                  className="bg-blue-600 px-5 py-2.5 rounded-lg"
                   onPress={onClose}
                 >
-                  <Text style={styles.primaryButtonText}>Close</Text>
+                  <Text className="text-white font-semibold text-sm">Close</Text>
                 </TouchableOpacity>
               </View>
             </View>
           ) : profile ? (
-            <ScrollView contentContainerStyle={styles.body}>
-              <View style={styles.badgeRow}>
-                <Text style={styles.hipBadge}>HIP {profile.hip_id}</Text>
+            <ScrollView contentContainerClassName="p-5 pb-8 gap-4">
+              <View className="flex-row gap-2">
+                <Text className="text-[11px] text-slate-400 bg-[#1e293b] px-2 py-0.5 rounded overflow-hidden font-medium">
+                  HIP {profile.hip_id}
+                </Text>
                 {profile.magnitude != null ? (
-                  <Text style={styles.magBadge}>
+                  <Text className="text-[11px] text-sky-400 bg-[#1e293b] px-2 py-0.5 rounded overflow-hidden font-semibold">
                     Mag {profile.magnitude.toFixed(2)}
                   </Text>
                 ) : null}
               </View>
 
               {alternateNames.length > 0 ? (
-                <Text style={styles.alternateNames}>
+                <Text className="text-xs text-slate-400 italic">
                   Also known as: {alternateNames.join(", ")}
                 </Text>
               ) : null}
 
               {hasIdentity ? (
-                <View style={styles.section}>
-                  <Text style={styles.sectionTitle}>Identity</Text>
+                <View className="bg-[#0f172a] rounded-xl p-3.5 border border-[#1e293b]">
+                  <Text className="text-[11px] text-slate-500 uppercase tracking-wider mb-2 font-semibold">
+                    Identity
+                  </Text>
                   {profile.bayer_designation ? (
                     <DetailRow
                       label="Bayer designation"
@@ -135,8 +146,10 @@ export default function StarDetailModal({visible,loading,error,profile,onClose,o
               ) : null}
 
               {hasAstrometry ? (
-                <View style={styles.section}>
-                  <Text style={styles.sectionTitle}>Catalog Position</Text>
+                <View className="bg-[#0f172a] rounded-xl p-3.5 border border-[#1e293b]">
+                  <Text className="text-[11px] text-slate-500 uppercase tracking-wider mb-2 font-semibold">
+                    Catalog Position
+                  </Text>
                   {profile.right_ascension_hours != null ? (
                     <DetailRow
                       label="Right ascension"
@@ -171,8 +184,10 @@ export default function StarDetailModal({visible,loading,error,profile,onClose,o
               ) : null}
 
               {hasPhysical ? (
-                <View style={styles.section}>
-                  <Text style={styles.sectionTitle}>Physical Properties</Text>
+                <View className="bg-[#0f172a] rounded-xl p-3.5 border border-[#1e293b]">
+                  <Text className="text-[11px] text-slate-500 uppercase tracking-wider mb-2 font-semibold">
+                    Physical Properties
+                  </Text>
                   {profile.magnitude != null ? (
                     <DetailRow
                       label="Apparent magnitude"
@@ -195,15 +210,17 @@ export default function StarDetailModal({visible,loading,error,profile,onClose,o
               ) : null}
 
               {hasDescription ? (
-                <View style={styles.section}>
-                  <Text style={styles.sectionTitle}>About</Text>
-                  <Text style={styles.description}>{profile.description}</Text>
+                <View className="bg-[#0f172a] rounded-xl p-3.5 border border-[#1e293b]">
+                  <Text className="text-[11px] text-slate-500 uppercase tracking-wider mb-2 font-semibold">
+                    About
+                  </Text>
+                  <Text className="text-xs text-slate-300 leading-5">{profile.description}</Text>
                 </View>
               ) : null}
 
               {!hasAnyMetadata ? (
-                <View style={styles.centered}>
-                  <Text style={styles.statusText}>
+                <View className="p-8 items-center">
+                  <Text className="text-sm text-slate-400 text-center">
                     Only basic catalog data is available for this star.
                   </Text>
                 </View>
@@ -215,180 +232,3 @@ export default function StarDetailModal({visible,loading,error,profile,onClose,o
     </Modal>
   );
 }
-
-const styles = StyleSheet.create({
-  backdrop: {
-    flex: 1,
-    backgroundColor: "rgba(2, 6, 23, 0.75)",
-    justifyContent: "flex-end",
-  },
-  sheet: {
-    backgroundColor: "#0d1527",
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    maxHeight: "88%",
-    borderWidth: 1,
-    borderColor: "#1e293b",
-    overflow: "hidden",
-  },
-  header: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    paddingHorizontal: 20,
-    paddingTop: 16,
-    paddingBottom: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: "#1e293b",
-  },
-  headerTitles: {
-    flex: 1,
-    marginRight: 12,
-  },
-  title: {
-    fontSize: 22,
-    fontWeight: "700",
-    color: "#f8fafc",
-  },
-  subtitle: {
-    fontSize: 13,
-    color: "#94a3b8",
-    marginTop: 2,
-  },
-  closeButton: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    backgroundColor: "#1e293b",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  closeText: {
-    color: "#94a3b8",
-    fontSize: 16,
-    fontWeight: "600",
-  },
-  centered: {
-    padding: 32,
-    alignItems: "center",
-  },
-  statusText: {
-    marginTop: 12,
-    fontSize: 14,
-    color: "#94a3b8",
-    textAlign: "center",
-  },
-  errorIcon: {
-    fontSize: 36,
-    marginBottom: 8,
-  },
-  errorTitle: {
-    fontSize: 17,
-    fontWeight: "600",
-    color: "#f87171",
-    marginBottom: 6,
-  },
-  errorMessage: {
-    fontSize: 13,
-    color: "#94a3b8",
-    textAlign: "center",
-    marginBottom: 16,
-  },
-  buttonRow: {
-    flexDirection: "row",
-    gap: 12,
-  },
-  secondaryButton: {
-    backgroundColor: "#1e293b",
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderRadius: 8,
-  },
-  secondaryButtonText: {
-    color: "#e2e8f0",
-    fontWeight: "600",
-    fontSize: 14,
-  },
-  primaryButton: {
-    backgroundColor: "#2563eb",
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderRadius: 8,
-  },
-  primaryButtonText: {
-    color: "#ffffff",
-    fontWeight: "600",
-    fontSize: 14,
-  },
-  body: {
-    padding: 20,
-    paddingBottom: 32,
-    gap: 16,
-  },
-  badgeRow: {
-    flexDirection: "row",
-    gap: 8,
-  },
-  hipBadge: {
-    fontSize: 11,
-    color: "#64748b",
-    backgroundColor: "#1e293b",
-    paddingHorizontal: 6,
-    paddingVertical: 2,
-    borderRadius: 4,
-    overflow: "hidden",
-  },
-  magBadge: {
-    fontSize: 11,
-    color: "#38bdf8",
-    backgroundColor: "#1e293b",
-    paddingHorizontal: 6,
-    paddingVertical: 2,
-    borderRadius: 4,
-    overflow: "hidden",
-  },
-  alternateNames: {
-    fontSize: 13,
-    color: "#94a3b8",
-    fontStyle: "italic",
-  },
-  section: {
-    backgroundColor: "#0f172a",
-    borderRadius: 12,
-    padding: 14,
-    borderWidth: 1,
-    borderColor: "#1e293b",
-  },
-  sectionTitle: {
-    fontSize: 11,
-    color: "#64748b",
-    textTransform: "uppercase",
-    letterSpacing: 0.5,
-    marginBottom: 8,
-  },
-  row: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingVertical: 6,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: "#1e293b",
-  },
-  rowLabel: {
-    fontSize: 13,
-    color: "#94a3b8",
-    flexShrink: 1,
-    marginRight: 12,
-  },
-  rowValue: {
-    fontSize: 13,
-    color: "#e2e8f0",
-    fontWeight: "600",
-    textAlign: "right",
-    flexShrink: 1,
-  },
-  description: {
-    fontSize: 13,
-    color: "#cbd5e1",
-    lineHeight: 20,
-  },
-});

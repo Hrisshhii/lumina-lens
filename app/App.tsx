@@ -1,11 +1,10 @@
-import React, {useEffect,useState,useCallback} from "react";
-import { StyleSheet,Text,View,FlatList,ActivityIndicator,TouchableOpacity,RefreshControl,SafeAreaView,} from "react-native";
+import React, { useEffect, useState, useCallback } from "react";
+import {Text,View,FlatList,ActivityIndicator,TouchableOpacity,RefreshControl,SafeAreaView,} from "react-native";
 import { StatusBar } from "expo-status-bar";
 
-import { getVisibleStars, getStarByHip, Star, StarProfile, VisibleStarsResponse } from "./src/services/api";
+import {getVisibleStars,getStarByHip,Star,StarProfile,VisibleStarsResponse,} from "./src/services/api";
 import StarDetailModal from "./src/components/StarDetailModal";
-
-import { getDeviceLocation, DeviceLocation, useDeviceOrientation } from "./src/engines/sensor";
+import {getDeviceLocation,DeviceLocation,useDeviceOrientation,} from "./src/engines/sensor";
 
 // Default coordinates (Pune, India - Phase 1 test observer fallback)
 const DEFAULT_LATITUDE = 18.5204;
@@ -116,14 +115,14 @@ export default function App() {
   }, [fetchStars]);
 
   // Fetch the full profile for a tapped star and open the detail modal.
-  const handleStarPress=useCallback(async (hipId:number)=>{
+  const handleStarPress = useCallback(async (hipId: number) => {
     setSelectedHip(hipId);
     setSelectedStar(null);
     setDetailError(null);
     setModalVisible(true);
     setDetailLoading(true);
     try {
-      const profile=await getStarByHip(hipId);
+      const profile = await getStarByHip(hipId);
       setSelectedStar(profile);
     } catch (err: any) {
       setDetailError(err?.message || "Failed to load star profile");
@@ -132,98 +131,104 @@ export default function App() {
     }
   }, []);
 
-  const retryDetail=useCallback(()=>{
-    if (selectedHip!=null) {
+  const retryDetail = useCallback(() => {
+    if (selectedHip != null) {
       handleStarPress(selectedHip);
     }
   }, [selectedHip, handleStarPress]);
 
-  const closeDetail=useCallback(()=>{
+  const closeDetail = useCallback(() => {
     setModalVisible(false);
     setSelectedStar(null);
     setDetailError(null);
     setSelectedHip(null);
   }, []);
 
-  const renderStarItem=({ item, index }: { item: Star; index: number }) => {
-    const isProminent=!item.name.startsWith("HIP ");
-    const cardinal=getCompassDirection(item.azimuth);
+  const renderStarItem = ({ item, index }: { item: Star; index: number }) => {
+    const isProminent = !item.name.startsWith("HIP ");
+    const cardinal = getCompassDirection(item.azimuth);
 
     return (
       <TouchableOpacity
-        style={styles.starCard}
+        className="bg-[#0f172a] rounded-xl p-3.5 mb-2.5 border border-[#1e293b]"
         activeOpacity={0.7}
         onPress={() => handleStarPress(item.hip)}
       >
-        <View style={styles.starHeader}>
-          <View style={styles.nameContainer}>
-            <Text style={[styles.starName, isProminent && styles.prominentStarName]}>
+        <View className="flex-row justify-between items-center mb-2.5">
+          <View className="flex-row items-center gap-2">
+            <Text className={`text-[17px] font-semibold ${isProminent ? "text-yellow-400 font-bold" : "text-slate-200"}`}>
               {item.name}
             </Text>
-            <Text style={styles.hipBadge}>HIP {item.hip}</Text>
+            <Text className="text-[11px] text-slate-500 bg-[#1e293b] px-1.5 py-0.5 rounded">
+              HIP {item.hip}
+            </Text>
           </View>
-          <View style={styles.magBadge}>
-            <Text style={styles.magText}>Mag {item.magnitude.toFixed(2)}</Text>
+          <View className="bg-[#1e293b] px-2 py-1 rounded-md">
+            <Text className="text-xs text-sky-400 font-semibold">
+              Mag {item.magnitude.toFixed(2)}
+            </Text>
           </View>
         </View>
 
-        <View style={styles.coordsRow}>
-          <View style={styles.coordBox}>
-            <Text style={styles.coordLabel}>Altitude</Text>
-            <Text style={styles.coordValue}>{item.altitude.toFixed(1)}°</Text>
+        <View className="flex-row justify-between bg-[#090d16] rounded-lg p-2">
+          <View className="items-center flex-1">
+            <Text className="text-[10px] text-slate-500 uppercase mb-0.5 font-medium">Altitude</Text>
+            <Text className="text-[13px] text-slate-300 font-medium">{item.altitude.toFixed(1)}°</Text>
           </View>
-          <View style={styles.coordBox}>
-            <Text style={styles.coordLabel}>Azimuth</Text>
-            <Text style={styles.coordValue}>
+          <View className="items-center flex-1">
+            <Text className="text-[10px] text-slate-500 uppercase mb-0.5 font-medium">Azimuth</Text>
+            <Text className="text-[13px] text-slate-300 font-medium">
               {item.azimuth.toFixed(1)}° ({cardinal})
             </Text>
           </View>
-          <View style={styles.coordBox}>
-            <Text style={styles.coordLabel}>Rank</Text>
-            <Text style={styles.coordValue}>#{index + 1}</Text>
+          <View className="items-center flex-1">
+            <Text className="text-[10px] text-slate-500 uppercase mb-0.5 font-medium">Rank</Text>
+            <Text className="text-[13px] text-slate-300 font-medium">#{index + 1}</Text>
           </View>
         </View>
 
-        <Text style={styles.tapHint}>Tap to view profile →</Text>
+        <Text className="mt-2 text-[11px] text-blue-400 font-semibold text-right">
+          Tap to view profile →
+        </Text>
       </TouchableOpacity>
     );
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView className="flex-1 bg-[#070b14]">
       <StatusBar style="light" />
 
       {/* App Header */}
-      <View style={styles.header}>
-        <Text style={styles.appTitle}>✦ Lumina Lens</Text>
-        <Text style={styles.subtitle}>Sky Prediction Engine</Text>
-        <Text style={styles.locationText}>
+      <View className="pt-4 pb-4 px-5 bg-[#0d1527] border-b border-[#1e293b]">
+        <Text className="text-2xl font-bold text-slate-50 tracking-wide">✦ Lumina Lens</Text>
+        <Text className="text-xs text-slate-400 mt-0.5">Sky Prediction Engine</Text>
+        <Text className="text-xs text-blue-400 mt-1.5 font-medium">
           📍 {formatCoordinates(activeLatitude, activeLongitude)}{" "}
-          <Text style={isLiveLocation ? styles.gpsBadge : styles.fallbackBadge}>
+          <Text className={isLiveLocation ? "text-emerald-400 font-semibold" : "text-amber-500 font-medium"}>
             [{isLiveLocation ? "Live GPS" : "Default"}]
           </Text>
         </Text>
       </View>
 
       {/* Orientation HUD (Step 9: Sensor Engine) */}
-      <View style={styles.hudBar}>
-        <View style={styles.hudItem}>
-          <Text style={styles.hudLabel}>HEADING</Text>
-          <Text style={styles.hudValue}>
+      <View className="flex-row bg-[#090d16] py-2.5 px-4 border-b border-[#1e293b] items-center justify-around">
+        <View className="items-center flex-1">
+          <Text className="text-[9px] text-slate-500 uppercase tracking-wider mb-0.5 font-semibold">HEADING</Text>
+          <Text className="text-sm text-slate-200 font-semibold">
             {orientation.available ? `${Math.round(orientation.azimuth)}° ${currentCardinal}` : "—"}
           </Text>
         </View>
-        <View style={styles.hudDivider} />
-        <View style={styles.hudItem}>
-          <Text style={styles.hudLabel}>ELEVATION</Text>
-          <Text style={styles.hudValue}>
+        <View className="w-px h-6 bg-[#1e293b]" />
+        <View className="items-center flex-1">
+          <Text className="text-[9px] text-slate-500 uppercase tracking-wider mb-0.5 font-semibold">ELEVATION</Text>
+          <Text className="text-sm text-slate-200 font-semibold">
             {orientation.available ? `${Math.round(orientation.altitude)}°` : "—"}
           </Text>
         </View>
-        <View style={styles.hudDivider} />
-        <View style={styles.hudItem}>
-          <Text style={styles.hudLabel}>AIM</Text>
-          <Text style={[styles.hudValue, orientation.altitude > 15 ? styles.aimSky : styles.aimHorizon]}>
+        <View className="w-px h-6 bg-[#1e293b]" />
+        <View className="items-center flex-1">
+          <Text className="text-[9px] text-slate-500 uppercase tracking-wider mb-0.5 font-semibold">AIM</Text>
+          <Text className={`text-sm font-semibold ${orientation.altitude > 20 ? "text-sky-400" : "text-slate-400"}`}>
             {!orientation.available ? "Sensors Off" : orientation.altitude > 20 ? "🌌 Sky" : "🔭 Horizon"}
           </Text>
         </View>
@@ -231,17 +236,17 @@ export default function App() {
 
       {/* Main Content */}
       {loading ? (
-        <View style={styles.centered}>
+        <View className="flex-1 justify-center items-center p-6">
           <ActivityIndicator size="large" color="#60a5fa" />
-          <Text style={styles.statusText}>Calculating visible stars...</Text>
+          <Text className="mt-3 text-sm text-slate-400">Calculating visible stars...</Text>
         </View>
       ) : error ? (
-        <View style={styles.centered}>
-          <Text style={styles.errorIcon}>⚠️</Text>
-          <Text style={styles.errorTitle}>Connection Failed</Text>
-          <Text style={styles.errorMessage}>{error}</Text>
-          <TouchableOpacity style={styles.retryButton} onPress={handleRefresh}>
-            <Text style={styles.retryButtonText}>Retry</Text>
+        <View className="flex-1 justify-center items-center p-6">
+          <Text className="text-4xl mb-2">⚠️</Text>
+          <Text className="text-lg font-semibold text-red-400 mb-1.5">Connection Failed</Text>
+          <Text className="text-xs text-slate-400 text-center mb-4">{error}</Text>
+          <TouchableOpacity className="bg-blue-600 px-5 py-2.5 rounded-lg" onPress={handleRefresh}>
+            <Text className="text-white font-semibold text-sm">Retry</Text>
           </TouchableOpacity>
         </View>
       ) : (
@@ -249,7 +254,7 @@ export default function App() {
           data={data?.stars || []}
           keyExtractor={(item) => item.hip.toString()}
           renderItem={renderStarItem}
-          contentContainerStyle={styles.listContent}
+          contentContainerClassName="px-4 py-3"
           refreshControl={
             <RefreshControl
               refreshing={refreshing}
@@ -258,15 +263,15 @@ export default function App() {
             />
           }
           ListHeaderComponent={
-            <View style={styles.summaryBar}>
-              <Text style={styles.summaryText}>
+            <View className="py-2.5 px-1 mb-2">
+              <Text className="text-xs text-slate-500 uppercase tracking-wider">
                 {data?.count || 0} stars currently above horizon (sorted by brightness)
               </Text>
             </View>
           }
           ListEmptyComponent={
-            <View style={styles.centered}>
-              <Text style={styles.statusText}>No stars currently above horizon.</Text>
+            <View className="flex-1 justify-center items-center p-6">
+              <Text className="text-sm text-slate-400">No stars currently above horizon.</Text>
             </View>
           }
         />
@@ -284,210 +289,3 @@ export default function App() {
     </SafeAreaView>
   );
 }
-
-const styles=StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#070b14",
-  },
-  header: {
-    paddingTop: 16,
-    paddingBottom: 16,
-    paddingHorizontal: 20,
-    backgroundColor: "#0d1527",
-    borderBottomWidth: 1,
-    borderBottomColor: "#1e293b",
-  },
-  appTitle: {
-    fontSize: 24,
-    fontWeight: "700",
-    color: "#f8fafc",
-    letterSpacing: 0.5,
-  },
-  subtitle: {
-    fontSize: 13,
-    color: "#94a3b8",
-    marginTop: 2,
-  },
-  locationText: {
-    fontSize: 12,
-    color: "#60a5fa",
-    marginTop: 6,
-    fontWeight: "500",
-  },
-  gpsBadge: {
-    color: "#4ade80",
-    fontWeight: "600",
-  },
-  fallbackBadge: {
-    color: "#f59e0b",
-    fontWeight: "500",
-  },
-  hudBar: {
-    flexDirection: "row",
-    backgroundColor: "#090d16",
-    paddingVertical: 10,
-    paddingHorizontal: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: "#1e293b",
-    alignItems: "center",
-    justifyContent: "space-around",
-  },
-  hudItem: {
-    alignItems: "center",
-    flex: 1,
-  },
-  hudDivider: {
-    width: 1,
-    height: 24,
-    backgroundColor: "#1e293b",
-  },
-  hudLabel: {
-    fontSize: 9,
-    color: "#64748b",
-    textTransform: "uppercase",
-    letterSpacing: 0.5,
-    marginBottom: 2,
-    fontWeight: "600",
-  },
-  hudValue: {
-    fontSize: 14,
-    color: "#e2e8f0",
-    fontWeight: "600",
-  },
-  aimSky: {
-    color: "#38bdf8",
-  },
-  aimHorizon: {
-    color: "#94a3b8",
-  },
-  summaryBar: {
-    paddingVertical: 10,
-    paddingHorizontal: 4,
-    marginBottom: 8,
-  },
-  summaryText: {
-    fontSize: 12,
-    color: "#64748b",
-    textTransform: "uppercase",
-    letterSpacing: 0.5,
-  },
-  listContent: {
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-  },
-  starCard: {
-    backgroundColor: "#0f172a",
-    borderRadius: 12,
-    padding: 14,
-    marginBottom: 10,
-    borderWidth: 1,
-    borderColor: "#1e293b",
-  },
-  starHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 10,
-  },
-  nameContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-  },
-  starName: {
-    fontSize: 17,
-    fontWeight: "600",
-    color: "#e2e8f0",
-  },
-  prominentStarName: {
-    color: "#facc15",
-    fontWeight: "700",
-  },
-  hipBadge: {
-    fontSize: 11,
-    color: "#64748b",
-    backgroundColor: "#1e293b",
-    paddingHorizontal: 6,
-    paddingVertical: 2,
-    borderRadius: 4,
-  },
-  magBadge: {
-    backgroundColor: "#1e293b",
-    paddingHorizontal: 8,
-    paddingVertical: 3,
-    borderRadius: 6,
-  },
-  magText: {
-    fontSize: 12,
-    color: "#38bdf8",
-    fontWeight: "600",
-  },
-  coordsRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    backgroundColor: "#090d16",
-    borderRadius: 8,
-    padding: 8,
-  },
-  coordBox: {
-    alignItems: "center",
-    flex: 1,
-  },
-  coordLabel: {
-    fontSize: 10,
-    color: "#64748b",
-    textTransform: "uppercase",
-    marginBottom: 2,
-  },
-  coordValue: {
-    fontSize: 13,
-    color: "#cbd5e1",
-    fontWeight: "500",
-  },
-  tapHint: {
-    marginTop: 8,
-    fontSize: 11,
-    color: "#60a5fa",
-    fontWeight: "600",
-    textAlign: "right",
-  },
-  centered: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 24,
-  },
-  statusText: {
-    marginTop: 12,
-    fontSize: 14,
-    color: "#94a3b8",
-  },
-  errorIcon: {
-    fontSize: 36,
-    marginBottom: 8,
-  },
-  errorTitle: {
-    fontSize: 18,
-    fontWeight: "600",
-    color: "#f87171",
-    marginBottom: 6,
-  },
-  errorMessage: {
-    fontSize: 13,
-    color: "#94a3b8",
-    textAlign: "center",
-    marginBottom: 16,
-  },
-  retryButton: {
-    backgroundColor: "#2563eb",
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderRadius: 8,
-  },
-  retryButtonText: {
-    color: "#ffffff",
-    fontWeight: "600",
-    fontSize: 14,
-  },
-});
