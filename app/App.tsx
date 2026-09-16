@@ -5,12 +5,17 @@ import { StatusBar } from "expo-status-bar";
 import { getVisibleStars, getStarByHip, Star, StarProfile, VisibleStarsResponse } from "./src/services/api";
 import StarDetailModal from "./src/components/StarDetailModal";
 
-import { getDeviceLocation } from "./src/engines/sensor/location";
+import { getDeviceLocation, DeviceLocation } from "./src/engines/sensor/location";
 
-// Default coordinates (Pune, India - Phase 1 test observer)
-// Temporarily hardcoded for testing; in a real app, you would get this from device GPS or user input.
-const DEFAULT_LATITUDE=18.5204;
-const DEFAULT_LONGITUDE=73.8567;
+// Default coordinates (Pune, India - Phase 1 test observer fallback)
+const DEFAULT_LATITUDE = 18.5204;
+const DEFAULT_LONGITUDE = 73.8567;
+
+function formatCoordinates(lat: number, lon: number): string {
+  const latDir = lat >= 0 ? "N" : "S";
+  const lonDir = lon >= 0 ? "E" : "W";
+  return `${Math.abs(lat).toFixed(4)}° ${latDir}, ${Math.abs(lon).toFixed(4)}° ${lonDir}`;
+}
 
 function getCompassDirection(azimuth: number): string {
   const directions = [
@@ -22,49 +27,88 @@ function getCompassDirection(azimuth: number): string {
 }
 
 export default function App() {
-  const [data,setData]=useState<VisibleStarsResponse | null>(null);
-  const [loading,setLoading]=useState(true);
-  const [refreshing,setRefreshing]=useState(false);
-  const [error,setError]=useState<string | null>(null);
+  const [data, setData] = useState<VisibleStarsResponse | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  // Live sensor / GPS location state (Step 9: Sensor Engine)
+  const [location, setLocation] = useState<DeviceLocation | null>(null);
+  const [isLiveLocation, setIsLiveLocation] = useState(false);
+
+  // Active observer coordinates
+  const activeLatitude = location?.latitude ?? DEFAULT_LATITUDE;
+  const activeLongitude = location?.longitude ?? DEFAULT_LONGITUDE;
 
   // Star detail modal state (Step 8: Star Identity & Metadata)
-  const [selectedHip,setSelectedHip]=useState<number | null>(null);
-  const [selectedStar,setSelectedStar]=useState<StarProfile | null>(null);
-  const [detailLoading,setDetailLoading]=useState(false);
-  const [detailError,setDetailError]=useState<string | null>(null);
-  const [modalVisible,setModalVisible]=useState(false);
+  const [selectedHip, setSelectedHip] = useState<number | null>(null);
+  const [selectedStar, setSelectedStar] = useState<StarProfile | null>(null);
+  const [detailLoading, setDetailLoading] = useState(false);
+  const [detailError, setDetailError] = useState<string | null>(null);
+  const [modalVisible, setModalVisible] = useState(false);
 
+  const fetchStars = useCallback(
+    async (isRefresh = false, coords?: { latitude: number; longitude: number }) => {
+      if (isRefresh) {
+        setRefreshing(true);
+      } else {
+        setLoading(true);
+      }
+      setError(null);
+
+      const lat = coords?.latitude ?? location?.latitude ?? DEFAULT_LATITUDE;
+      const lon = coords?.longitude ?? location?.longitude ?? DEFAULT_LONGITUDE;
+
+      try {
+        const response = await getVisibleStars(lat, lon, 50);
+        setData(response);
+      } catch (err: any) {
+        setError(err.message || "Failed to load visible stars");
+      } finally {
+        setLoading(false);
+        setRefreshing(false);
+      }
+    },
+    [location]
+  );
+
+  // Initial mount: fetch live device location, then fetch stars
   useEffect(() => {
-    getDeviceLocation()
-      .then((location) => {
-        console.log("DEVICE LOCATION:", location);
-      })
-      .catch((error) => {
-        console.error("LOCATION ERROR:", error);
-      });
+    let isMounted = true;
+
+    async function initLocationAndStars() {
+      try {
+        const loc = await getDeviceLocation();
+        if (isMounted) {
+          setLocation(loc);
+          setIsLiveLocation(true);
+          await fetchStars(false, { latitude: loc.latitude, longitude: loc.longitude });
+        }
+      } catch (err) {
+        console.warn("Could not get device location, using fallback:", err);
+        if (isMounted) {
+          setIsLiveLocation(false);
+          await fetchStars(false, { latitude: DEFAULT_LATITUDE, longitude: DEFAULT_LONGITUDE });
+        }
+      }
+    }
+
+    initLocationAndStars();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
-  const fetchStars = useCallback(async (isRefresh = false) => {
-    if (isRefresh) {
-      setRefreshing(true);
-    } else {
-      setLoading(true);
-    }
-    setError(null);
-
+  const handleRefresh = useCallback(async () => {
     try {
-      const response=await getVisibleStars(DEFAULT_LATITUDE, DEFAULT_LONGITUDE, 50);
-      setData(response);
-    } catch (err: any) {
-      setError(err.message || "Failed to load visible stars");
-    } finally {
-      setLoading(false);
-      setRefreshing(false);
+      const loc = await getDeviceLocation();
+      setLocation(loc);
+      setIsLiveLocation(true);
+      await fetchStars(true, { latitude: loc.latitude, longitude: loc.longitude });
+    } catch {
+      await fetchStars(true);
     }
-  }, []);
-
-  useEffect(()=>{
-    fetchStars();
   }, [fetchStars]);
 
   // Fetch the full profile for a tapped star and open the detail modal.
@@ -150,7 +194,10 @@ export default function App() {
         <Text style={styles.appTitle}>✦ Lumina Lens</Text>
         <Text style={styles.subtitle}>Sky Prediction Engine</Text>
         <Text style={styles.locationText}>
-          📍 {DEFAULT_LATITUDE}° N, {DEFAULT_LONGITUDE}° E
+          📍 {formatCoordinates(activeLatitude, activeLongitude)}{" "}
+          <Text style={isLiveLocation ? styles.gpsBadge : styles.fallbackBadge}>
+            [{isLiveLocation ? "Live GPS" : "Default"}]
+          </Text>
         </Text>
       </View>
 
@@ -165,7 +212,7 @@ export default function App() {
           <Text style={styles.errorIcon}>⚠️</Text>
           <Text style={styles.errorTitle}>Connection Failed</Text>
           <Text style={styles.errorMessage}>{error}</Text>
-          <TouchableOpacity style={styles.retryButton} onPress={() => fetchStars()}>
+          <TouchableOpacity style={styles.retryButton} onPress={handleRefresh}>
             <Text style={styles.retryButtonText}>Retry</Text>
           </TouchableOpacity>
         </View>
@@ -178,7 +225,7 @@ export default function App() {
           refreshControl={
             <RefreshControl
               refreshing={refreshing}
-              onRefresh={() => fetchStars(true)}
+              onRefresh={handleRefresh}
               tintColor="#60a5fa"
             />
           }
@@ -238,6 +285,14 @@ const styles=StyleSheet.create({
     fontSize: 12,
     color: "#60a5fa",
     marginTop: 6,
+    fontWeight: "500",
+  },
+  gpsBadge: {
+    color: "#4ade80",
+    fontWeight: "600",
+  },
+  fallbackBadge: {
+    color: "#f59e0b",
     fontWeight: "500",
   },
   summaryBar: {
