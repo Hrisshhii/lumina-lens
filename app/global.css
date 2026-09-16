@@ -1,0 +1,12 @@
+@import "tailwindcss";
+
+@theme {
+  --color-cosmos-bg: #070b14;
+  --color-cosmos-card: #0d1527;
+  --color-cosmos-hud: #0f172a;
+  --color-cosmos-border: #1e293b;
+  --color-cosmos-highlight: #fbbf24;
+  --color-cosmos-blue: #38bdf8;
+  --color-cosmos-emerald: #10b981;
+  --color-cosmos-amber: #f59e0b;
+}
