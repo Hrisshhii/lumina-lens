@@ -1,9 +1,16 @@
 import { Platform } from "react-native";
 
-export const BASE_URL = Platform.select({
-  android: "http://10.0.2.2:8000",
-  default: "http://localhost:8000",
-});
+// API base URL resolution:
+// 1. EXPO_PUBLIC_API_URL env var (inlined at bundle time) — point a physical
+//    device at the dev machine, e.g. EXPO_PUBLIC_API_URL=http://<MAC-IP>:8000
+// 2. Web → http://localhost:8000 (same machine as the backend)
+// 3. Android emulator → http://10.0.2.2:8000 (emulator alias for host loopback)
+export const BASE_URL =
+  process.env.EXPO_PUBLIC_API_URL ??
+  Platform.select({
+    android: "http://10.0.2.2:8000",
+    default: "http://localhost:8000",
+  });
 
 export interface Star {
   hip: number;
