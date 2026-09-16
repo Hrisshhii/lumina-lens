@@ -179,4 +179,57 @@ Visible Stars Calculation          Orientation HUD
 - **Step 10: Debug Sky Visualization** — render a 2D celestial dome / radar map plotting stars by Alt/Az instead of just a text list.
 - **Step 11: Astronomical Prediction Verification** — cross-verify calculations against Stellarium / SkyView to finalize Phase 1.
 
+---
+
+# Post-Step 9 Note: Styling Migration to Tailwind CSS (NativeWind)
+
+After Step 9 was completed, the entire mobile UI was refactored from
+`StyleSheet.create` blocks to **Tailwind CSS via NativeWind**.
+
+<b>Stack installed:</b>
+```text
+nativewind 5.0.0-rc.0  +  react-native-css 3.1.0-rc.0   (NativeWind v5, RC)
+tailwindcss 4.1.12 (v4, CSS-first config)  +  @tailwindcss/postcss + lightningcss
+react-native-reanimated 4.6.0, react-native-safe-area-context 5.9.1, expo-system-ui
+```
+
+<b>New config files:</b>
+```text
+app/metro.config.js        → withNativewind(config) wraps the Expo Metro config
+app/postcss.config.mjs     → @tailwindcss/postcss plugin (Tailwind v4 pipeline)
+app/global.css             → @import "tailwindcss" + @theme design tokens
+app/nativewind-env.d.ts    → className TypeScript types (nativewind/types)
+app/index.ts               → imports ./global.css as the first import
+```
+Note: No `babel.config.js` is needed — NativeWind v5 handles the transform at
+the Metro layer via `react-native-css` (unlike v4 which required the
+`nativewind/babel` preset).
+
+<b>Refactored:</b> `App.tsx` and `src/components/StarDetailModal.tsx` — all
+~490 lines of StyleSheet.create replaced with `className` utilities
+(including NativeWind's `contentContainerClassName` on FlatList). All logic,
+states, GPS fallback, HUD, and modal behavior preserved unchanged.
+
+<b>Verification:</b>
+- `tsc --noEmit` passes (strict).
+- `expo export --platform web` → 390 modules, compiled 11KB CSS asset.
+- `expo export --platform android` → 1126 modules, 2.8MB Hermes bundle.
+- Audited the compiled stylesheet: every arbitrary-value class used in the
+  app (`text-[9px]`, `border-[#1e293b]`, `max-h-[88%]`, `bg-slate-950/75`, …)
+  is present.
+
+<b>Known findings:</b>
+1. The `@theme` `cosmos-*` color tokens in `global.css` are currently
+   <b>unused</b> — components style with arbitrary hex + default palette
+   classes, so Tailwind tree-shakes them from the output. Either adopt them
+   (e.g. `bg-cosmos-card`) or remove them.
+2. Tailwind <b>v4 repainted its default palette</b> — a few colors differ
+   slightly from the old hardcoded hexes: `blue-600` #2563eb → #155dfc,
+   `sky-400` #38bdf8 → #00bcfe, `red-400` #f87171 → #ff6568,
+   `yellow-400` #facc15 → #fac800. Minor visual drift; pin exact hexes via
+   `@theme` tokens if pixel parity is wanted.
+3. Both platform bundles compile headlessly; a <b>runtime check on a real
+   device</b> (native `Modal` styling + sensors) is still recommended.
+
+
 
