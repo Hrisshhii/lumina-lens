@@ -16,9 +16,10 @@ Computer vision, plate solving, AR, and AI are not part of this phase yet.
 4. Build the Astronomy Engine.
 5. Integrate the Hipparcos star catalog.
 6. Calculate visible stars using location and time.
-7. Build the Sensor Engine.
-8. Create a debug sky visualization.
-9. Test astronomical predictions.
+7. Build the Star Identity & Metadata layer.
+8. Build the Sensor Engine (GPS location & orientation).
+9. Create a debug sky visualization.
+10. Test astronomical predictions.
 
 ---
 
@@ -111,11 +112,13 @@ lumina-lens/
 * [x] Create Astronomy Engine
 * [x] Integrate Hipparcos catalog
 * [x] Calculate visible stars
+* [x] Build Star Identity & Metadata layer (`/stars/{hip_id}` + `StarDetailModal`)
+* [x] Build Sensor Engine (GPS location & live orientation HUD)
 
 ## Next
 
-* [ ] Begin Sensor Engine
-* [ ] Build debug sky visualization
+* [ ] Build debug sky visualization (Step 10)
+* [ ] Test astronomical predictions & verify accuracy (Step 11)
 
 ---
 
