@@ -1,100 +1,71 @@
-# Phase 0 Research -- Lumina Lens
+# Lumina Lens Research & Engineering Notes
 
-## Project Goal
+This directory contains the foundational research, technical feasibility analyses, and step-by-step engineering logs for **Lumina Lens**.
 
-Create a mobile application that identifies every visible star in the
-camera view, allows the user to tap any identified object, and provides
-rich astronomical information using computer vision, astronomy
-libraries, and AI.
+---
 
-------------------------------------------------------------------------
+## 📁 Directory Organization
 
-# Core Research Areas
+```text
+research/
+├── notes/
+│   ├── Phase-0.md                  # Comprehensive astronomy & engineering fundamentals
+│   └── Phase-1/                    # Step-by-step implementation logs for Phase 1
+│       ├── README.md               # Phase 1 master overview, architecture & checklist
+│       ├── step-1: verify git repository.md
+│       ├── step-2: create mobile application.md
+│       ├── step-3: start expo development server.md
+│       ├── step-4: add web support.md
+│       ├── step-5: astronomy engine v1.md
+│       ├── step-6: hipparcos catalog integration.md
+│       ├── step-7: connect mobile app to visible stars api.md
+│       ├── step-8: star identity & metadata.md
+│       └── step-9: sensor engine.md
+├── Backend-Architecture-analysis.md # Detailed backend subsystem analysis
+├── Frontend-Architecture-analysis.md # Detailed frontend subsystem analysis
+└── Frontend-Bankend-comms-analysis.md # API contracts & integration analysis
+```
 
-## 1. Astronomy Fundamentals
+---
 
-Topics to learn: 
-- Celestial Sphere 
-- Right Ascension (RA) 
-- Declination(Dec) 
-- Altitude & Azimuth 
-- Apparent Magnitude 
-- Spectral Classes 
-- Proper Motion 
-- Constellations
+## 🌌 Core Research Modules (Phase 0)
 
-Why it matters: Star catalogs store positions using RA/Dec. Phones
-observe the sky using Altitude/Azimuth, so coordinate conversion is
-essential.
+Read [notes/Phase-0.md](notes/Phase-0.md) for in-depth coverage of:
 
-------------------------------------------------------------------------
+1. **Astronomy Fundamentals:**
+   - Celestial Sphere, Right Ascension (RA), Declination (Dec).
+   - Topocentric coordinate transformations (Altitude & Azimuth).
+   - Stellar magnitudes, spectral classes, and proper motion.
 
-## 2. Star Catalogs
+2. **Astronomical Catalogs:**
+   - Hipparcos Catalog (~118,000 astrometric stars).
+   - Gaia DR3 catalog (~1.8 billion high-precision sources).
+   - Messier and NGC deep-sky catalogs.
 
-Evaluate: 
-- Hipparcos (good starting point) 
-- Gaia DR3 (very large, high precision) 
-- Messier Catalog 
-- NGC Catalog
+3. **Phone Sensors & Spatial Geometry:**
+   - GPS positioning, Magnetometer compass headings, Accelerometer pitch and tilt.
+   - Sensor fusion and low-pass filtering.
+   - Camera projection geometry (FOV, focal length, pixel planes).
 
-Recommendation: Begin with Hipparcos, later upgrade to Gaia.
+4. **Computer Vision & Star Extraction:**
+   - Grayscale conversion, adaptive noise reduction, thresholding.
+   - Blob detection and intensity-weighted centroid calculations.
 
-------------------------------------------------------------------------
+5. **Plate Solving & Asterism Matching:**
+   - Scale-invariant triangle invariants and geometric hashes.
+   - Spatial indexing (Kd-trees) for lost-in-space star identification.
 
-## 3. Phone Sensors
+6. **AI Layer:**
+   - Contextual astrophysical narratives, comparisons, and conversational reasoning.
 
-Needed: 
-- GPS 
-- Compass 
-- Gyroscope 
-- Accelerometer
+---
 
-Purpose: Estimate the camera's pointing direction before computer vision
-refinement.
+## 🚀 Phase 1 Implementation Logs
 
-------------------------------------------------------------------------
-
-## 4. Computer Vision
-
-Research: 
-- Image preprocessing 
-- Noise reduction 
-- Bright point detection 
-- Blob detection 
-- Feature extraction
-
-Libraries: 
-- OpenCV 
-- OpenCV Mobile
-
-------------------------------------------------------------------------
-
-## 5. Plate Solving
-
-Goal: 
-Match detected star patterns with catalog data to identify every visible star.
-
-Keywords: 
-- Triangle matching 
-- Astrometry 
-- Feature matching
-
-------------------------------------------------------------------------
-
-## 6. AI Layer
-
-Use after identification.
-
-Tasks: 
-- Explain stars 
-- Compare objects 
-- Answer astronomy questions
-
-------------------------------------------------------------------------
-
-## Deliverables for Phase 0
-
--   Understand astronomy concepts
--   Choose technologies
--   Design architecture
--   Plan milestones
+Read [notes/Phase-1/README.md](notes/Phase-1/README.md) for the active engineering progression:
+- **Steps 1–4:** React Native / Expo foundation and cross-platform setup.
+- **Steps 5–6:** Astronomy Engine with Skyfield, JPL `de421.bsp`, and vectorized Hipparcos catalog computation.
+- **Step 7:** Mobile client connection to `/sky/visible` with dark-sky theme UI.
+- **Step 8:** Star Identity & Metadata layer (`/stars/{hip_id}`, `StarService`, and `StarDetailModal`).
+- **Step 9:** Sensor Engine (`expo-location` GPS coordinates and `expo-sensors` real-time Orientation HUD).
+- **Steps 10–11 (Next):** Debug sky visualization and ephemeris prediction verification.

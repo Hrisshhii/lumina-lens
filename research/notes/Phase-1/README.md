@@ -10,16 +10,17 @@ Computer vision, plate solving, AR, and AI are not part of this phase yet.
 
 ## Phase 1 Plan
 
-1. Set up the React Native mobile application.
-2. Set up the FastAPI backend.
-3. Connect the mobile application to the backend.
-4. Build the Astronomy Engine.
-5. Integrate the Hipparcos star catalog.
-6. Calculate visible stars using location and time.
-7. Build the Star Identity & Metadata layer.
-8. Build the Sensor Engine (GPS location & orientation).
-9. Create a debug sky visualization.
-10. Test astronomical predictions.
+1. [x] Set up the React Native mobile application.
+2. [x] Set up the FastAPI backend.
+3. [x] Connect the mobile application to the backend.
+4. [x] Build the Astronomy Engine.
+5. [x] Integrate the Hipparcos star catalog.
+6. [x] Calculate visible stars using location and time.
+7. [x] Connect mobile app to visible stars API.
+8. [x] Build the Star Identity & Metadata layer.
+9. [x] Build the Sensor Engine (GPS location & orientation).
+10. [ ] Create a debug sky visualization.
+11. [ ] Test and verify astronomical predictions.
 
 ---
 
@@ -39,32 +40,21 @@ Computer vision, plate solving, AR, and AI are not part of this phase yet.
 
 # Current Architecture
 
-The project currently has the beginning of two major components:
+The project contains a fully operational frontend-backend pipeline:
 
 ```text
-Lumina Lens
-
-┌─────────────────────┐
-│     Mobile App      │
-│                     │
-│ React Native        │
-│ Expo                │
-│ TypeScript          │
-└──────────┬──────────┘
-           │
-           │ HTTP API
-           ▼
-┌─────────────────────┐
-│      Backend        │
-│                     │
-│ FastAPI             │
-│ Python              │
-└─────────────────────┘
+Lumina Lens Mobile Client (app/)
+├── Sensor Engine (GPS & Orientation HUD)
+├── StarDetailModal (Astrophysical Identity & Metadata)
+└── api.ts (Typed HTTP Client)
+       │
+       │ HTTP API (lat, lon)
+       ▼
+FastAPI Backend (backend/)
+├── /sky/visible -> AstronomyEngine (Skyfield + DE421 + Hipparcos)
+├── /stars/{hip_id} -> StarService (Metadata & Distance Calculation)
+└── /health -> Health Check
 ```
-
-The mobile application foundation has been created.
-
-The backend will be implemented next.
 
 ---
 
@@ -74,19 +64,25 @@ The backend will be implemented next.
 lumina-lens/
 │
 ├── app/                 # React Native / Expo application
+│   ├── src/
+│   │   ├── components/  # StarDetailModal.tsx
+│   │   ├── engines/
+│   │   │   └── sensor/  # location.ts, orientation.ts, index.ts
+│   │   └── services/    # api.ts
+│   └── App.tsx          # Main screen, live GPS badge & Orientation HUD
 │
 ├── backend/             # FastAPI backend
+│   ├── app/
+│   │   ├── api/         # sky.py, stars.py
+│   │   ├── engines/     # astronomy/astronomy_engine.py
+│   │   ├── models/      # star.py
+│   │   └── services/    # star_service.py
+│   ├── de421.bsp        # JPL ephemeris
+│   └── main.py          # FastAPI application
 │
-├── docs/                # Architecture and project documentation
-│
-├── research/            # Phase 0 research
-│
-├── datasets/            # Astronomy datasets
-│
-├── assets/              # Shared assets
-│
-├── README.md
-└── .gitignore
+├── docs/                # Architecture and roadmap documentation
+├── research/            # Research and step-by-step logs
+└── README.md
 ```
 
 ---
@@ -109,16 +105,16 @@ lumina-lens/
 * [x] Create `/health` API endpoint
 * [x] Run FastAPI development server
 * [x] Connect Expo application to FastAPI
-* [x] Create Astronomy Engine
-* [x] Integrate Hipparcos catalog
-* [x] Calculate visible stars
+* [x] Create Astronomy Engine (Skyfield + `de421.bsp`)
+* [x] Integrate Hipparcos catalog (~5,000 stars)
+* [x] Calculate visible stars (vectorized topocentric Alt/Az)
 * [x] Build Star Identity & Metadata layer (`/stars/{hip_id}` + `StarDetailModal`)
 * [x] Build Sensor Engine (GPS location & live orientation HUD)
 
 ## Next
 
-* [ ] Build debug sky visualization (Step 10)
-* [ ] Test astronomical predictions & verify accuracy (Step 11)
+* [ ] **Step 10: Debug Sky Visualization:** Build a 2D celestial radar / dome plot to visualize stars in the sky instead of only reading a text list.
+* [ ] **Step 11: Astronomical Prediction Verification:** Cross-check predictions against Stellarium / SkyView for known observers to verify mathematical accuracy and complete Phase 1.
 
 ---
 
@@ -127,69 +123,20 @@ lumina-lens/
 At the end of Phase 1, Lumina Lens should be capable of taking:
 
 ```text
-User Location + Current Date & Time
-        ↓
-Astronomy Engine
-        ↓
-Visible Stars
+User Location (Live GPS) + Current Date & Time
+                     ↓
+             Astronomy Engine
+                     ↓
+         Visible Stars & Topocentric Angles
 ```
 
-and returning astronomical information such as:
+and returning accurate astronomical data verified against physical reality:
 
 ```text
-Vega
-
-Altitude: 62.4°
-Azimuth: 71.8°
+Vega (HIP 91262)
+Constellation: Lyra
+Altitude: 59.8°
+Azimuth: 42.4° (NE)
 Magnitude: 0.03
-```
-
-This will be the first functional astronomy capability of Lumina Lens.
-
-## Next:
-Astronomy Engine v1
-We'll install:
-- Skyfield
-- Astropy
-Then answer the first astronomy question:
-```text
-"Given my latitude, longitude, and the current time, which stars are visible above the horizon?"
-```
-That will be the first feature that makes Lumina Lens more than a template—it will become an actual astronomy application.
-
-
-## Astronomy Engines:
-```text
-Latitude + Longitude + Current Time
-                ↓
-            Skyfield
-                ↓
-          Visible Stars
-                ↓
-            Altitude
-                ↓
-            Azimuth
-```
-
-
-### Lumina Lens Astronomy Engine:
-```text
-It takes: Latitude & Longitude & Time
-
-and does: 
-
-        RA/Dec
-          ↓
-        Skyfield
-          ↓
-    Observer position
-          ↓
-    Celestial coordinates
-          ↓
-      Altitude/Azimuth
-
-then: 
-if position["altitude"] > 0:
-means:
-The star is above the local horizon.
+Distance: 25.04 light-years
 ```
