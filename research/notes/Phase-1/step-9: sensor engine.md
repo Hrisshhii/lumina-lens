@@ -219,17 +219,9 @@ states, GPS fallback, HUD, and modal behavior preserved unchanged.
   is present.
 
 <b>Known findings:</b>
-1. The `@theme` `cosmos-*` color tokens in `global.css` are currently
-   <b>unused</b> — components style with arbitrary hex + default palette
-   classes, so Tailwind tree-shakes them from the output. Either adopt them
-   (e.g. `bg-cosmos-card`) or remove them.
-2. Tailwind <b>v4 repainted its default palette</b> — a few colors differ
-   slightly from the old hardcoded hexes: `blue-600` #2563eb → #155dfc,
-   `sky-400` #38bdf8 → #00bcfe, `red-400` #f87171 → #ff6568,
-   `yellow-400` #facc15 → #fac800. Minor visual drift; pin exact hexes via
-   `@theme` tokens if pixel parity is wanted.
-3. Both platform bundles compile headlessly; a <b>runtime check on a real
-   device</b> (native `Modal` styling + sensors) is still recommended.
+1. The `@theme` `cosmos-*` color tokens in `global.css` are currently <b>unused</b> — components style with arbitrary hex + default palette classes, so Tailwind tree-shakes them from the output. Either adopt them (e.g. `bg-cosmos-card`) or remove them.
+2. Tailwind <b>v4 repainted its default palette</b> — a few colors differ slightly from the old hardcoded hexes: `blue-600` #2563eb → #155dfc, `sky-400` #38bdf8 → #00bcfe, `red-400` #f87171 → #ff6568, `yellow-400` #facc15 → #fac800. Minor visual drift; pin exact hexes via `@theme` tokens if pixel parity is wanted.
+3. Both platform bundles compile headlessly; a <b>runtime check on a real device</b> (native `Modal` styling + sensors) is still recommended.
 
 
 
