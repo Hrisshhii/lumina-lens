@@ -132,7 +132,7 @@ From our Phase 0 architecture:
 
 ---
 
-# Step 9 Status:
+# Step 9 Status: ✅ IMPLEMENTED (build + integration verified)
 The Sensor Engine has been built and connected to the Astronomy API and mobile UI.
 
 ```text
@@ -175,7 +175,44 @@ Visible Stars Calculation          Orientation HUD
   * **Elevation**: e.g. `45°`
   * **Aim**: e.g. `🌌 Sky` vs `🔭 Horizon`
 
+## Device Testing Readiness (added post-implementation)
+
+To test the Sensor Engine on a real Android phone and on web, the API client
+now resolves its base URL from an environment variable — closing one of the
+high-priority gaps from the integration analysis (hardcoded dev URL):
+
+```text
+app/src/services/api.ts
+    BASE_URL = process.env.EXPO_PUBLIC_API_URL
+               ?? Platform.select({ android: "http://10.0.2.2:8000",
+                                    default: "http://localhost:8000" })
+```
+
+- Web: `http://localhost:8000` works as-is (browser + backend on same machine).
+- Android emulator: `http://10.0.2.2:8000` unchanged.
+- Physical device (Expo Go): bake the dev machine LAN IP into the bundle and
+  bind the backend to all interfaces:
+
+```bash
+EXPO_PUBLIC_API_URL=http://<LAN-IP>:8000 npx expo start
+.venv/bin/python -m uvicorn app.main:app --host 0.0.0.0 --port 8000
+```
+
+Run-time verification checklist:
+
+```text
+[ ] Backend /health returns {"status": "healthy"} (first boot downloads Hipparcos)
+[ ] Web: star list renders, [Live GPS] badge after browser location prompt
+[ ] Web: HUD shows "—" / "Sensors Off" (no magnetometer on desktops) — expected
+[ ] Phone: allow location permission → [Live GPS] with real coordinates
+[ ] Phone: HEADING/ELEVATION update live; AIM flips 🔭 Horizon → 🌌 Sky past ~20°
+[ ] Phone: tap a star → StarDetailModal loads (Step 8 integration)
+```
+
 ## Next After This Step
+- **Real-device run-through** (Expo Go + web) — confirm runtime behavior of
+  NativeWind `Modal` styling and the live sensors (both platform bundles
+  already compile; runtime behavior is the remaining unknown).
 - **Step 10: Debug Sky Visualization** — render a 2D celestial dome / radar map plotting stars by Alt/Az instead of just a text list.
 - **Step 11: Astronomical Prediction Verification** — cross-verify calculations against Stellarium / SkyView to finalize Phase 1.
 
