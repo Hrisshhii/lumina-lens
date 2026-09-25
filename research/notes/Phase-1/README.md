@@ -19,7 +19,7 @@ Computer vision, plate solving, AR, and AI are not part of this phase yet.
 7. [x] Connect mobile app to visible stars API.
 8. [x] Build the Star Identity & Metadata layer.
 9. [x] Build the Sensor Engine (GPS location & orientation).
-10. [ ] Create a debug sky visualization.
+10. [x] Create a debug sky visualization.
 11. [ ] Test and verify astronomical predictions.
 
 ---
@@ -35,6 +35,7 @@ Computer vision, plate solving, AR, and AI are not part of this phase yet.
 - [Step 7: Connect Mobile App to Visible Stars API](./step-7:%20connect%20mobile%20app%20to%20visible%20stars%20api.md)
 - [Step 8: Star Identity & Metadata](./step-8:%20star%20identity%20&%20metadata.md)
 - [Step 9: Sensor Engine](./step-9:%20sensor%20engine.md)
+- [Step 10: Debug Sky Visualization](./step-10:%20debug%20sky%20visualization.md)
 
 ---
 
