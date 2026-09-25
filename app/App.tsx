@@ -238,6 +238,50 @@ export default function App() {
         </View>
       </View>
 
+      {/* View Mode Switcher (Step 10: Celestial Dome vs List View) */}
+      <View className="flex-row bg-[#0b101d] px-4 py-2 border-b border-[#1e293b] items-center justify-between">
+        <View className="flex-row bg-[#060a12] p-1 rounded-lg border border-[#1e293b]">
+          <TouchableOpacity
+            onPress={() => setViewMode("dome")}
+            className={`px-3 py-1.5 rounded-md flex-row items-center gap-1.5 ${
+              viewMode === "dome" ? "bg-blue-600" : "bg-transparent"
+            }`}
+          >
+            <Text className="text-xs">🌌</Text>
+            <Text
+              className={`text-xs font-semibold ${
+                viewMode === "dome" ? "text-white" : "text-slate-400"
+              }`}
+            >
+              Celestial Dome
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => setViewMode("list")}
+            className={`px-3 py-1.5 rounded-md flex-row items-center gap-1.5 ${
+              viewMode === "list" ? "bg-blue-600" : "bg-transparent"
+            }`}
+          >
+            <Text className="text-xs">📋</Text>
+            <Text
+              className={`text-xs font-semibold ${
+                viewMode === "list" ? "text-white" : "text-slate-400"
+              }`}
+            >
+              Star List
+            </Text>
+          </TouchableOpacity>
+        </View>
+
+        <TouchableOpacity
+          onPress={handleRefresh}
+          className="bg-[#1e293b] px-3 py-1.5 rounded-md active:bg-slate-700"
+        >
+          <Text className="text-xs text-slate-300 font-medium">↻ Refresh</Text>
+        </TouchableOpacity>
+      </View>
+
       {/* Main Content */}
       {loading ? (
         <View className="flex-1 justify-center items-center p-6">
@@ -253,6 +297,13 @@ export default function App() {
             <Text className="text-white font-semibold text-sm">Retry</Text>
           </TouchableOpacity>
         </View>
+      ) : viewMode === "dome" ? (
+        <SkyDomeView
+          stars={data?.stars || []}
+          orientation={orientation}
+          onSelectStar={handleStarPress}
+          selectedHipId={selectedHip}
+        />
       ) : (
         <FlatList
           data={data?.stars || []}
