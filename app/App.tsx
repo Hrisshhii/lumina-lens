@@ -4,6 +4,7 @@ import { StatusBar } from "expo-status-bar";
 
 import {getVisibleStars,getStarByHip,Star,StarProfile,VisibleStarsResponse,} from "./src/services/api";
 import StarDetailModal from "./src/components/StarDetailModal";
+import SkyDomeView from "./src/components/SkyDomeView";
 import {getDeviceLocation,DeviceLocation,useDeviceOrientation,} from "./src/engines/sensor";
 
 // Default coordinates (Pune, India - Phase 1 test observer fallback)
@@ -30,6 +31,9 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // View mode switcher (Step 10: Celestial Dome vs List View)
+  const [viewMode, setViewMode] = useState<"dome" | "list">("dome");
 
   // Live sensor / GPS location state (Step 9: Sensor Engine)
   const [location, setLocation] = useState<DeviceLocation | null>(null);
