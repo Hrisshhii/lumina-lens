@@ -44,7 +44,7 @@ This document outlines the multi-phase journey of **Lumina Lens**, from initial 
 - [x] **Step 7: Connect Mobile App to Visible Stars API:** Built dark night-sky theme UI, connecting `App.tsx` to `GET /sky/visible`.
 - [x] **Step 8: Star Identity & Metadata Layer:** Implemented `GET /stars/{hip_id}`, `StarService` metadata enrichment, and the interactive `StarDetailModal` component.
 - [x] **Step 9: Sensor Engine:** Built `location.ts` (live GPS permissions & coordinates via `expo-location`) and `orientation.ts` (real-time heading & elevation HUD via `expo-sensors`).
-- [ ] **Step 10: Debug Sky Visualization:** Build a 2D celestial dome / radar plot showing star positions relative to the horizon and cardinal directions.
+- [x] **Step 10: Debug Sky Visualization:** Built 2D celestial dome / radar plot (`SkyDomeView.tsx`) with polar Alt/Az projection, magnitude filtering, and orientation reticle.
 - [ ] **Step 11: Astronomical Prediction Verification:** Cross-reference calculations against Stellarium / SkyView for accuracy validation.
 
 ---
