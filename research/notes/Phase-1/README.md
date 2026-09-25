@@ -111,10 +111,10 @@ lumina-lens/
 * [x] Calculate visible stars (vectorized topocentric Alt/Az)
 * [x] Build Star Identity & Metadata layer (`/stars/{hip_id}` + `StarDetailModal`)
 * [x] Build Sensor Engine (GPS location & live orientation HUD)
+* [x] Build Debug Sky Visualization (2D celestial radar / dome view)
 
 ## Next
 
-* [ ] **Step 10: Debug Sky Visualization:** Build a 2D celestial radar / dome plot to visualize stars in the sky instead of only reading a text list.
 * [ ] **Step 11: Astronomical Prediction Verification:** Cross-check predictions against Stellarium / SkyView for known observers to verify mathematical accuracy and complete Phase 1.
 
 ---
