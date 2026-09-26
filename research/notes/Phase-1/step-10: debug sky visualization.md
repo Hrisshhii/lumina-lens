@@ -83,3 +83,79 @@ When live orientation sensors are available (`orientation.available === true`), 
    - `npx expo export --platform web` $\implies$ 391 modules bundled in 944ms.
 3. **Android Hermes Bundle**:
    - `npx expo export --platform android` $\implies$ 1127 modules bundled in 10564ms (2.8MB Hermes bytecode).
+
+---
+
+# Step 10 Status: ✅ IMPLEMENTED (build + integration verified)
+
+<b>Date:</b> September 25, 2026
+
+The Debug Sky Visualization is fully implemented and wired into the app.
+The complete flow now works end-to-end:
+
+```text
+GET /sky/visible (stars with Altitude + Azimuth)
+        ↓
+SkyDomeView (2D polar projection dome)
+        ↓
+Tap any plotted star → onSelectStar(hip)
+        ↓
+StarDetailModal (Step 8 identity & metadata)
+```
+
+## Changes Made (3 app commits + 3 docs commits)
+
+### 1. `app/src/components/SkyDomeView.tsx` — New component (534 lines, commit df30356)
+- Props: `stars`, `orientation`, `onSelectStar`, `selectedHipId`.
+- Responsive dome: adapts to screen width (280-400px) with 22px inset.
+- Polar projection: r = usableRadius x (1 - alt/90); angle = (az - 90) deg;
+  x = cx + r*cos(angle); y = cy + r*sin(angle) — N top, E right, S bottom, W left.
+- Filter chips bar: All (with count), Named Stars, Mag ≤ 2.5, Mag ≤ 4.0
+  (accent colors: blue / amber / sky / indigo).
+- Dome canvas layers: radar background glow, outer horizon ring (Alt = 0),
+  dashed 30° and 60° altitude rings, N-S / E-W crosshair axes, cardinal
+  direction badges, zenith center marker.
+- Star nodes: magnitude-tiered dot size and color (bright < 1.5 → 8px white
+  + glow halo, mid < 3.5 → 4px, faint → 2.5px), 28×28 touch targets with
+  hitSlop, cyan selection ring for the active star, name tags for named /
+  selected / very bright stars, zIndex layering.
+- Live device aim reticle: dashed cyan ring + crosshair + AIM label rendered
+  at the projected (heading, elevation) position whenever orientation sensors
+  are available and the phone is tilted above the horizon; pointerEvents none
+  so it never blocks star taps.
+- Legend card: Celestial Radar Guide with brightness legend and usage hints,
+  plus live filtered / total star counts.
+
+### 2. `app/App.tsx` — View mode integration (commits 79b9b8a, ea160bd)
+- Added `viewMode` state: "dome" | "list" (defaults to dome).
+- Imported `SkyDomeView` and wired it into the main content switch.
+- Segmented toggle bar: 🌌 Celestial Dome / 📋 Star List, plus a Refresh button.
+- Both modes share live GPS, the orientation HUD, loading / error states and
+  `StarDetailModal`; the dome receives `onSelectStar={handleStarPress}` and
+  `selectedHipId` so a tap opens the Step 8 profile modal and the selection
+  ring tracks the currently open star.
+
+### 3. Docs commits (66b8458, c841de8, 033c7c5)
+- This step note, Phase-1 README checklist (Step 10 marked [x]) and
+  docs/roadmap.md (Step 10 marked complete with implementation details).
+
+## Verification Performed
+- `npx tsc --noEmit` → passes (strict mode, 0 errors).
+- `npx expo export --platform web` → 391 modules bundled in 944ms.
+- `npx expo export --platform android` → 1127 modules in 10564ms (2.8MB Hermes bytecode).
+- Git working tree clean; all changes committed and pushed to origin/main
+  (HEAD 033c7c5).
+
+## What This Achieves (Step 10 goal met)
+- The visible sky is no longer only a text list — it is now an interactive
+  2D radar map of the whole dome.
+- Mathematically correct polar projection with verified cardinal directions.
+- The live phone-pointing reticle overlays the dome (Step 9 sensor engine
+  integration inside the visualization).
+- Fully interactive: tap any plotted star to open its profile (Step 8).
+- Magnitude / named-star filters declutter the dome on demand.
+
+## Next After This Step
+- **Step 11: Astronomical Prediction Verification** — cross-check backend
+  predictions against Stellarium / SkyView for known observers; completing
+  this step finalizes Phase 1.
