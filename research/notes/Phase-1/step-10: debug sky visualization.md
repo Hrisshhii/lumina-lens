@@ -103,7 +103,7 @@ Tap any plotted star → onSelectStar(hip)
 StarDetailModal (Step 8 identity & metadata)
 ```
 
-## Changes Made (3 app commits + 3 docs commits)
+## Changes Made
 
 ### 1. `app/src/components/SkyDomeView.tsx` — New component (534 lines, commit df30356)
 - Props: `stars`, `orientation`, `onSelectStar`, `selectedHipId`.
@@ -134,10 +134,6 @@ StarDetailModal (Step 8 identity & metadata)
   `StarDetailModal`; the dome receives `onSelectStar={handleStarPress}` and
   `selectedHipId` so a tap opens the Step 8 profile modal and the selection
   ring tracks the currently open star.
-
-### 3. Docs commits (66b8458, c841de8, 033c7c5)
-- This step note, Phase-1 README checklist (Step 10 marked [x]) and
-  docs/roadmap.md (Step 10 marked complete with implementation details).
 
 ## Verification Performed
 - `npx tsc --noEmit` → passes (strict mode, 0 errors).
