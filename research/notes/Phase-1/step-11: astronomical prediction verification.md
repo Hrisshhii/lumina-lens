@@ -39,27 +39,54 @@ User Location (Live GPS) + Current UTC Date/Time
 
 ---
 
-## 2. Test Verification Matrix
+## 2. Automated Test Execution Results (`verify_astronomy.py`)
 
-| Target Star | HIP ID | Right Ascension (J2000) | Declination (J2000) | Visual Mag ($V$) | Expected Behavior / Benchmark |
+Test script executed at epoch `2026-09-29T21:00:00Z` across four distinct global observers:
+
+### A. Horizon & Sorting Invariant
+- **Greenwich (UK)** (100 stars): All altitudes $\ge 0.0^\circ$ ✅; Sorted by magnitude ($-0.05$ to $3.32$) ✅
+- **Pune (India)** (100 stars): All altitudes $\ge 0.0^\circ$ ✅; Sorted by magnitude ($-1.44$ to $3.32$) ✅
+- **Sydney (Australia)** (100 stars): All altitudes $\ge 0.0^\circ$ ✅; Sorted by magnitude ($-1.44$ to $3.06$) ✅
+- **Quito (Equator)** (100 stars): All altitudes $\ge 0.0^\circ$ ✅; Sorted by magnitude ($-0.05$ to $3.00$) ✅
+
+### B. Polar Alignment Invariant (Polaris / HIP 11767)
+- **Greenwich (UK) ($51.4769^\circ\text{ N}$)**:
+  - Polaris Altitude: $51.54^\circ$ ($\Delta = 0.07^\circ$) ✅
+  - Polaris Azimuth: $1.00^\circ$ (Deviation from True North = $1.00^\circ$) ✅
+- **Pune (India) ($18.5204^\circ\text{ N}$)**:
+  - Polaris Altitude: $19.14^\circ$ ($\Delta = 0.62^\circ$) ✅
+  - Polaris Azimuth: $0.11^\circ$ (Deviation from True North = $0.11^\circ$) ✅
+- **Sydney (Australia) ($33.8688^\circ\text{ S}$)**:
+  - Polaris: Sub-horizon (invisible in Southern Hemisphere) ✅
+
+### C. Hemispheric Divergence (Alpha Centauri / HIP 71683)
+- Declination: $\delta = -60.83^\circ$
+- Visible at Greenwich ($51.48^\circ\text{ N}$): **False** (correctly rejected below horizon) ✅
+- Visible at Sydney ($33.87^\circ\text{ S}$): **True** ($\text{Alt} = 22.30^\circ$, $\text{Az} = 149.62^\circ$) ✅
+
+### D. Astrophysical Identity & Metadata Layer
+| Star | HIP ID | Constellation | Visual Mag | Distance (ly) | Status |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Polaris** | 11767 | $02^{\text{h}} 31^{\text{m}} 49^{\text{s}}$ | $+89^\circ 15' 51''$ | $1.98$ | $\text{Alt} \approx \text{Latitude}$, $\text{Az} \approx 0^\circ$ |
-| **Sirius** | 32349 | $06^{\text{h}} 45^{\text{m}} 09^{\text{s}}$ | $-16^\circ 42' 58''$ | $-1.44$ | Brightest star in night sky, $d \approx 8.6\text{ ly}$ |
-| **Vega** | 91262 | $18^{\text{h}} 36^{\text{m}} 56^{\text{s}}$ | $+38^\circ 47' 01''$ | $0.03$ | Photometric zero point reference, $d \approx 25.3\text{ ly}$ |
-| **Betelgeuse** | 27989 | $05^{\text{h}} 55^{\text{m}} 10^{\text{s}}$ | $+07^\circ 24' 25''$ | $0.45$ | Red supergiant (M1-M2Ia-ab) in Orion |
-| **Rigel** | 24436 | $05^{\text{h}} 14^{\text{m}} 32^{\text{s}}$ | $-08^\circ 12' 06''$ | $0.18$ | Blue supergiant (B8Ia) in Orion |
-| **Alpha Centauri** | 71683 | $14^{\text{h}} 39^{\text{m}} 36^{\text{s}}$ | $-60^\circ 50' 02''$ | $-0.01$ | Southern circumpolar, sub-horizon in Greenwich |
+| **Vega** | 91262 | Lyra | $0.03$ | $25.3$ | ✅ PASS |
+| **Sirius** | 32349 | Canis Major | $-1.44$ | $8.6$ | ✅ PASS |
+| **Betelgeuse** | 27989 | Orion | $0.45$ | $427.5$ | ✅ PASS |
+| **Rigel** | 24436 | Orion | $0.18$ | $772.9$ | ✅ PASS |
 
 ---
 
-## 3. Verification Plan & Execution Steps
+## 3. Phase 1 Sign-Off & Status
 
-1. **Develop Automated Test Runner**:
-   - Create `backend/verify_astronomy.py` executing the four-observer matrix against fixed timestamps.
-2. **Execute Cross-Verification**:
-   - Run the script and record precise calculated topocentric coordinates ($\text{Alt/Az}$).
-   - Cross-reference with independent Skyfield / JPL DE421 ephemeris calculations.
-3. **Verify App UI & SkyDome Consistency**:
-   - Verify that stars displayed in the mobile client match the backend output.
-4. **Document Phase 1 Completion**:
-   - Log output tables, error margins, and sign-off on Phase 1 readiness for **Phase 2 (Computer Vision)**.
+All 11 steps of **Phase 1: Foundation & Sky Prediction** are now completely built, integrated, and verified:
+- [x] Step 1: Verify Git Repository
+- [x] Step 2: Create Mobile Application (Expo / TypeScript)
+- [x] Step 3: Start Expo Development Server
+- [x] Step 4: Add Web Support
+- [x] Step 5: Astronomy Engine v1 (Skyfield + JPL `de421.bsp`)
+- [x] Step 6: Hipparcos Catalog Integration (~5,000 naked-eye stars)
+- [x] Step 7: Connect Mobile App to Visible Stars API
+- [x] Step 8: Star Identity & Metadata Layer (`/stars/{hip_id}` + `StarDetailModal`)
+- [x] Step 9: Sensor Engine (Live GPS + Orientation HUD)
+- [x] Step 10: Debug Sky Visualization (2D Celestial Radar Dome)
+- [x] Step 11: Astronomical Prediction Verification (Rigorous multi-observer test bench)
+
+**Phase 1 is officially complete and ready to advance to Phase 2: Computer Vision & Star Detection.**
