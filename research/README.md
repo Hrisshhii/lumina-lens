@@ -20,7 +20,9 @@ research/
 │       ├── step-6: hipparcos catalog integration.md
 │       ├── step-7: connect mobile app to visible stars api.md
 │       ├── step-8: star identity & metadata.md
-│       └── step-9: sensor engine.md
+│       ├── step-9: sensor engine.md
+│       ├── step-10: debug sky visualization.md
+│       └── step-11: astronomical prediction verification.md
 ├── Backend-Architecture-analysis.md # Detailed backend subsystem analysis
 ├── Frontend-Architecture-analysis.md # Detailed frontend subsystem analysis
 └── Frontend-Bankend-comms-analysis.md # API contracts & integration analysis
