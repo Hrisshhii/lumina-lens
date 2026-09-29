@@ -20,7 +20,7 @@ Computer vision, plate solving, AR, and AI are not part of this phase yet.
 8. [x] Build the Star Identity & Metadata layer.
 9. [x] Build the Sensor Engine (GPS location & orientation).
 10. [x] Create a debug sky visualization.
-11. [ ] Test and verify astronomical predictions.
+11. [x] Test and verify astronomical predictions.
 
 ---
 
@@ -36,6 +36,7 @@ Computer vision, plate solving, AR, and AI are not part of this phase yet.
 - [Step 8: Star Identity & Metadata](./step-8:%20star%20identity%20&%20metadata.md)
 - [Step 9: Sensor Engine](./step-9:%20sensor%20engine.md)
 - [Step 10: Debug Sky Visualization](./step-10:%20debug%20sky%20visualization.md)
+- [Step 11: Astronomical Prediction Verification](./step-11:%20astronomical%20prediction%20verification.md)
 
 ---
 
