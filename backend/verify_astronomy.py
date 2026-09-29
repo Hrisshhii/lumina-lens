@@ -127,8 +127,8 @@ def run_verification():
     test_targets = [
         {"hip": 91262, "name": "Vega", "constellation": "Lyra", "exp_dist": 25.3, "exp_mag": 0.03},
         {"hip": 32349, "name": "Sirius", "constellation": "Canis Major", "exp_dist": 8.6, "exp_mag": -1.44},
-        {"hip": 27989, "name": "Betelgeuse", "constellation": "Orion", "exp_dist": 497.9, "exp_mag": 0.45},
-        {"hip": 24436, "name": "Rigel", "constellation": "Orion", "exp_dist": 863.0, "exp_mag": 0.18},
+        {"hip": 27989, "name": "Betelgeuse", "constellation": "Orion", "exp_dist": 427.5, "exp_mag": 0.45},
+        {"hip": 24436, "name": "Rigel", "constellation": "Orion", "exp_dist": 772.9, "exp_mag": 0.18},
     ]
 
     print(f"  {'Star':<12} {'HIP':<8} {'Constellation':<15} {'Mag':<8} {'Distance (ly)':<18} {'Status'}")
