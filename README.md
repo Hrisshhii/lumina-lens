@@ -90,11 +90,11 @@ For full architectural specifications, see [docs/architecture.md](docs/architect
 lumina-lens/
 ├── app/                      # React Native / Expo mobile application
 │   ├── src/
-│   │   ├── components/       # UI components (StarDetailModal, etc.)
+│   │   ├── components/       # UI components (StarDetailModal, SkyDomeView)
 │   │   ├── engines/
 │   │   │   └── sensor/       # Sensor Engine (GPS location & orientation hook)
 │   │   └── services/         # API client & TypeScript interfaces (api.ts)
-│   ├── App.tsx               # Root application screen, HUD & star list
+│   ├── App.tsx               # Root application screen, HUD, Dome & star list
 │   └── package.json          # Mobile dependencies & Expo scripts
 ├── backend/                  # FastAPI Python backend
 │   ├── app/
@@ -105,6 +105,7 @@ lumina-lens/
 │   │   ├── services/         # Star metadata & enrichment (star_service.py)
 │   │   └── main.py           # FastAPI entrypoint & CORS configuration
 │   ├── de421.bsp             # JPL planetary & lunar ephemeris
+│   ├── verify_astronomy.py   # Multi-observer automated astronomical verification
 │   └── requirements.txt      # Python dependencies
 ├── docs/                     # Core architecture & roadmap documentation
 └── research/                 # Phase research, analyses & step-by-step logs
@@ -160,8 +161,8 @@ npm start
 ## 🗺️ Project Roadmap
 
 - [x] **Phase 0:** Research, celestial coordinate mechanics & architecture definition
-- [🔄] **Phase 1:** Foundation, Sensor Engine & Sky Prediction System (*In Progress*)
-- [ ] **Phase 2:** Computer Vision & Real-time Star Detection
+- [x] **Phase 1:** Foundation, Sensor Engine & Sky Prediction System (Completed ✅)
+- [🔄] **Phase 2:** Computer Vision & Real-time Star Detection (*In Progress*)
 - [ ] **Phase 3:** Plate Solving & Geometric Pattern Matching
 - [ ] **Phase 4:** Augmented Reality Canvas & Constellation Overlays
 - [ ] **Phase 5:** AI Astronomy Assistant & Deep Sky Exploration
