@@ -8,7 +8,6 @@ The final milestone of **Phase 1 (Foundation & Sky Prediction)** is to cross-ver
 ## 1. Phase 1 Success Criteria
 
 At the conclusion of Step 11, the Lumina Lens Astronomy Engine must satisfy the following criteria:
-
 ```text
 User Location (Live GPS) + Current UTC Date/Time
                       ↓

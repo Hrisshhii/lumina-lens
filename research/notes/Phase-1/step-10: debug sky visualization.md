@@ -96,9 +96,9 @@ The complete flow now works end-to-end:
 ```text
 GET /sky/visible (stars with Altitude + Azimuth)
         ↓
-SkyDomeView (2D polar projection dome)
+  SkyDomeView (2D polar projection dome)
         ↓
-Tap any plotted star → onSelectStar(hip)
+  Tap any plotted star → onSelectStar(hip)
         ↓
 StarDetailModal (Step 8 identity & metadata)
 ```
