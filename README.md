@@ -90,11 +90,11 @@ For full architectural specifications, see [docs/architecture.md](docs/architect
 lumina-lens/
 ├── app/                      # React Native / Expo mobile application
 │   ├── src/
-│   │   ├── components/       # UI components (StarDetailModal, etc.)
+│   │   ├── components/       # UI components (SkyDomeView, StarDetailModal)
 │   │   ├── engines/
 │   │   │   └── sensor/       # Sensor Engine (GPS location & orientation hook)
 │   │   └── services/         # API client & TypeScript interfaces (api.ts)
-│   ├── App.tsx               # Root application screen, HUD & star list
+│   ├── App.tsx               # Root application screen, HUD, view switcher & star list
 │   └── package.json          # Mobile dependencies & Expo scripts
 ├── backend/                  # FastAPI Python backend
 │   ├── app/
@@ -105,12 +105,13 @@ lumina-lens/
 │   │   ├── services/         # Star metadata & enrichment (star_service.py)
 │   │   └── main.py           # FastAPI entrypoint & CORS configuration
 │   ├── de421.bsp             # JPL planetary & lunar ephemeris
+│   ├── verify_astronomy.py   # Multi-observer astronomical verification runner
 │   └── requirements.txt      # Python dependencies
 ├── docs/                     # Core architecture & roadmap documentation
 └── research/                 # Phase research, analyses & step-by-step logs
     ├── notes/
     │   ├── Phase-0.md        # Astronomy fundamentals & system design
-    │   └── Phase-1/          # Step-by-step Phase 1 implementation logs
+    │   └── Phase-1/          # Step-by-step Phase 1 implementation logs (Steps 1–11)
     ├── Backend-Architecture-analysis.md
     ├── Frontend-Architecture-analysis.md
     └── Frontend-Bankend-comms-analysis.md
@@ -140,7 +141,8 @@ pip install -r requirements.txt
 uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ```
 Test health check at: `http://localhost:8000/health`  
-Interactive API docs at: `http://localhost:8000/docs`
+Interactive API docs at: `http://localhost:8000/docs`  
+Run verification suite: `python verify_astronomy.py`
 
 ### 3. Frontend Setup
 ```bash
@@ -160,8 +162,8 @@ npm start
 ## 🗺️ Project Roadmap
 
 - [x] **Phase 0:** Research, celestial coordinate mechanics & architecture definition
-- [🔄] **Phase 1:** Foundation, Sensor Engine & Sky Prediction System (*In Progress*)
-- [ ] **Phase 2:** Computer Vision & Real-time Star Detection
+- [x] **Phase 1:** Foundation, Sensor Engine & Sky Prediction System (Completed ✅)
+- [🔄] **Phase 2:** Computer Vision & Real-time Star Detection (In Progress)
 - [ ] **Phase 3:** Plate Solving & Geometric Pattern Matching
 - [ ] **Phase 4:** Augmented Reality Canvas & Constellation Overlays
 - [ ] **Phase 5:** AI Astronomy Assistant & Deep Sky Exploration
