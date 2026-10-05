@@ -29,19 +29,15 @@
   - `StarDetailModal`: Mounted at root, receiving visible, loading, error, and profile props.
   - Pull-to-refresh (`RefreshControl`) via `handleRefresh`: re-queries device GPS and recalculates the dynamic sky.
 
-### 4. `app/src/components/StarDetailModal.tsx` — Star Profile Presentation
-- **Responsibility:** Slide-up bottom sheet presenting rich astrophysical metadata for a tapped star.
-- **States Handled:**
-  - Loading: Activity indicator and "Fetching star profile..." message.
-  - Error: Clean error display with Retry and Close actions (handles network errors or backend 404s).
-  - Profile Content: Renders only when data exists (graceful degradation for sparse catalog entries).
-- **Sections:**
-  - Header: Primary star name (falls back to `HIP <id>`), constellation tag, and dismiss button.
-  - Badges: Catalog ID (`HIP <id>`), visual apparent magnitude.
-  - Identification: Alternate names, Bayer designation, Flamsteed number, constellation.
-  - Catalog Astrometry: Right Ascension (RA), Declination (Dec), trigonometric parallax (mas), proper motion (mas/yr).
-  - Physical Properties: Apparent magnitude, spectral class, distance in light-years.
-  - Narrative: In-depth scientific and cultural overview for prominent stars.
+### 4. `app/src/components/` — UI Components
+- **`SkyDomeView.tsx` — 2D Celestial Radar / Dome:**
+  - **Responsibility:** Polar projection canvas rendering stars according to local topocentric angles ($\text{Alt, Az}$).
+  - **Coordinate Mapping:** Center is Zenith ($90^\circ$ Alt, $r = 0$), perimeter is Horizon ($0^\circ$ Alt, $r = R$).
+  - **Features:** Concentric $30^\circ$ and $60^\circ$ altitude dashed guide rings, cardinal markers ($\text{N, E, S, W}$), magnitude-scaled star dots ($2.5\text{px}$–$8\text{px}$) with glowing halos for navigation stars ($V < 1.5$), real-time phone `AIM` reticle overlay, category filter chips (*All*, *Named Stars*, *Mag $\le 2.5$*, *Mag $\le 4.0$*), and touch targets opening the star profile modal.
+- **`StarDetailModal.tsx` — Star Profile Presentation:**
+  - **Responsibility:** Slide-up bottom sheet presenting rich astrophysical metadata for a tapped star.
+  - **States Handled:** Loading, error with retry/close, and populated profile content.
+  - **Sections:** Header with star name and dismiss button; catalog ID & visual magnitude badges; identification details (Bayer/Flamsteed/constellation); astrometric coordinates (RA, Dec, parallax, proper motion); physical properties (distance in ly, spectral class); and scientific/cultural descriptions.
 
 ### 5. `app/src/engines/sensor/` — Sensor Engine
 - **`location.ts` (`getDeviceLocation`)**:
@@ -60,7 +56,10 @@
 
 ### 6. `app/src/services/api.ts` — API Client
 - **Responsibility:** Strongly typed communication with the FastAPI backend.
-- **Base URL:** Platform-adaptive (`http://10.0.2.2:8000` for Android emulator, `http://localhost:8000` for iOS/web).
+- **Base URL:** Environment-driven with platform fallbacks:
+  - `process.env.EXPO_PUBLIC_API_URL` (for physical device testing over LAN / staging)
+  - Android Emulator: `http://10.0.2.2:8000`
+  - iOS Simulator / Web: `http://localhost:8000`
 - **Exports:**
   - Interfaces: `Star`, `VisibleStarsResponse`, `StarProfile`.
   - Functions: `healthCheck()`, `getVisibleStars(lat, lon, limit)`, `getStarByHip(hipId)`.
@@ -74,16 +73,19 @@
 | **Star Detail Modal** | Module-scope hooks crash (`useState` outside component) | ✅ **Resolved.** State and handlers moved inside `App()`, rendering the dedicated `StarDetailModal.tsx` component. |
 | **Observer Coordinates** | Hardcoded Pune coordinates (`18.5204, 73.8567`) | ✅ **Resolved.** Live device GPS via `expo-location` with graceful default fallback and status badges. |
 | **Device Orientation** | None | ✅ **Resolved.** Real-time heading and elevation HUD via `expo-sensors` with shortest-arc and low-pass filtering. |
-| **Directory Structure** | Only `src/services/` existed | ✅ **Organized.** Added `src/components/` and `src/engines/sensor/`. |
+| **Debug Celestial Dome** | Text-only star list | ✅ **Resolved.** Interactive 2D celestial radar (`SkyDomeView.tsx`) with Alt/Az polar projection, magnitude scaling, filter chips, and live aim reticle. |
+| **View Navigation** | Single list view | ✅ **Resolved.** Top-level segmented switcher in `App.tsx` between `🌌 Celestial Dome` and `📋 Star List`. |
+| **Base URL Config** | Hardcoded dev URLs | ✅ **Resolved.** Inlined `process.env.EXPO_PUBLIC_API_URL` for physical LAN testing with emulator fallbacks. |
+| **Styling Architecture** | StyleSheet.create blocks | ✅ **Resolved.** Migrated to Tailwind CSS via NativeWind v5 + Tailwind CSS v4. |
 | **Type Checking** | Unchecked | ✅ **Clean.** Passing `npx tsc --noEmit` with 0 type errors. |
 
 ---
 
-## Remaining Frontend Improvements for Future Phases
+## Frontend Roadmap for Phase 2: Computer Vision & Star Detection
 
-1. **Environment Configuration:**
-   - Migrate hardcoded `BASE_URL` to Expo environment variables (`process.env.EXPO_PUBLIC_API_URL`) to seamlessly support physical mobile testing over LAN or production backends.
-2. **Custom Hooks Extraction:**
-   - Extract `useVisibleStars(lat, lon)` into `src/hooks/` to further separate data-fetching lifecycle from `App.tsx` presentation.
-3. **Debug Celestial Dome (Step 10):**
-   - Implement a 2D polar/radar canvas rendering stars positioned by Altitude (radius from zenith) and Azimuth (angle from North).
+1. **Camera Stream Integration (Phase 2):**
+   - Integrate high-frame-rate camera stream (`expo-camera` or VisionCamera) for night-sky frame acquisition.
+2. **Camera Frame Overlay Canvas:**
+   - Layer canvas / graphics primitives over live camera frames for star candidate highlighting.
+3. **Custom Hooks Extraction:**
+   - Extract `useVisibleStars(lat, lon)` into `src/hooks/` to further decouple data-fetching lifecycle from `App.tsx` presentation.
