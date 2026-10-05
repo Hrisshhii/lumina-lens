@@ -20,7 +20,9 @@ research/
 │       ├── step-6: hipparcos catalog integration.md
 │       ├── step-7: connect mobile app to visible stars api.md
 │       ├── step-8: star identity & metadata.md
-│       └── step-9: sensor engine.md
+│       ├── step-9: sensor engine.md
+│       ├── step-10: debug sky visualization.md
+│       └── step-11: astronomical prediction verification.md
 ├── Backend-Architecture-analysis.md # Detailed backend subsystem analysis
 ├── Frontend-Architecture-analysis.md # Detailed frontend subsystem analysis
 └── Frontend-Bankend-comms-analysis.md # API contracts & integration analysis
@@ -60,12 +62,15 @@ Read [notes/Phase-0.md](notes/Phase-0.md) for in-depth coverage of:
 
 ---
 
-## 🚀 Phase 1 Implementation Logs
+## 🚀 Phase 1 Implementation Logs (Completed ✅)
 
-Read [notes/Phase-1/README.md](notes/Phase-1/README.md) for the active engineering progression:
+Read [notes/Phase-1/README.md](notes/Phase-1/README.md) for the complete engineering logs:
 - **Steps 1–4:** React Native / Expo foundation and cross-platform setup.
 - **Steps 5–6:** Astronomy Engine with Skyfield, JPL `de421.bsp`, and vectorized Hipparcos catalog computation.
 - **Step 7:** Mobile client connection to `/sky/visible` with dark-sky theme UI.
 - **Step 8:** Star Identity & Metadata layer (`/stars/{hip_id}`, `StarService`, and `StarDetailModal`).
 - **Step 9:** Sensor Engine (`expo-location` GPS coordinates and `expo-sensors` real-time Orientation HUD).
-- **Steps 10–11 (Next):** Debug sky visualization and ephemeris prediction verification.
+- **Step 10:** Debug sky visualization (`SkyDomeView.tsx` 2D celestial radar / dome view with orientation reticle).
+- **Step 11:** Astronomical prediction verification (multi-observer verification test runner `verify_astronomy.py`).
+
+**Status:** Phase 1 Complete ✅. Transitioning to **Phase 2: Computer Vision & Star Detection**.
