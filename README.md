@@ -6,9 +6,9 @@ Lumina Lens is an open-source, AI-powered astronomy application that identifies 
 
 ---
 
-## 🚀 Project Status: Phase 1 (Foundation & Sky Prediction)
+## 🚀 Project Status: Phase 1 (Foundation & Sky Prediction) — Completed ✅
 
-We are actively building **Phase 1: Foundation & Sky Prediction**.
+**Phase 1: Foundation & Sky Prediction** is complete and fully verified. We are transitioning to **Phase 2: Computer Vision & Star Detection**.
 
 - [x] **Step 1:** Git repository & project foundation
 - [x] **Step 2:** React Native / Expo mobile application setup
@@ -19,23 +19,31 @@ We are actively building **Phase 1: Foundation & Sky Prediction**.
 - [x] **Step 7:** Mobile app connected to `/sky/visible` endpoint
 - [x] **Step 8:** Star Identity & Metadata Layer (`/stars/{hip_id}` + `StarDetailModal`)
 - [x] **Step 9:** Sensor Engine (Live device GPS location + Real-time Orientation HUD)
-- [ ] **Step 10:** Debug Sky Visualization (2D celestial dome / radar map)
-- [ ] **Step 11:** Astronomical Prediction Verification & Cross-check
+- [x] **Step 10:** Debug Sky Visualization (2D celestial dome / radar map `SkyDomeView.tsx`)
+- [x] **Step 11:** Astronomical Prediction Verification & Cross-check (`verify_astronomy.py`)
 
 ---
 
 ## 🌟 Key Features Implemented
 
+- 🌌 **2D Celestial Radar Dome:** An interactive planisphere (`SkyDomeView.tsx`) mapping local $(\text{Alt}, \text{Az})$ topocentric coordinates to a polar projection:
+  - Zenith ($90^\circ$ Alt) at center; Horizon ($0^\circ$ Alt) at perimeter.
+  - $30^\circ$ and $60^\circ$ dashed altitude guide rings with cardinal crosshairs ($\text{N, E, S, W}$).
+  - Magnitude-scaled star dots ($2.5\text{px}$ to $8\text{px}$) with glowing aura halos for bright navigation stars ($V < 1.5$).
+  - Live phone aim reticle that projects the device's physical orientation vector directly onto the celestial dome.
+  - Category filters: *All*, *Named Stars*, *Mag $\le 2.5$*, and *Mag $\le 4.0$*.
+- 🔀 **Segmented View Mode Switcher:** Switch seamlessly between the interactive **Celestial Dome** radar view and the ranked **Star List** view.
 - 📍 **Live Device Geolocation:** Automatically requests GPS permissions via `expo-location` and calculates sky predictions for the user's exact latitude and longitude on Earth, with graceful fallback to default coordinates.
 - 🧭 **Real-Time Orientation HUD:** Tracks device heading (azimuth 0°–360° via magnetometer) and tilt elevation (altitude 0°–90° via accelerometer) with angular smoothing filters, displaying live phone orientation and sky aim status.
 - ⭐ **Real-Time Visible Star Prediction:** Vectorized ephemeris calculations via Skyfield and the Hipparcos catalog compute local topocentric coordinates (Altitude & Azimuth) for thousands of stars in milliseconds.
-- 🔍 **Interactive Star Profiles:** Tapping any star in the visible star list opens the `StarDetailModal`, presenting detailed astrophysical metadata:
+- 🔍 **Interactive Star Profiles:** Tapping any star in the dome or list opens the `StarDetailModal`, presenting detailed astrophysical metadata:
   - Common & scientific names (Bayer & Flamsteed designations)
   - Constellation membership
   - Apparent visual magnitude & spectral classification
   - Distance in light-years (calculated from trigonometric parallax)
   - Astrometric coordinates (Right Ascension, Declination, Proper Motion)
   - Scientific descriptions for prominent navigation stars
+- 🎯 **Automated Astronomical Verification Suite:** Dedicated test runner (`backend/verify_astronomy.py`) cross-verifying polar alignment invariance (Polaris), horizon filtering ($\text{Alt} \ge 0^\circ$), hemispheric divergence (Alpha Centauri), and Hipparcos metadata across four global observer locations.
 - 🔄 **Pull-to-Refresh:** Refreshes GPS coordinates and recalculates the dynamic sky as time moves forward.
 
 ---
