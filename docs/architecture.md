@@ -70,7 +70,8 @@ Topocentric Stars List       Star Profile (DTO)       │
 ════════════════╪═══════════════════╪═════════════════╪══════════════════════
                 ▼                   ▼                 │
          [App UI Presentation & State] ◄──────────────┘
-            (app/App.tsx FlatList + Badges)
+            (app/App.tsx Switcher, HUD & List)
+            (app/src/components/SkyDomeView.tsx)
             (app/src/components/StarDetailModal.tsx)
 ```
 
@@ -80,14 +81,21 @@ Topocentric Stars List       Star Profile (DTO)       │
 
 ### 3.1 Mobile Client Subsystems (`app/`)
 
-#### A. Presentation Layer (`app/App.tsx`, `StarDetailModal.tsx`)
+#### A. Presentation Layer (`app/App.tsx`, `SkyDomeView.tsx`, `StarDetailModal.tsx`)
 - **`App.tsx`**: Central application component that coordinates:
   - Observer state: holds live `location` and `isLiveLocation` flag.
   - Heading and tilt: consumes `useDeviceOrientation()`.
   - Sky data fetching: runs `fetchStars` on initial load and pull-to-refresh (`handleRefresh`).
   - Orientation HUD: displays live compass heading (e.g. `248° WSW`), elevation pitch (`45°`), and aim status (`🌌 Sky` when pitch > 20°, otherwise `🔭 Horizon`).
   - Coordinate badge: renders `[Live GPS]` in emerald green or `[Default]` in amber.
+  - View mode switcher: allows instant toggling between **`🌌 Celestial Dome`** (2D radar) and **`📋 Star List`** (ranked flat list).
   - Star list: renders brightness-ranked cards with altitude, azimuth, compass direction, magnitude, and prominent star name highlights.
+- **`SkyDomeView.tsx`**: Interactive 2D celestial radar / dome component:
+  - Transforms topocentric $(\text{Alt}, \text{Az})$ to polar screen coordinates (Zenith at center, Horizon at circular perimeter).
+  - Renders $30^\circ$ and $60^\circ$ altitude dashed reference rings, cardinal crosshair axes, and cardinal direction labels ($\text{N, E, S, W}$).
+  - Dynamically scales star points by apparent magnitude ($2.5\text{px}$ to $8\text{px}$) with glowing halo auras for prominent objects ($V < 1.5$).
+  - Overlays a live device `AIM` reticle tracking physical phone pointing angle in real time.
+  - Provides category filter chips (*All*, *Named Stars*, *Mag $\le 2.5$*, *Mag $\le 4.0$*) and interactive touch targets opening star profiles.
 - **`StarDetailModal.tsx`**: Bottom-sheet modal displaying full astrophysical information for any tapped star:
   - Identification: Primary name, Bayer designation, Flamsteed number, constellation, alternate names.
   - Badges: Catalog HIP ID, apparent magnitude.
@@ -111,7 +119,8 @@ Topocentric Stars List       Star Profile (DTO)       │
 - **`index.ts`**: Clean barrel file exposing all sensor APIs.
 
 #### C. API Communication Layer (`app/src/services/api.ts`)
-- Configures platform-aware `BASE_URL`:
+- Configures environment-aware `BASE_URL`:
+  - `process.env.EXPO_PUBLIC_API_URL` (for physical device testing over LAN / staging)
   - Android Emulator: `http://10.0.2.2:8000`
   - iOS Simulator / Web: `http://localhost:8000`
 - Provides strongly typed async client functions:
@@ -202,7 +211,8 @@ User Device                Mobile App              FastAPI Backend         Astro
 
 | Subsystem | File Path | Primary Responsibility |
 |:---|:---|:---|
-| **Frontend** | `app/App.tsx` | Root screen, state orchestration, GPS badge, Orientation HUD, pull-to-refresh, star card list. |
+| **Frontend** | `app/App.tsx` | Root screen, state orchestration, GPS badge, Orientation HUD, view switcher, pull-to-refresh, star card list. |
+| **Frontend** | `app/src/components/SkyDomeView.tsx` | 2D celestial radar / dome view with polar Alt/Az projection, magnitude dot scaling, filter chips, and device aim reticle. |
 | **Frontend** | `app/src/components/StarDetailModal.tsx` | Slide-up modal displaying detailed astrophysical profile and descriptions. |
 | **Frontend** | `app/src/engines/sensor/location.ts` | Requests location permissions and retrieves device latitude, longitude, and altitude. |
 | **Frontend** | `app/src/engines/sensor/orientation.ts` | Custom hook consuming magnetometer and accelerometer with angular filtering. |
@@ -214,6 +224,7 @@ User Device                Mobile App              FastAPI Backend         Astro
 | **Backend** | `backend/app/engines/astronomy/astronomy_engine.py` | Vectorized ephemeris calculations, topocentric alt/az transforms, horizon filtering. |
 | **Backend** | `backend/app/services/star_service.py` | Hipparcos row resolution, parallax-distance computation, enriched scientific data. |
 | **Backend** | `backend/app/models/star.py` | Pydantic data schemas defining the contract for star profiles. |
+| **Backend** | `backend/verify_astronomy.py` | Multi-observer astronomical verification runner cross-verifying Polaris, horizon filtering, hemispheric divergence, and metadata. |
 
 ---
 
