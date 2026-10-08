@@ -66,3 +66,4 @@ Update the top-level segmented control in `App.tsx` to include three view modes:
    - Verify TypeScript compilation (`npx tsc --noEmit`).
    - Verify bundle export for web (`npx expo export --platform web`).
    - Verify bundle export for Android (`npx expo export --platform android`).
+
