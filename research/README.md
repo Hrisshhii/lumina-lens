@@ -23,6 +23,9 @@ research/
 │       ├── step-9: sensor engine.md
 │       ├── step-10: debug sky visualization.md
 │       └── step-11: astronomical prediction verification.md
+│   └── Phase-2/                    # Computer Vision & Star Detection logs
+│       ├── README.md               # Phase 2 master overview & vision pipeline
+│       └── step-1: camera integration.md
 ├── Backend-Architecture-analysis.md # Detailed backend subsystem analysis
 ├── Frontend-Architecture-analysis.md # Detailed frontend subsystem analysis
 └── Frontend-Bankend-comms-analysis.md # API contracts & integration analysis
