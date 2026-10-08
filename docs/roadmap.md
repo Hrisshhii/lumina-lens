@@ -49,17 +49,16 @@ This document outlines the multi-phase journey of **Lumina Lens**, from initial 
 
 ---
 
-## Phase 2: Computer Vision & Star Detection (Planned ⏳)
+## Phase 2: Computer Vision & Star Detection (Current Phase 🔄)
 
 **Objective:** Capture live camera frames, eliminate background noise, and accurately extract sub-pixel $(x, y)$ coordinates of visible stars.
 
-- [ ] Mobile camera integration with high-frame-rate streaming.
-- [ ] Grayscale conversion and dynamic contrast normalization.
-- [ ] Background noise reduction (Gaussian blur / median filtering).
-- [ ] Adaptive luminance thresholding to isolate point-light sources.
-- [ ] Connected-component labeling / blob detection.
-- [ ] Sub-pixel centroid calculation using intensity-weighted centers of mass.
-- [ ] Cloud, satellite, and aircraft filtering.
+- [ ] **Step 1: Camera Access & Live Viewfinder:** Mobile camera integration with high-frame-rate streaming and low-light configuration (`expo-camera`).
+- [ ] **Step 2: Night-Sky Frame Acquisition & Resolution Configuration:** Manage aspect ratios, frame buffers, and capture parameters.
+- [ ] **Step 3: Image Preprocessing:** Grayscale conversion and background noise reduction (Gaussian blur / median filtering).
+- [ ] **Step 4: Background Estimation & Adaptive Thresholding:** Dynamic sky gradient estimation and adaptive luminance thresholding.
+- [ ] **Step 5: Star Blob Detection & Centroid Extraction:** Connected-component labeling and intensity-weighted center-of-mass sub-pixel centroid calculation.
+- [ ] **Step 6: Star Candidate Debug Overlay & Verification:** Real-time reticle circles and intensity badges overlay on live viewfinder to verify extraction accuracy.
 
 ---
 
