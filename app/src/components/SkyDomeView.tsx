@@ -73,11 +73,7 @@ export default function SkyDomeView({
   }, [orientation.available, orientation.altitude, orientation.azimuth, usableRadius, center]);
 
   return (
-    <ScrollView
-      className="flex-1"
-      contentContainerClassName="items-center px-4 py-3"
-      showsVerticalScrollIndicator={false}
-    >
+    <ScrollView className="flex-1" contentContainerClassName="items-center px-4 py-3" showsVerticalScrollIndicator={false}>
       {/* Filter Chips Bar */}
       <View className="flex-row gap-2 mb-4 flex-wrap justify-center">
         <TouchableOpacity

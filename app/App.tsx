@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import {Text,View,FlatList,ActivityIndicator,TouchableOpacity,RefreshControl,SafeAreaView,} from "react-native";
 import { StatusBar } from "expo-status-bar";
-
+import "./global.css";
 import {getVisibleStars,getStarByHip,Star,StarProfile,VisibleStarsResponse,} from "./src/services/api";
 import StarDetailModal from "./src/components/StarDetailModal";
 import SkyDomeView from "./src/components/SkyDomeView";
