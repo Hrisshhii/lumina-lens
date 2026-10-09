@@ -1,5 +1,5 @@
 import React from "react";
-import {ActivityIndicator,Pressable,ScrollView,Text,TouchableOpacity,View,} from "react-native";
+import {ActivityIndicator,Pressable,ScrollView,Text,TouchableOpacity,View} from "react-native";
 import type { StarProfile } from "../services/api";
 
 interface StarDetailModalProps {
@@ -11,234 +11,294 @@ interface StarDetailModalProps {
   onRetry: () => void;
 }
 
-function DetailRow({ label, value }: { label: string; value: string }) {
+function DetailRow({label,value,}: {
+  label: string;
+  value: string;
+}) {
   return (
-    <View style={{ flexDirection: "row", justifyContent: "space-between", paddingVertical: 6, borderBottomWidth: 1, borderBottomColor: "#1e293b" }}>
-      <Text style={{ fontSize: 12, color: "#94a3b8", flexShrink: 1, marginRight: 12 }}>{label}</Text>
-      <Text style={{ fontSize: 12, color: "#e2e8f0", fontWeight: "600", textAlign: "right", flexShrink: 1 }}>{value}</Text>
+    <View className="flex-row justify-between border-b border-cosmos-border py-1.5">
+      <Text className="mr-3 shrink text-xs text-slate-400">
+        {label}
+      </Text>
+
+      <Text className="shrink text-right text-xs font-semibold text-slate-200">
+        {value}
+      </Text>
     </View>
   );
 }
 
-// Star identity & metadata modal (Step 8).
-// Uses a custom absolute-positioned overlay instead of React Native's <Modal>
-// because <Modal> renders inline on web rather than as a proper floating overlay.
+function SectionCard({ children }: { children: React.ReactNode }) {
+  return (
+    <View className="rounded-xl border border-cosmos-border bg-cosmos-hud p-3.5">
+      {children}
+    </View>
+  );
+}
+
+function SectionTitle({ children }: { children: React.ReactNode }) {
+  return (
+    <Text className="mb-2 text-[11px] font-semibold uppercase tracking-widest text-slate-500">
+      {children}
+    </Text>
+  );
+}
+
+// Star identity and metadata bottom sheet.
 export default function StarDetailModal({visible,loading,error,profile,onClose,onRetry,}: StarDetailModalProps) {
   if (!visible) return null;
 
   const displayName = profile?.primary_name?.trim() || `HIP ${profile?.hip_id ?? ""}`;
   const alternateNames = profile?.alternate_names ?? [];
+
   const hasIdentity = !!(
     profile?.bayer_designation ||
     profile?.flamsteed_designation ||
     profile?.constellation ||
     alternateNames.length > 0
   );
+
   const hasAstrometry =
     profile?.right_ascension_hours != null ||
     profile?.declination_degrees != null ||
     profile?.parallax_mas != null ||
     profile?.proper_motion_ra_mas != null ||
     profile?.proper_motion_dec_mas != null;
+
   const hasPhysical =
     profile?.magnitude != null ||
     !!profile?.spectral_type ||
     profile?.distance_light_years != null;
+
   const hasDescription = !!profile?.description;
-  const hasAnyMetadata = hasIdentity || hasAstrometry || hasPhysical || hasDescription;
-
-  const sectionCardStyle = {
-    backgroundColor: "#0f172a",
-    borderRadius: 12,
-    padding: 14,
-    borderWidth: 1,
-    borderColor: "#1e293b",
-  } as const;
-
-  const sectionTitleStyle = {
-    fontSize: 11,
-    color: "#64748b",
-    textTransform: "uppercase" as const,
-    letterSpacing: 1,
-    marginBottom: 8,
-    fontWeight: "600" as const,
-  };
+  const hasAnyMetadata =
+    hasIdentity || hasAstrometry || hasPhysical || hasDescription;
 
   return (
-    <View
-      style={{
-        position: "absolute",
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        zIndex: 9999,
-        elevation: 50,
-      }}
-    >
-      {/* Backdrop — tapping dismisses */}
-      <Pressable
-        onPress={onClose}
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundColor: "rgba(2, 6, 23, 0.80)",
-        }}
+    <View className="absolute inset-0 z-[9999]" style={{ elevation: 50 }}>
+      {/* Backdrop */}
+      <Pressable onPress={onClose}
+        className="absolute inset-0 bg-slate-950/80"
+        accessibilityRole="button"
+        accessibilityLabel="Close star details"
       />
 
-      {/* Bottom Sheet Container */}
-      <View
-        style={{
-          position: "absolute",
-          bottom: 0,
-          left: 0,
-          right: 0,
-          maxHeight: "88%",
-          backgroundColor: "#0d1527",
-          borderTopLeftRadius: 24,
-          borderTopRightRadius: 24,
-          borderWidth: 1,
-          borderColor: "#1e293b",
-          borderBottomWidth: 0,
-          overflow: "hidden",
-        }}
-      >
-        {/* Drag Handle */}
-        <View style={{ alignItems: "center", paddingTop: 8, paddingBottom: 4 }}>
-          <View style={{ width: 36, height: 4, borderRadius: 2, backgroundColor: "#334155" }} />
+      {/* Bottom sheet */}
+      <View className="absolute bottom-0 left-0 right-0 max-h-[88%] overflow-hidden rounded-t-3xl border border-b-0 border-cosmos-border bg-cosmos-card">
+        {/* Drag handle */}
+        <View className="items-center pb-1 pt-2">
+          <View className="h-1 w-9 rounded-full bg-slate-700" />
         </View>
 
         {/* Header */}
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
-            paddingHorizontal: 20,
-            paddingTop: 8,
-            paddingBottom: 12,
-            borderBottomWidth: 1,
-            borderBottomColor: "#1e293b",
-          }}
-        >
-          <View style={{ flex: 1, marginRight: 12 }}>
-            <Text style={{ fontSize: 22, fontWeight: "700", color: "#f8fafc" }} numberOfLines={1}>
+        <View className="flex-row items-center justify-between border-b border-cosmos-border px-5 pb-3 pt-2">
+          <View className="mr-3 flex-1">
+            <Text
+              className="text-[22px] font-bold text-slate-50"
+              numberOfLines={1}
+            >
               {loading || error ? "Star Details" : displayName}
             </Text>
+
             {!loading && !error && profile?.constellation ? (
-              <Text style={{ fontSize: 12, color: "#94a3b8", marginTop: 2 }}>{profile.constellation}</Text>
+              <Text className="mt-0.5 text-xs text-slate-400">
+                {profile.constellation}
+              </Text>
             ) : null}
           </View>
-          <TouchableOpacity
-            onPress={onClose}
+
+          <TouchableOpacity onPress={onClose}
             hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-            style={{
-              width: 32,
-              height: 32,
-              borderRadius: 16,
-              backgroundColor: "#1e293b",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
+            className="h-8 w-8 items-center justify-center rounded-full bg-slate-800"
+            accessibilityRole="button"
+            accessibilityLabel="Close"
           >
-            <Text style={{ color: "#94a3b8", fontSize: 16, fontWeight: "600" }}>✕</Text>
+            <Text className="text-base font-semibold text-slate-400">
+              ✕
+            </Text>
           </TouchableOpacity>
         </View>
 
-        {/* Body */}
+        {/* Loading state */}
         {loading ? (
-          <View style={{ padding: 32, alignItems: "center" }}>
+          <View className="items-center p-8">
             <ActivityIndicator size="large" color="#60a5fa" />
-            <Text style={{ marginTop: 12, fontSize: 14, color: "#94a3b8", textAlign: "center" }}>
+
+            <Text className="mt-3 text-center text-sm text-slate-400">
               Fetching star profile…
             </Text>
           </View>
         ) : error ? (
-          <View style={{ padding: 32, alignItems: "center" }}>
-            <Text style={{ fontSize: 36, marginBottom: 8 }}>⚠️</Text>
-            <Text style={{ fontSize: 17, fontWeight: "600", color: "#f87171", marginBottom: 6 }}>
+          /* Error state */
+          <View className="items-center p-8">
+            <Text className="mb-2 text-4xl">⚠️</Text>
+
+            <Text className="mb-1.5 text-[17px] font-semibold text-red-400">
               Couldn't load this star
             </Text>
-            <Text style={{ fontSize: 12, color: "#94a3b8", textAlign: "center", marginBottom: 16 }}>{error}</Text>
-            <View style={{ flexDirection: "row", gap: 12 }}>
+
+            <Text className="mb-4 text-center text-xs text-slate-400">
+              {error}
+            </Text>
+
+            <View className="flex-row gap-3">
               <TouchableOpacity
-                style={{ backgroundColor: "#1e293b", paddingHorizontal: 20, paddingVertical: 10, borderRadius: 8 }}
+                className="rounded-lg bg-slate-800 px-5 py-2.5"
                 onPress={onRetry}
               >
-                <Text style={{ color: "#e2e8f0", fontWeight: "600", fontSize: 14 }}>Retry</Text>
+                <Text className="text-sm font-semibold text-slate-200">
+                  Retry
+                </Text>
               </TouchableOpacity>
+
               <TouchableOpacity
-                style={{ backgroundColor: "#2563eb", paddingHorizontal: 20, paddingVertical: 10, borderRadius: 8 }}
+                className="rounded-lg bg-blue-600 px-5 py-2.5"
                 onPress={onClose}
               >
-                <Text style={{ color: "#ffffff", fontWeight: "600", fontSize: 14 }}>Close</Text>
+                <Text className="text-sm font-semibold text-white">
+                  Close
+                </Text>
               </TouchableOpacity>
             </View>
           </View>
         ) : profile ? (
+          /* Star profile */
           <ScrollView
-            style={{ flex: 1 }}
-            contentContainerStyle={{ padding: 20, paddingBottom: 32, gap: 16 }}
+            className="flex-1"
+            contentContainerClassName="gap-4 p-5 pb-8"
+            showsVerticalScrollIndicator={false}
           >
-            <View style={{ flexDirection: "row", gap: 8 }}>
-              <Text style={{ fontSize: 11, color: "#94a3b8", backgroundColor: "#1e293b", paddingHorizontal: 8, paddingVertical: 2, borderRadius: 4, overflow: "hidden", fontWeight: "500" }}>
+            {/* Catalog badges */}
+            <View className="flex-row flex-wrap gap-2">
+              <Text className="overflow-hidden rounded bg-slate-800 px-2 py-0.5 text-[11px] font-medium text-slate-400">
                 HIP {profile.hip_id}
               </Text>
+
               {profile.magnitude != null ? (
-                <Text style={{ fontSize: 11, color: "#38bdf8", backgroundColor: "#1e293b", paddingHorizontal: 8, paddingVertical: 2, borderRadius: 4, overflow: "hidden", fontWeight: "600" }}>
+                <Text className="overflow-hidden rounded bg-slate-800 px-2 py-0.5 text-[11px] font-semibold text-sky-400">
                   Mag {profile.magnitude.toFixed(2)}
                 </Text>
               ) : null}
             </View>
 
             {alternateNames.length > 0 ? (
-              <Text style={{ fontSize: 12, color: "#94a3b8", fontStyle: "italic" }}>
+              <Text className="text-xs italic text-slate-400">
                 Also known as: {alternateNames.join(", ")}
               </Text>
             ) : null}
 
+            {/* Identity */}
             {hasIdentity ? (
-              <View style={sectionCardStyle}>
-                <Text style={sectionTitleStyle}>Identity</Text>
-                {profile.bayer_designation ? <DetailRow label="Bayer designation" value={profile.bayer_designation} /> : null}
-                {profile.flamsteed_designation ? <DetailRow label="Flamsteed designation" value={profile.flamsteed_designation} /> : null}
-                {profile.constellation ? <DetailRow label="Constellation" value={profile.constellation} /> : null}
-              </View>
+              <SectionCard>
+                <SectionTitle>Identity</SectionTitle>
+
+                {profile.bayer_designation ? (
+                  <DetailRow
+                    label="Bayer designation"
+                    value={profile.bayer_designation}
+                  />
+                ) : null}
+
+                {profile.flamsteed_designation ? (
+                  <DetailRow
+                    label="Flamsteed designation"
+                    value={profile.flamsteed_designation}
+                  />
+                ) : null}
+
+                {profile.constellation ? (
+                  <DetailRow
+                    label="Constellation"
+                    value={profile.constellation}
+                  />
+                ) : null}
+              </SectionCard>
             ) : null}
 
+            {/* Catalog position */}
             {hasAstrometry ? (
-              <View style={sectionCardStyle}>
-                <Text style={sectionTitleStyle}>Catalog Position</Text>
-                {profile.right_ascension_hours != null ? <DetailRow label="Right ascension" value={`${profile.right_ascension_hours.toFixed(3)} h`} /> : null}
-                {profile.declination_degrees != null ? <DetailRow label="Declination" value={`${profile.declination_degrees.toFixed(3)}°`} /> : null}
-                {profile.parallax_mas != null ? <DetailRow label="Parallax" value={`${profile.parallax_mas.toFixed(2)} mas`} /> : null}
-                {profile.proper_motion_ra_mas != null ? <DetailRow label="Proper motion (RA)" value={`${profile.proper_motion_ra_mas.toFixed(2)} mas/yr`} /> : null}
-                {profile.proper_motion_dec_mas != null ? <DetailRow label="Proper motion (Dec)" value={`${profile.proper_motion_dec_mas.toFixed(2)} mas/yr`} /> : null}
-              </View>
+              <SectionCard>
+                <SectionTitle>Catalog Position</SectionTitle>
+
+                {profile.right_ascension_hours != null ? (
+                  <DetailRow
+                    label="Right ascension"
+                    value={`${profile.right_ascension_hours.toFixed(3)} h`}
+                  />
+                ) : null}
+
+                {profile.declination_degrees != null ? (
+                  <DetailRow
+                    label="Declination"
+                    value={`${profile.declination_degrees.toFixed(3)}°`}
+                  />
+                ) : null}
+
+                {profile.parallax_mas != null ? (
+                  <DetailRow
+                    label="Parallax"
+                    value={`${profile.parallax_mas.toFixed(2)} mas`}
+                  />
+                ) : null}
+
+                {profile.proper_motion_ra_mas != null ? (
+                  <DetailRow
+                    label="Proper motion (RA)"
+                    value={`${profile.proper_motion_ra_mas.toFixed(2)} mas/yr`}
+                  />
+                ) : null}
+
+                {profile.proper_motion_dec_mas != null ? (
+                  <DetailRow
+                    label="Proper motion (Dec)"
+                    value={`${profile.proper_motion_dec_mas.toFixed(2)} mas/yr`}
+                  />
+                ) : null}
+              </SectionCard>
             ) : null}
 
+            {/* Physical properties */}
             {hasPhysical ? (
-              <View style={sectionCardStyle}>
-                <Text style={sectionTitleStyle}>Physical Properties</Text>
-                {profile.magnitude != null ? <DetailRow label="Apparent magnitude" value={profile.magnitude.toFixed(2)} /> : null}
-                {profile.spectral_type ? <DetailRow label="Spectral type" value={profile.spectral_type} /> : null}
-                {profile.distance_light_years != null ? <DetailRow label="Distance" value={`${profile.distance_light_years.toFixed(1)} light-years`} /> : null}
-              </View>
+              <SectionCard>
+                <SectionTitle>Physical Properties</SectionTitle>
+
+                {profile.magnitude != null ? (
+                  <DetailRow
+                    label="Apparent magnitude"
+                    value={profile.magnitude.toFixed(2)}
+                  />
+                ) : null}
+
+                {profile.spectral_type ? (
+                  <DetailRow
+                    label="Spectral type"
+                    value={profile.spectral_type}
+                  />
+                ) : null}
+
+                {profile.distance_light_years != null ? (
+                  <DetailRow
+                    label="Distance"
+                    value={`${profile.distance_light_years.toFixed(1)} light-years`}
+                  />
+                ) : null}
+              </SectionCard>
             ) : null}
 
+            {/* Description */}
             {hasDescription ? (
-              <View style={sectionCardStyle}>
-                <Text style={sectionTitleStyle}>About</Text>
-                <Text style={{ fontSize: 12, color: "#cbd5e1", lineHeight: 20 }}>{profile.description}</Text>
-              </View>
+              <SectionCard>
+                <SectionTitle>About</SectionTitle>
+
+                <Text className="text-xs leading-5 text-slate-300">
+                  {profile.description}
+                </Text>
+              </SectionCard>
             ) : null}
 
             {!hasAnyMetadata ? (
-              <View style={{ padding: 32, alignItems: "center" }}>
-                <Text style={{ fontSize: 14, color: "#94a3b8", textAlign: "center" }}>
+              <View className="items-center p-8">
+                <Text className="text-center text-sm text-slate-400">
                   Only basic catalog data is available for this star.
                 </Text>
               </View>
