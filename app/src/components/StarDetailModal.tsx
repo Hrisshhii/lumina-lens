@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  ActivityIndicator,
-  Pressable,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import {ActivityIndicator,Pressable,ScrollView,Text,TouchableOpacity,View,} from "react-native";
 import type { StarProfile } from "../services/api";
 
 interface StarDetailModalProps {
@@ -30,14 +23,7 @@ function DetailRow({ label, value }: { label: string; value: string }) {
 // Star identity & metadata modal (Step 8).
 // Uses a custom absolute-positioned overlay instead of React Native's <Modal>
 // because <Modal> renders inline on web rather than as a proper floating overlay.
-export default function StarDetailModal({
-  visible,
-  loading,
-  error,
-  profile,
-  onClose,
-  onRetry,
-}: StarDetailModalProps) {
+export default function StarDetailModal({visible,loading,error,profile,onClose,onRetry,}: StarDetailModalProps) {
   if (!visible) return null;
 
   const displayName = profile?.primary_name?.trim() || `HIP ${profile?.hip_id ?? ""}`;
