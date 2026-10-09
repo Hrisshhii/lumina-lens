@@ -3,7 +3,7 @@
 @import "tailwindcss/utilities.css";
 @import "nativewind/theme";
 
-:root {
+@theme {
   --color-cosmos-bg: #070b14;
   --color-cosmos-card: #0d1527;
   --color-cosmos-hud: #0f172a;
