@@ -11,7 +11,7 @@ In Phase 1, we calculated where stars *should* be theoretically based on GPS coo
 
 ## Phase 2 Plan
 
-1. [ ] **Step 1: Camera Access & Live Viewfinder:** Integrate `expo-camera`, configure camera hardware permissions, and build a full-screen live viewfinder with low-light/night-sky camera settings.
+1. [x] **Step 1: Camera Access & Live Viewfinder:** Integrate `expo-camera`, configure camera hardware permissions, and build a full-screen live viewfinder with low-light/night-sky camera settings and cross-platform web support.
 2. [ ] **Step 2: Night-Sky Frame Acquisition & Resolution Configuration:** Capture high-resolution frames, manage aspect ratios, and format raw pixel buffers for real-time analysis.
 3. [ ] **Step 3: Image Preprocessing (Grayscale & Noise Reduction):** Convert color frames to single-channel luminance and apply spatial filters (Gaussian / median blur) to suppress sensor thermal noise and dead pixels.
 4. [ ] **Step 4: Background Estimation & Adaptive Luminance Thresholding:** Dynamically estimate local sky background gradients (light pollution, moon glow) and apply adaptive thresholding ($T = \mu + k\sigma$) to isolate point-light sources.
