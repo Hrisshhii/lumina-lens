@@ -506,7 +506,7 @@ export default function SkyDomeView({
 
       {/* Dome Map Legend & Observer Guidelines */}
       <View className="mt-4 w-full bg-[#0d1527] rounded-xl p-3 border border-[#1e293b]">
-        <View className="flex-row justify-between items-center mb-2">
+        <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
           <Text className="text-xs font-semibold text-slate-300">
             Celestial Radar Guide
           </Text>
@@ -515,16 +515,16 @@ export default function SkyDomeView({
           </Text>
         </View>
 
-        <View className="flex-row justify-around py-1.5 border-t border-[#1e293b]/60">
-          <View className="flex-row items-center gap-1.5">
+        <View style={{ flexDirection: "row", justifyContent: "space-around", paddingVertical: 6, borderTopWidth: 1, borderTopColor: "rgba(30, 41, 59, 0.6)" }}>
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
             <View className="w-2.5 h-2.5 rounded-full bg-white" />
             <Text className="text-[10px] text-slate-400">Bright (Mag &lt; 1.5)</Text>
           </View>
-          <View className="flex-row items-center gap-1.5">
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
             <View className="w-1.5 h-1.5 rounded-full bg-slate-300" />
             <Text className="text-[10px] text-slate-400">Mid (Mag &lt; 3.5)</Text>
           </View>
-          <View className="flex-row items-center gap-1.5">
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
             <View className="w-1 h-1 rounded-full bg-slate-500" />
             <Text className="text-[10px] text-slate-400">Faint (&ge; 3.5)</Text>
           </View>
