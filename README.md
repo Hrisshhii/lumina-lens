@@ -6,33 +6,33 @@ Lumina Lens is an open-source, AI-powered astronomy application that identifies 
 
 ---
 
-## 🚀 Project Status: Phase 1 (Foundation & Sky Prediction) — Completed ✅
+## 🚀 Project Status: Phase 2 (Computer Vision & Star Detection) — In Progress 🔄
 
-**Phase 1: Foundation & Sky Prediction** is complete and fully verified. We are transitioning to **Phase 2: Computer Vision & Star Detection**.
+Phase 1 (Foundation & Sky Prediction) is **100% complete and verified**. Phase 2 (Computer Vision) is actively under development:
 
-- [x] **Step 1:** Git repository & project foundation
-- [x] **Step 2:** React Native / Expo mobile application setup
-- [x] **Step 3:** Metro development server configured
-- [x] **Step 4:** Cross-platform web support enabled
-- [x] **Step 5:** Astronomy Engine v1 (Skyfield, JPL ephemeris `de421.bsp`)
-- [x] **Step 6:** Hipparcos catalog integration (~5,000 naked-eye stars)
-- [x] **Step 7:** Mobile app connected to `/sky/visible` endpoint
-- [x] **Step 8:** Star Identity & Metadata Layer (`/stars/{hip_id}` + `StarDetailModal`)
-- [x] **Step 9:** Sensor Engine (Live device GPS location + Real-time Orientation HUD)
-- [x] **Step 10:** Debug Sky Visualization (2D celestial dome / radar map `SkyDomeView.tsx`)
-- [x] **Step 11:** Astronomical Prediction Verification & Cross-check (`verify_astronomy.py`)
+### Phase 1: Foundation & Sky Prediction (Completed ✅)
+- [x] Steps 1–11: Astronomy Engine, Hipparcos Catalog, Sensor Engine, Celestial Dome Radar, Star Detail Modal, and Multi-Observer Verification.
+
+### Phase 2: Computer Vision & Star Detection (Current 🔄)
+- [x] **Step 1:** Camera Access & Live Viewfinder (`expo-camera`, night-sky viewfinder `CameraViewfinder.tsx`, dark vision red mode, and 3-way view switcher).
+- [ ] **Step 2:** Night-Sky Frame Acquisition & Resolution Configuration.
+- [ ] **Step 3:** Image Preprocessing (grayscale luminance conversion & noise filters).
+- [ ] **Step 4:** Background Estimation & Adaptive Luminance Thresholding.
+- [ ] **Step 5:** Star Blob Detection & Sub-Pixel Centroid Extraction.
+- [ ] **Step 6:** Star Candidate Debug Overlay & Real-Time Visual Verification.
 
 ---
 
 ## 🌟 Key Features Implemented
 
+- 📷 **Live Night-Sky Camera Viewfinder (`CameraViewfinder.tsx`):** Full-bleed camera feed powered by `expo-camera` with astronomical crosshair reticle, real-time orientation HUD, camera facing flip, and dark-adaptation Red Night Vision mode.
 - 🌌 **2D Celestial Radar Dome:** An interactive planisphere (`SkyDomeView.tsx`) mapping local $(\text{Alt}, \text{Az})$ topocentric coordinates to a polar projection:
   - Zenith ($90^\circ$ Alt) at center; Horizon ($0^\circ$ Alt) at perimeter.
   - $30^\circ$ and $60^\circ$ dashed altitude guide rings with cardinal crosshairs ($\text{N, E, S, W}$).
   - Magnitude-scaled star dots ($2.5\text{px}$ to $8\text{px}$) with glowing aura halos for bright navigation stars ($V < 1.5$).
   - Live phone aim reticle that projects the device's physical orientation vector directly onto the celestial dome.
   - Category filters: *All*, *Named Stars*, *Mag $\le 2.5$*, and *Mag $\le 4.0$*.
-- 🔀 **Segmented View Mode Switcher:** Switch seamlessly between the interactive **Celestial Dome** radar view and the ranked **Star List** view.
+- 🔀 **3-Way View Mode Switcher:** Seamlessly switch between the **`📷 Lens`** (live camera viewfinder), **`🌌 Dome`** (2D planisphere radar), and **`📋 List`** (ranked catalog) views.
 - 📍 **Live Device Geolocation:** Automatically requests GPS permissions via `expo-location` and calculates sky predictions for the user's exact latitude and longitude on Earth, with graceful fallback to default coordinates.
 - 🧭 **Real-Time Orientation HUD:** Tracks device heading (azimuth 0°–360° via magnetometer) and tilt elevation (altitude 0°–90° via accelerometer) with angular smoothing filters, displaying live phone orientation and sky aim status.
 - ⭐ **Real-Time Visible Star Prediction:** Vectorized ephemeris calculations via Skyfield and the Hipparcos catalog compute local topocentric coordinates (Altitude & Azimuth) for thousands of stars in milliseconds.
