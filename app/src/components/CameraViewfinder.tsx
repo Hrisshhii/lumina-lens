@@ -79,7 +79,7 @@ export default function CameraViewfinder({
       {/* Live Camera Feed */}
       <View style={styles.cameraWrapper}>
         <CameraView
-          style={StyleSheet.absoluteFillObject}
+          style={StyleSheet.absoluteFill}
           facing={facing}
         >
           {/* Subtle dark-sky contrast vignette */}
@@ -247,11 +247,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#160303",
   },
   cameraWrapper: {
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFill,
     backgroundColor: "#000000",
   },
   vignetteOverlay: {
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFill,
     backgroundColor: "rgba(5, 8, 17, 0.20)",
   },
   nightModeVignette: {
@@ -326,7 +326,7 @@ const styles = StyleSheet.create({
   },
   // Reticle styles
   reticleContainer: {
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFill,
     alignItems: "center",
     justifyContent: "center",
   },
