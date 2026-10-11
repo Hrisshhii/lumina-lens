@@ -75,7 +75,16 @@ export default function SkyDomeView({
   return (
     <ScrollView className="flex-1" contentContainerClassName="items-center px-4 py-3" showsVerticalScrollIndicator={false}>
       {/* Filter Chips Bar */}
-      <View className="flex-row gap-2 mb-4 flex-wrap justify-center">
+      <View
+        style={{
+          flexDirection: "row",
+          flexWrap: "wrap",
+          justifyContent: "center",
+          gap: 8,
+          marginBottom: 16,
+        }}
+        className="flex-row gap-2 mb-4 flex-wrap justify-center"
+      >
         <TouchableOpacity
           onPress={() => setFilter("all")}
           className={`px-3 py-1.5 rounded-full border ${
