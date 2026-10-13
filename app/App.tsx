@@ -350,6 +350,7 @@ export default function App() {
           ) : viewMode === "lens" ? (
             <CameraViewfinder
               orientation={orientation}
+              observer={{ latitude: activeLatitude, longitude: activeLongitude }}
               stars={data?.stars || []}
               onSelectStar={handleStarPress}
             />
