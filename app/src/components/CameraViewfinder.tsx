@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import {
   ActivityIndicator,
+  Image,
   Platform,
   StyleSheet,
   Text,
@@ -10,28 +11,85 @@ import {
 import { CameraView, CameraType, useCameraPermissions } from "expo-camera";
 import { DeviceOrientation } from "../engines/sensor";
 import { Star } from "../services/api";
+import {
+  CapturedFrame,
+  FrameResolutionPreset,
+  acquireCameraFrame,
+  createSyntheticFrame,
+  BENCHMARK_ASTERISMS,
+} from "../engines/vision";
 
 interface CameraViewfinderProps {
   orientation: DeviceOrientation;
+  observer?: {
+    latitude: number;
+    longitude: number;
+  };
   stars?: Star[];
   onSelectStar?: (hipId: number) => void;
+  onFrameAcquired?: (frame: CapturedFrame) => void;
 }
+
+const BENCHMARK_KEYS = Object.keys(BENCHMARK_ASTERISMS) as Array<keyof typeof BENCHMARK_ASTERISMS>;
 
 export default function CameraViewfinder({
   orientation,
+  observer = { latitude: 18.5204, longitude: 73.8567 },
   stars = [],
   onSelectStar,
+  onFrameAcquired,
 }: CameraViewfinderProps) {
+  const cameraRef = useRef<CameraView>(null);
   const [permission, requestPermission] = useCameraPermissions();
   const [facing, setFacing] = useState<CameraType>("back");
   const [showReticle, setShowReticle] = useState(true);
   const [nightMode, setNightMode] = useState(false); // Astro Red Night Vision Mode
+
+  // Phase 2 Step 2: Frame Acquisition state
+  const [capturing, setCapturing] = useState(false);
+  const [latestFrame, setLatestFrame] = useState<CapturedFrame | null>(null);
+  const [resolutionPreset, setResolutionPreset] = useState<FrameResolutionPreset>("standard_1080p");
+  const [benchmarkIndex, setBenchmarkIndex] = useState(0);
 
   const toggleFacing = () => {
     setFacing((current) => (current === "back" ? "front" : "back"));
   };
 
   const isSkyFacing = orientation.available && orientation.altitude > 20;
+
+  // Handle live camera shutter tap
+  const handleShutterCapture = async () => {
+    if (capturing) return;
+    setCapturing(true);
+    try {
+      const frame = await acquireCameraFrame(
+        cameraRef,
+        observer,
+        { azimuth: orientation.azimuth, altitude: orientation.altitude },
+        { preset: resolutionPreset }
+      );
+      setLatestFrame(frame);
+      onFrameAcquired?.(frame);
+    } catch (err) {
+      console.warn("[CameraViewfinder] Capture error:", err);
+    } finally {
+      setCapturing(false);
+    }
+  };
+
+  // Handle synthetic benchmark asterism injection
+  const handleInjectBenchmark = () => {
+    const nextIndex = (benchmarkIndex + 1) % BENCHMARK_KEYS.length;
+    setBenchmarkIndex(nextIndex);
+    const key = BENCHMARK_KEYS[benchmarkIndex];
+    const frame = createSyntheticFrame(
+      key,
+      observer,
+      { azimuth: orientation.azimuth, altitude: orientation.altitude }
+    );
+    setLatestFrame(frame);
+    onFrameAcquired?.(frame);
+  };
 
   // 1. Permission Loading State
   if (!permission) {
@@ -63,6 +121,15 @@ export default function CameraViewfinder({
             <Text style={styles.permissionButtonText}>Grant Camera Permission</Text>
           </TouchableOpacity>
 
+          {/* Quick fallback: Test synthetic field without permissions */}
+          <TouchableOpacity
+            style={styles.benchmarkFallbackButton}
+            onPress={handleInjectBenchmark}
+            activeOpacity={0.8}
+          >
+            <Text style={styles.benchmarkFallbackText}>⚡ Test Synthetic Starfield</Text>
+          </TouchableOpacity>
+
           <Text style={styles.permissionFootnote}>
             No photos or videos are stored without your permission. Processing runs locally on device.
           </Text>
@@ -71,14 +138,15 @@ export default function CameraViewfinder({
     );
   }
 
-  // 3. Web or Native Camera View
   const isWeb = Platform.OS === "web";
+  const currentBenchmarkName = BENCHMARK_ASTERISMS[BENCHMARK_KEYS[benchmarkIndex]]?.name || "Orion";
 
   return (
     <View style={[styles.container, nightMode && styles.nightModeContainer]}>
       {/* Live Camera Feed */}
       <View style={styles.cameraWrapper}>
         <CameraView
+          ref={cameraRef}
           style={StyleSheet.absoluteFill}
           facing={facing}
         >
@@ -95,35 +163,30 @@ export default function CameraViewfinder({
       {/* Astro Crosshair & Reticle Overlay */}
       {showReticle && (
         <View pointerEvents="none" style={styles.reticleContainer}>
-          {/* Outer Altitude Reference Circle */}
           <View
             style={[
               styles.reticleOuterCircle,
               nightMode && styles.redBorder,
             ]}
           />
-          {/* Inner Centroid Target Circle */}
           <View
             style={[
               styles.reticleInnerCircle,
               nightMode && styles.redBorder,
             ]}
           />
-          {/* Vertical Crosshair Axis */}
           <View
             style={[
               styles.reticleAxisV,
               nightMode && styles.redBackground,
             ]}
           />
-          {/* Horizontal Crosshair Axis */}
           <View
             style={[
               styles.reticleAxisH,
               nightMode && styles.redBackground,
             ]}
           />
-          {/* Center Target Dot */}
           <View
             style={[
               styles.reticleCenterDot,
@@ -164,42 +227,114 @@ export default function CameraViewfinder({
           </View>
         </View>
 
-        {isWeb && (
-          <View style={styles.webPill}>
-            <Text style={styles.webPillText}>🌐 Web Live Feed</Text>
-          </View>
-        )}
+        <View style={styles.topBadgesRow}>
+          {isWeb && (
+            <View style={styles.webPill}>
+              <Text style={styles.webPillText}>🌐 Web Live Feed</Text>
+            </View>
+          )}
+
+          {/* Resolution Badge */}
+          <TouchableOpacity
+            style={[styles.resPill, nightMode && styles.nightModeBadge]}
+            onPress={() =>
+              setResolutionPreset((prev) =>
+                prev === "standard_1080p" ? "preview_720p" : "standard_1080p"
+              )
+            }
+          >
+            <Text style={[styles.resPillText, nightMode && styles.redText]}>
+              {resolutionPreset === "standard_1080p" ? "1080p FHD" : "720p HD"}
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
+
+      {/* Captured Frame Preview Card (Phase 2 Step 2) */}
+      {latestFrame && (
+        <View style={[styles.frameCard, nightMode && styles.nightModeBadge]}>
+          <Image
+            source={{ uri: latestFrame.uri }}
+            style={styles.frameThumbnail}
+            resizeMode="cover"
+          />
+          <View style={styles.frameInfoCol}>
+            <View style={styles.frameHeaderRow}>
+              <Text style={[styles.frameTitle, nightMode && styles.redText]}>
+                {latestFrame.source === "synthetic"
+                  ? `⚡ ${latestFrame.metadata?.targetConstellation || "Synthetic Field"}`
+                  : "📷 Live Sky Frame"}
+              </Text>
+              <TouchableOpacity
+                onPress={() => setLatestFrame(null)}
+                hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+              >
+                <Text style={styles.frameCloseText}>✕</Text>
+              </TouchableOpacity>
+            </View>
+            <Text style={styles.frameSubText}>
+              {latestFrame.width}×{latestFrame.height} • {latestFrame.aspectRatio.toFixed(2)}:1
+            </Text>
+            <Text style={[styles.frameOrientationText, nightMode && styles.redTextFaint]}>
+              Az {Math.round(latestFrame.orientation.azimuth)}° • Alt {Math.round(latestFrame.orientation.altitude)}° • Ready for CV
+            </Text>
+          </View>
+        </View>
+      )}
 
       {/* Bottom Floating Control Bar */}
       <View style={styles.bottomBarContainer}>
-        {/* Status Hint */}
-        <View style={[styles.statusPill, nightMode && styles.nightModeBadge]}>
-          <View
-            style={[
-              styles.statusDot,
-              nightMode ? styles.redBackground : styles.greenBackground,
-            ]}
-          />
-          <Text style={[styles.statusText, nightMode && styles.redText]}>
-            Lens Active • {stars.length} stars tracked above horizon
-          </Text>
-        </View>
-
-        {/* Action Controls */}
-        <View style={styles.controlsRow}>
-          {/* Flip Camera Facing */}
+        {/* Shutter Action Row */}
+        <View style={styles.shutterRow}>
+          {/* Synthetic Benchmark Injection Button */}
           <TouchableOpacity
-            style={[styles.controlButton, nightMode && styles.nightModeButton]}
-            onPress={toggleFacing}
+            style={[styles.benchmarkButton, nightMode && styles.nightModeButton]}
+            onPress={handleInjectBenchmark}
             activeOpacity={0.7}
           >
-            <Text style={styles.controlIcon}>🔄</Text>
-            <Text style={[styles.controlLabel, nightMode && styles.redText]}>
-              {facing === "back" ? "Rear" : "Front"}
+            <Text style={styles.benchmarkIcon}>⚡</Text>
+            <Text style={[styles.benchmarkText, nightMode && styles.redText]}>
+              {currentBenchmarkName.split(" ")[0]}
             </Text>
           </TouchableOpacity>
 
+          {/* Stargazer Camera Shutter Button */}
+          <TouchableOpacity
+            style={[
+              styles.shutterOuterRing,
+              capturing && styles.shutterCapturingRing,
+              nightMode && styles.redShutterRing,
+            ]}
+            onPress={handleShutterCapture}
+            disabled={capturing}
+            activeOpacity={0.75}
+          >
+            <View
+              style={[
+                styles.shutterInnerCircle,
+                capturing && styles.shutterCapturingCircle,
+                nightMode && styles.redShutterCircle,
+              ]}
+            >
+              {capturing && <ActivityIndicator size="small" color="#ffffff" />}
+            </View>
+          </TouchableOpacity>
+
+          {/* Flip Camera Facing */}
+          <TouchableOpacity
+            style={[styles.smallSideButton, nightMode && styles.nightModeButton]}
+            onPress={toggleFacing}
+            activeOpacity={0.7}
+          >
+            <Text style={styles.smallSideIcon}>🔄</Text>
+            <Text style={[styles.smallSideText, nightMode && styles.redText]}>
+              {facing === "back" ? "Rear" : "Front"}
+            </Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* Secondary Toggles Row */}
+        <View style={styles.controlsRow}>
           {/* Toggle Reticle Grid */}
           <TouchableOpacity
             style={[
@@ -311,12 +446,26 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     width: "100%",
     alignItems: "center",
-    marginBottom: 12,
+    marginBottom: 10,
   },
   permissionButtonText: {
     color: "#ffffff",
     fontSize: 15,
     fontWeight: "700",
+  },
+  benchmarkFallbackButton: {
+    backgroundColor: "#1e293b",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 12,
+    width: "100%",
+    alignItems: "center",
+    marginBottom: 14,
+  },
+  benchmarkFallbackText: {
+    color: "#38bdf8",
+    fontSize: 13,
+    fontWeight: "600",
   },
   permissionFootnote: {
     fontSize: 11,
@@ -324,7 +473,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     lineHeight: 16,
   },
-  // Reticle styles
   reticleContainer: {
     ...StyleSheet.absoluteFill,
     alignItems: "center",
@@ -378,7 +526,6 @@ const styles = StyleSheet.create({
   redTextFaint: {
     color: "#fca5a5",
   },
-  // HUD styles
   topHudContainer: {
     position: "absolute",
     top: 14,
@@ -428,6 +575,11 @@ const styles = StyleSheet.create({
   horizonAim: {
     color: "#94a3b8",
   },
+  topBadgesRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+  },
   webPill: {
     backgroundColor: "rgba(37, 99, 235, 0.25)",
     borderWidth: 1,
@@ -441,6 +593,72 @@ const styles = StyleSheet.create({
     color: "#93c5fd",
     fontWeight: "600",
   },
+  resPill: {
+    backgroundColor: "rgba(15, 23, 42, 0.85)",
+    borderWidth: 1,
+    borderColor: "#1e293b",
+    paddingHorizontal: 10,
+    paddingVertical: 3,
+    borderRadius: 999,
+  },
+  resPillText: {
+    fontSize: 11,
+    color: "#cbd5e1",
+    fontWeight: "600",
+  },
+  // Frame Preview Card (Phase 2 Step 2)
+  frameCard: {
+    position: "absolute",
+    top: 96,
+    left: 14,
+    right: 14,
+    backgroundColor: "rgba(13, 21, 39, 0.94)",
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: "#1e293b",
+    padding: 10,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+    zIndex: 50,
+  },
+  frameThumbnail: {
+    width: 58,
+    height: 48,
+    borderRadius: 8,
+    backgroundColor: "#02040a",
+    borderWidth: 1,
+    borderColor: "#334155",
+  },
+  frameInfoCol: {
+    flex: 1,
+  },
+  frameHeaderRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  frameTitle: {
+    fontSize: 12,
+    fontWeight: "700",
+    color: "#f8fafc",
+  },
+  frameCloseText: {
+    fontSize: 13,
+    color: "#94a3b8",
+    paddingHorizontal: 4,
+  },
+  frameSubText: {
+    fontSize: 10,
+    color: "#94a3b8",
+    marginTop: 1,
+  },
+  frameOrientationText: {
+    fontSize: 10,
+    color: "#38bdf8",
+    fontWeight: "600",
+    marginTop: 2,
+  },
   // Bottom Controls
   bottomBarContainer: {
     position: "absolute",
@@ -448,31 +666,84 @@ const styles = StyleSheet.create({
     left: 16,
     right: 16,
     alignItems: "center",
-    gap: 12,
+    gap: 14,
   },
-  statusPill: {
+  shutterRow: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "rgba(9, 13, 22, 0.82)",
-    paddingHorizontal: 12,
+    justifyContent: "center",
+    gap: 22,
+    width: "100%",
+  },
+  shutterOuterRing: {
+    width: 68,
+    height: 68,
+    borderRadius: 34,
+    borderWidth: 3,
+    borderColor: "#38bdf8",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "rgba(15, 23, 42, 0.4)",
+  },
+  shutterCapturingRing: {
+    borderColor: "#60a5fa",
+  },
+  shutterInnerCircle: {
+    width: 52,
+    height: 52,
+    borderRadius: 26,
+    backgroundColor: "#38bdf8",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  shutterCapturingCircle: {
+    backgroundColor: "#1e3a8a",
+  },
+  redShutterRing: {
+    borderColor: "#ef4444",
+  },
+  redShutterCircle: {
+    backgroundColor: "#dc2626",
+  },
+  benchmarkButton: {
+    flexDirection: "column",
+    alignItems: "center",
+    backgroundColor: "rgba(15, 23, 42, 0.85)",
     paddingVertical: 6,
-    borderRadius: 999,
+    paddingHorizontal: 12,
+    borderRadius: 12,
     borderWidth: 1,
-    borderColor: "rgba(30, 41, 59, 0.8)",
-    gap: 8,
+    borderColor: "#1e293b",
+    minWidth: 64,
   },
-  statusDot: {
-    width: 7,
-    height: 7,
-    borderRadius: 3.5,
+  benchmarkIcon: {
+    fontSize: 16,
   },
-  greenBackground: {
-    backgroundColor: "#10b981",
-  },
-  statusText: {
-    fontSize: 11,
-    color: "#cbd5e1",
+  benchmarkText: {
+    fontSize: 10,
     fontWeight: "600",
+    color: "#38bdf8",
+    marginTop: 2,
+  },
+  smallSideButton: {
+    flexDirection: "column",
+    alignItems: "center",
+    backgroundColor: "rgba(15, 23, 42, 0.85)",
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: "#1e293b",
+    minWidth: 64,
+  },
+  smallSideIcon: {
+    fontSize: 16,
+  },
+  smallSideText: {
+    fontSize: 10,
+    fontWeight: "600",
+    color: "#e2e8f0",
+    marginTop: 2,
   },
   controlsRow: {
     flexDirection: "row",
