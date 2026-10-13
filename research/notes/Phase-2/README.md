@@ -12,7 +12,7 @@ In Phase 1, we calculated where stars *should* be theoretically based on GPS coo
 ## Phase 2 Plan
 
 1. [x] **Step 1: Camera Access & Live Viewfinder:** Integrate `expo-camera`, configure camera hardware permissions, and build a full-screen live viewfinder with low-light/night-sky camera settings and cross-platform web support.
-2. [ ] **Step 2: Night-Sky Frame Acquisition & Resolution Configuration:** Capture high-resolution frames, manage aspect ratios, and format raw pixel buffers for real-time analysis.
+2. [x] **Step 2: Night-Sky Frame Acquisition & Resolution Configuration:** Capture high-resolution frames, manage aspect ratios, format raw pixel buffers, and build synthetic asterism benchmarks.
 3. [ ] **Step 3: Image Preprocessing (Grayscale & Noise Reduction):** Convert color frames to single-channel luminance and apply spatial filters (Gaussian / median blur) to suppress sensor thermal noise and dead pixels.
 4. [ ] **Step 4: Background Estimation & Adaptive Luminance Thresholding:** Dynamically estimate local sky background gradients (light pollution, moon glow) and apply adaptive thresholding ($T = \mu + k\sigma$) to isolate point-light sources.
 5. [ ] **Step 5: Star Blob Detection & Sub-Pixel Centroid Extraction:** Detect connected components / light blobs and compute intensity-weighted centers of mass (sub-pixel centroid extraction $(x_c, y_c)$ and flux $I$).
@@ -23,7 +23,7 @@ In Phase 1, we calculated where stars *should* be theoretically based on GPS coo
 ## Phase 2 Step Documentation
 
 - [Step 1: Camera Access & Live Viewfinder](./step-1:%20camera%20integration.md)
-- [Step 2: Night-Sky Frame Acquisition](./step-2:%20night-sky%20frame%20acquisition.md) *(Upcoming)*
+- [Step 2: Night-Sky Frame Acquisition](./step-2:%20night-sky%20frame%20acquisition.md)
 - [Step 3: Image Preprocessing](./step-3:%20image%20preprocessing.md) *(Upcoming)*
 - [Step 4: Background Estimation & Adaptive Thresholding](./step-4:%20background%20estimation%20&%20thresholding.md) *(Upcoming)*
 - [Step 5: Star Blob Detection & Centroid Extraction](./step-5:%20star%20centroid%20extraction.md) *(Upcoming)*
