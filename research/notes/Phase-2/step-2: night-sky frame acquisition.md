@@ -124,3 +124,4 @@ To allow automated verification of the downstream computer vision pipeline witho
 
 With frame acquisition, metadata synchronization, and synthetic calibration complete:
 - **Step 3: Image Preprocessing (Grayscale & Noise Reduction):** Convert color frames to single-channel 8-bit luminance matrices and implement spatial filtering (Gaussian / median blur) to remove thermal noise.
+

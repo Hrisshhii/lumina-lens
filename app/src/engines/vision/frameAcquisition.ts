@@ -71,3 +71,4 @@ export async function acquireCameraFrame(
     return createSyntheticFrame("orion", observer, orientation);
   }
 }
+

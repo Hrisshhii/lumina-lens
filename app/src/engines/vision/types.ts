@@ -50,3 +50,4 @@ export interface SyntheticFieldConfig {
   backgroundNoiseLevel?: number; // 0.0 to 1.0
   gradientGlow?: boolean;
 }
+
