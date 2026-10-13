@@ -54,7 +54,7 @@ This document outlines the multi-phase journey of **Lumina Lens**, from initial 
 **Objective:** Capture live camera frames, eliminate background noise, and accurately extract sub-pixel $(x, y)$ coordinates of visible stars.
 
 - [x] **Step 1: Camera Access & Live Viewfinder:** Mobile camera integration with high-frame-rate streaming, low-light configuration, dark vision mode, and cross-platform web support (`expo-camera`).
-- [ ] **Step 2: Night-Sky Frame Acquisition & Resolution Configuration:** Manage aspect ratios, frame buffers, and capture parameters.
+- [x] **Step 2: Night-Sky Frame Acquisition & Resolution Configuration:** Manage aspect ratios, frame buffers, synced orientation/GPS metadata, and synthetic asterism generator (`VisionEngine`).
 - [ ] **Step 3: Image Preprocessing:** Grayscale conversion and background noise reduction (Gaussian blur / median filtering).
 - [ ] **Step 4: Background Estimation & Adaptive Thresholding:** Dynamic sky gradient estimation and adaptive luminance thresholding.
 - [ ] **Step 5: Star Blob Detection & Centroid Extraction:** Connected-component labeling and intensity-weighted center-of-mass sub-pixel centroid calculation.
