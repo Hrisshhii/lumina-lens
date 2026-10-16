@@ -1,5 +1,6 @@
 import {
   createLuminanceBuffer,
+  calculateLuminanceStats,
   suppressHotPixels,
   separableGaussianBlur3x3,
 } from "./src/engines/vision/preprocessing.ts";
@@ -55,7 +56,7 @@ for (let i = 0; i < W2 * H2; i++) {
 // Add a bright point source
 noisyBuf.data[32 * W2 + 32] = 230;
 
-const beforeNoiseStats = { mean: noisyBuf.mean, stdDev: noisyBuf.stdDev };
+const beforeNoiseStats = calculateLuminanceStats(noisyBuf.data, W2, H2);
 const blurredBuf = separableGaussianBlur3x3(noisyBuf);
 
 console.log(`   - Noise stdDev before Gaussian blur: ${beforeNoiseStats.stdDev.toFixed(2)}`);
