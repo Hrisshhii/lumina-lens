@@ -6,4 +6,6 @@
 export * from "./types";
 export * from "./syntheticStarfield";
 export * from "./frameAcquisition";
+export * from "./preprocessing";
+
 
