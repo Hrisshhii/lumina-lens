@@ -1,4 +1,4 @@
-import { LuminanceBuffer } from "./types";
+import type { LuminanceBuffer } from "./types";
 
 /**
  * Computes summary statistics (min, max, mean, stdDev) for a 1D luminance array.
