@@ -145,3 +145,4 @@ export interface LuminanceBuffer {
 Once the preprocessed luminance buffer is verified:
 - **Step 4: Background Estimation & Adaptive Thresholding:** Calculate local sky gradient surfaces $B(x, y)$ and apply adaptive statistical thresholding ($T = \mu_{\text{local}} + k\sigma_{\text{local}}$) to isolate true point-source candidates.
 - **Step 5: Star Blob Detection & Sub-Pixel Centroid Extraction:** Detect connected components and extract sub-pixel centroid coordinates $(x_c, y_c)$.
+
