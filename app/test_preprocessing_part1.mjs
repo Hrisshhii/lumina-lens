@@ -1,4 +1,4 @@
-import { rgbaToLuminance } from "./src/engines/vision/preprocessing.js";
+import { rgbaToLuminance } from "./src/engines/vision/preprocessing.ts";
 
 console.log("=================================================================");
 console.log(" ✦ STEP 3 PART 1: LUMINANCE CONVERSION & STATS VERIFICATION ✦");
