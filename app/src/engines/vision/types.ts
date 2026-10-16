@@ -51,3 +51,25 @@ export interface SyntheticFieldConfig {
   gradientGlow?: boolean;
 }
 
+/**
+ * Single-channel 8-bit monochromatic luminance buffer [0..255]
+ * Stored as a 1D flat row-major typed array for high-performance memory cache locality.
+ */
+export interface LuminanceBuffer {
+  width: number;
+  height: number;
+  stride: number; // Row stride (equal to width)
+  data: Uint8ClampedArray; // Total elements: width * height
+  min: number; // Minimum pixel intensity [0..255]
+  max: number; // Maximum pixel intensity [0..255]
+  mean: number; // Average sky luminance
+  stdDev: number; // Standard deviation of luminance
+}
+
+export interface PreprocessingOptions {
+  enableHotPixelRemoval?: boolean;
+  hotPixelThreshold?: number; // Default: 65
+  enableGaussianBlur?: boolean; // Default: true (3x3 separable)
+}
+
+
