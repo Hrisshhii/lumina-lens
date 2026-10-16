@@ -24,7 +24,7 @@ In Phase 1, we calculated where stars *should* be theoretically based on GPS coo
 
 - [Step 1: Camera Access & Live Viewfinder](./step-1:%20camera%20integration.md)
 - [Step 2: Night-Sky Frame Acquisition](./step-2:%20night-sky%20frame%20acquisition.md)
-- [Step 3: Image Preprocessing](./step-3:%20image%20preprocessing.md) *(Upcoming)*
+- [Step 3: Image Preprocessing](./step-3:%20image%20preprocessing.md) *(In Progress)*
 - [Step 4: Background Estimation & Adaptive Thresholding](./step-4:%20background%20estimation%20&%20thresholding.md) *(Upcoming)*
 - [Step 5: Star Blob Detection & Centroid Extraction](./step-5:%20star%20centroid%20extraction.md) *(Upcoming)*
 - [Step 6: Star Candidate Debug Overlay](./step-6:%20star%20candidate%20debug%20overlay.md) *(Upcoming)*
