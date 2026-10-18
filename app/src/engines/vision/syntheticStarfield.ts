@@ -161,11 +161,13 @@ export function generateSyntheticRgba(
   const total = width * height;
   const rgba = new Uint8ClampedArray(total * 4);
 
-  // 1. Dark sky background gradient with mild Poisson-like noise
+  // 1. Dark sky background gradient with Poisson-like noise
   for (let y = 0; y < height; y++) {
     const rowOffset = y * width * 4;
-    const gradient = Math.round(8 + (y / height) * 8); // 8 at top, 16 at bottom
     for (let x = 0; x < width; x++) {
+      const gradient = config.gradientGlow
+        ? Math.round(15 + (y / height) * 65 + (x / width) * 20) // Strong urban light pollution dome
+        : Math.round(8 + (y / height) * 8); // Pristine dark sky
       const idx = rowOffset + x * 4;
       const noise = ((Math.random() * 6 - 3) | 0);
       const val = Math.max(0, Math.min(255, gradient + noise));
