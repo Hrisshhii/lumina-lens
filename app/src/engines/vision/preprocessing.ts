@@ -1,10 +1,8 @@
 import type {
-  CapturedFrame,
   LuminanceBuffer,
   PreprocessingOptions,
   PreprocessingResult,
 } from "./types";
-import { BENCHMARK_ASTERISMS, generateSyntheticRgba } from "./syntheticStarfield";
 
 /**
  * Computes summary statistics (min, max, mean, stdDev) for a 1D luminance array.
