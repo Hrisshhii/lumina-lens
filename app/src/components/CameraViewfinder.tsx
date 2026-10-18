@@ -15,9 +15,11 @@ import {
   CapturedFrame,
   FrameResolutionPreset,
   PreprocessingResult,
+  SegmentationResult,
   acquireCameraFrame,
   createSyntheticFrame,
   preprocessFrame,
+  segmentLuminanceFrame,
   generateSyntheticRgba,
   BENCHMARK_ASTERISMS,
 } from "../engines/vision";
