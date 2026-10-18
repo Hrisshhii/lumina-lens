@@ -14,8 +14,10 @@ import { Star } from "../services/api";
 import {
   CapturedFrame,
   FrameResolutionPreset,
+  PreprocessingResult,
   acquireCameraFrame,
   createSyntheticFrame,
+  preprocessCapturedFrame,
   BENCHMARK_ASTERISMS,
 } from "../engines/vision";
 
