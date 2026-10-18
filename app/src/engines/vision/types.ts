@@ -78,5 +78,32 @@ export interface PreprocessingResult {
   stagesCompleted: string[];
 }
 
+/**
+ * Step 4: Background Estimation & Adaptive Thresholding Contracts
+ */
 
+export interface BackgroundMesh {
+  width: number;
+  height: number;
+  tileSize: number;
+  gridCols: number;
+  gridRows: number;
+  background: Float32Array; // Size: gridCols * gridRows, containing local B_ij
+  noise: Float32Array; // Size: gridCols * gridRows, containing local sigma_ij
+  globalMedian: number;
+  globalStdDev: number;
+}
 
+export interface SegmentationOptions {
+  tileSize?: number; // Default: 32 (pixels)
+  sigmaMultiplier?: number; // Default: 3.0 (detection sensitivity k)
+  minNetIntensity?: number; // Default: 5 (absolute threshold floor to reject pure black noise)
+}
+
+export interface SegmentationResult {
+  backgroundMesh: BackgroundMesh;
+  netLuminance: LuminanceBuffer; // Delta Y = max(0, Y - B)
+  starMask: Uint8Array; // Binary mask: 1 = star candidate pixel, 0 = sky background
+  candidatePixelCount: number;
+  executionTimeMs: number;
+}
