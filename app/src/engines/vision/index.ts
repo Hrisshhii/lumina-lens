@@ -8,6 +8,5 @@ export * from "./syntheticStarfield";
 export * from "./frameAcquisition";
 export * from "./preprocessing";
 export * from "./background";
-export * from "./segmentation";
 
 
