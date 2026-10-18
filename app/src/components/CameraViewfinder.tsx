@@ -278,7 +278,7 @@ export default function CameraViewfinder({
         </View>
       </View>
 
-      {/* Captured Frame Preview Card (Phase 2 Step 2) */}
+      {/* Captured Frame Preview Card (Phase 2 Steps 2 & 3) */}
       {latestFrame && (
         <View style={[styles.frameCard, nightMode && styles.nightModeBadge]}>
           <Image
@@ -294,7 +294,10 @@ export default function CameraViewfinder({
                   : "📷 Live Sky Frame"}
               </Text>
               <TouchableOpacity
-                onPress={() => setLatestFrame(null)}
+                onPress={() => {
+                  setLatestFrame(null);
+                  setPreprocessedResult(null);
+                }}
                 hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
               >
                 <Text style={styles.frameCloseText}>✕</Text>
@@ -303,9 +306,38 @@ export default function CameraViewfinder({
             <Text style={styles.frameSubText}>
               {latestFrame.width}×{latestFrame.height} • {latestFrame.aspectRatio.toFixed(2)}:1
             </Text>
-            <Text style={[styles.frameOrientationText, nightMode && styles.redTextFaint]}>
-              Az {Math.round(latestFrame.orientation.azimuth)}° • Alt {Math.round(latestFrame.orientation.altitude)}° • Ready for CV
-            </Text>
+
+            {/* Preprocessing Actions & Results (Step 3) */}
+            {preprocessedResult ? (
+              <View style={styles.preprocessMetricsBox}>
+                <View style={styles.preprocessBadge}>
+                  <Text style={styles.preprocessBadgeText}>
+                    ✨ Preprocessed ({preprocessedResult.executionTimeMs.toFixed(1)}ms)
+                  </Text>
+                </View>
+                <Text style={styles.preprocessStatsText}>
+                  Y: [{preprocessedResult.buffer.min}..{preprocessedResult.buffer.max}] • μ: {preprocessedResult.buffer.mean.toFixed(1)} • σ: {preprocessedResult.buffer.stdDev.toFixed(1)}
+                </Text>
+              </View>
+            ) : (
+              <View style={styles.preprocessActionRow}>
+                <Text style={[styles.frameOrientationText, nightMode && styles.redTextFaint]}>
+                  Az {Math.round(latestFrame.orientation.azimuth)}° • Alt {Math.round(latestFrame.orientation.altitude)}°
+                </Text>
+                <TouchableOpacity
+                  style={[styles.preprocessBtn, nightMode && styles.nightModeButton]}
+                  onPress={handlePreprocess}
+                  disabled={preprocessing}
+                  activeOpacity={0.7}
+                >
+                  {preprocessing ? (
+                    <ActivityIndicator size="small" color="#38bdf8" />
+                  ) : (
+                    <Text style={styles.preprocessBtnText}>✨ Preprocess (Step 3)</Text>
+                  )}
+                </TouchableOpacity>
+              </View>
+            )}
           </View>
         </View>
       )}
