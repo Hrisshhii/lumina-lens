@@ -153,3 +153,4 @@ if (elapsedMesh1080 < 35.0) {
 console.log("\n================================================================================");
 console.log("🌟 STEP 4 (PART 1) SUCCESSFUL — MESH ESTIMATION & SURFACE MODELING VALIDATED");
 console.log("================================================================================\n");
+
