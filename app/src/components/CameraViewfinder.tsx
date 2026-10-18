@@ -17,7 +17,8 @@ import {
   PreprocessingResult,
   acquireCameraFrame,
   createSyntheticFrame,
-  preprocessCapturedFrame,
+  preprocessFrame,
+  generateSyntheticRgba,
   BENCHMARK_ASTERISMS,
 } from "../engines/vision";
 
