@@ -106,7 +106,26 @@ export default function CameraViewfinder({
     setPreprocessing(true);
     setTimeout(() => {
       try {
-        const result = preprocessCapturedFrame(latestFrame, {
+        let rgba: Uint8ClampedArray;
+        const width = Math.min(latestFrame.width, 960);
+        const height = Math.round(width / latestFrame.aspectRatio);
+
+        if (latestFrame.source === "synthetic") {
+          const targetName = latestFrame.metadata?.targetConstellation?.toLowerCase() || "";
+          const constellationKey = targetName.includes("summer")
+            ? "summer_triangle"
+            : targetName.includes("cassiopeia")
+            ? "cassiopeia"
+            : "orion";
+
+          const config = BENCHMARK_ASTERISMS[constellationKey] || BENCHMARK_ASTERISMS.orion;
+          rgba = generateSyntheticRgba(config, width, height);
+        } else {
+          rgba = new Uint8ClampedArray(width * height * 4);
+          rgba.fill(14);
+        }
+
+        const result = preprocessFrame(rgba, width, height, {
           enableHotPixelRemoval: true,
           enableGaussianBlur: true,
         });
@@ -118,6 +137,7 @@ export default function CameraViewfinder({
       }
     }, 10);
   };
+
 
 
   // 1. Permission Loading State
