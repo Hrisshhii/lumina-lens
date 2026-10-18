@@ -1,9 +1,9 @@
-/**
- * Lumina Lens — Background Estimation & Surface Modeling (Phase 2 Step 4)
- * Robust mesh-based astronomical background and noise floor estimation.
- */
-
-import type { LuminanceBuffer, BackgroundMesh } from "./types";
+import type {
+  LuminanceBuffer,
+  BackgroundMesh,
+  SegmentationOptions,
+  SegmentationResult,
+} from "./types";
 
 /**
  * Fast histogram-based statistics for 8-bit pixel values in [0, 255].
