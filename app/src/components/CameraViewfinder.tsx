@@ -719,6 +719,48 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     marginTop: 2,
   },
+  preprocessActionRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginTop: 4,
+  },
+  preprocessBtn: {
+    backgroundColor: "rgba(37, 99, 235, 0.35)",
+    borderWidth: 1,
+    borderColor: "#3b82f6",
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: 6,
+  },
+  preprocessBtnText: {
+    fontSize: 10,
+    fontWeight: "700",
+    color: "#60a5fa",
+  },
+  preprocessMetricsBox: {
+    marginTop: 3,
+  },
+  preprocessBadge: {
+    alignSelf: "flex-start",
+    backgroundColor: "rgba(16, 185, 129, 0.2)",
+    borderColor: "#10b981",
+    borderWidth: 1,
+    paddingHorizontal: 6,
+    paddingVertical: 1,
+    borderRadius: 4,
+    marginBottom: 2,
+  },
+  preprocessBadgeText: {
+    fontSize: 9,
+    fontWeight: "700",
+    color: "#34d399",
+  },
+  preprocessStatsText: {
+    fontSize: 9,
+    color: "#cbd5e1",
+    fontWeight: "500",
+  },
   // Bottom Controls
   bottomBarContainer: {
     position: "absolute",
