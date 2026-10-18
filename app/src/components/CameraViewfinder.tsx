@@ -347,6 +347,7 @@ export default function CameraViewfinder({
                 onPress={() => {
                   setLatestFrame(null);
                   setPreprocessedResult(null);
+                  setSegmentationResult(null);
                 }}
                 hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
               >
@@ -360,14 +361,44 @@ export default function CameraViewfinder({
             {/* Preprocessing Actions & Results (Step 3) */}
             {preprocessedResult ? (
               <View style={styles.preprocessMetricsBox}>
-                <View style={styles.preprocessBadge}>
-                  <Text style={styles.preprocessBadgeText}>
-                    ✨ Preprocessed ({preprocessedResult.executionTimeMs.toFixed(1)}ms)
-                  </Text>
+                <View style={styles.metricsRow}>
+                  <View style={styles.preprocessBadge}>
+                    <Text style={styles.preprocessBadgeText}>
+                      ✨ Y ({preprocessedResult.executionTimeMs.toFixed(0)}ms)
+                    </Text>
+                  </View>
+                  {!segmentationResult && (
+                    <TouchableOpacity
+                      style={[styles.segmentBtn, nightMode && styles.nightModeButton]}
+                      onPress={handleSegment}
+                      disabled={segmenting}
+                      activeOpacity={0.7}
+                    >
+                      {segmenting ? (
+                        <ActivityIndicator size="small" color="#a78bfa" />
+                      ) : (
+                        <Text style={styles.segmentBtnText}>🌓 Segment (Step 4)</Text>
+                      )}
+                    </TouchableOpacity>
+                  )}
                 </View>
                 <Text style={styles.preprocessStatsText}>
                   Y: [{preprocessedResult.buffer.min}..{preprocessedResult.buffer.max}] • μ: {preprocessedResult.buffer.mean.toFixed(1)} • σ: {preprocessedResult.buffer.stdDev.toFixed(1)}
                 </Text>
+
+                {/* Segmentation Actions & Results (Step 4) */}
+                {segmentationResult && (
+                  <View style={styles.segmentMetricsBox}>
+                    <View style={styles.segmentBadge}>
+                      <Text style={styles.segmentBadgeText}>
+                        🌓 CFAR ({segmentationResult.executionTimeMs.toFixed(0)}ms)
+                      </Text>
+                    </View>
+                    <Text style={styles.segmentStatsText}>
+                      Bg: {segmentationResult.backgroundMesh.globalMedian.toFixed(1)} • Stars: {segmentationResult.candidatePixelCount} px
+                    </Text>
+                  </View>
+                )}
               </View>
             ) : (
               <View style={styles.preprocessActionRow}>
@@ -809,6 +840,51 @@ const styles = StyleSheet.create({
   preprocessStatsText: {
     fontSize: 9,
     color: "#cbd5e1",
+    fontWeight: "500",
+  },
+  metricsRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 2,
+  },
+  segmentBtn: {
+    backgroundColor: "rgba(139, 92, 246, 0.35)",
+    borderWidth: 1,
+    borderColor: "#8b5cf6",
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    borderRadius: 6,
+  },
+  segmentBtnText: {
+    fontSize: 9,
+    fontWeight: "700",
+    color: "#c4b5fd",
+  },
+  segmentMetricsBox: {
+    marginTop: 3,
+    paddingTop: 3,
+    borderTopWidth: 1,
+    borderTopColor: "rgba(148, 163, 184, 0.15)",
+  },
+  segmentBadge: {
+    alignSelf: "flex-start",
+    backgroundColor: "rgba(139, 92, 246, 0.2)",
+    borderColor: "#8b5cf6",
+    borderWidth: 1,
+    paddingHorizontal: 6,
+    paddingVertical: 1,
+    borderRadius: 4,
+    marginBottom: 2,
+  },
+  segmentBadgeText: {
+    fontSize: 9,
+    fontWeight: "700",
+    color: "#c4b5fd",
+  },
+  segmentStatsText: {
+    fontSize: 9,
+    color: "#e2e8f0",
     fontWeight: "500",
   },
   // Bottom Controls
