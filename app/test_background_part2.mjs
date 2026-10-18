@@ -3,7 +3,7 @@
  * Adaptive Thresholding (CFAR) vs Global Thresholding Failure Demonstration
  */
 
-import { segmentLuminanceFrame } from "./src/engines/vision/segmentation.ts";
+import { segmentLuminanceFrame } from "./src/engines/vision/background.ts";
 
 console.log("================================================================================");
 console.log("🌌 LUMINA LENS — Phase 2 Step 4 (Part 2): Adaptive Thresholding Verification");
