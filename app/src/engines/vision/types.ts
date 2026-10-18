@@ -72,4 +72,11 @@ export interface PreprocessingOptions {
   enableGaussianBlur?: boolean; // Default: true (3x3 separable)
 }
 
+export interface PreprocessingResult {
+  buffer: LuminanceBuffer;
+  executionTimeMs: number;
+  stagesCompleted: string[];
+}
+
+
 
