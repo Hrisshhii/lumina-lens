@@ -60,6 +60,10 @@ export default function CameraViewfinder({
   const [preprocessing, setPreprocessing] = useState(false);
   const [preprocessedResult, setPreprocessedResult] = useState<PreprocessingResult | null>(null);
 
+  // Phase 2 Step 4: Background Estimation & Adaptive Segmentation state
+  const [segmenting, setSegmenting] = useState(false);
+  const [segmentationResult, setSegmentationResult] = useState<SegmentationResult | null>(null);
+
   const toggleFacing = () => {
     setFacing((current) => (current === "back" ? "front" : "back"));
   };
@@ -71,6 +75,7 @@ export default function CameraViewfinder({
     if (capturing) return;
     setCapturing(true);
     setPreprocessedResult(null);
+    setSegmentationResult(null);
     try {
       const frame = await acquireCameraFrame(
         cameraRef,
@@ -92,6 +97,7 @@ export default function CameraViewfinder({
     const nextIndex = (benchmarkIndex + 1) % BENCHMARK_KEYS.length;
     setBenchmarkIndex(nextIndex);
     setPreprocessedResult(null);
+    setSegmentationResult(null);
     const key = BENCHMARK_KEYS[benchmarkIndex];
     const frame = createSyntheticFrame(
       key,
@@ -106,6 +112,7 @@ export default function CameraViewfinder({
   const handlePreprocess = () => {
     if (!latestFrame || preprocessing) return;
     setPreprocessing(true);
+    setSegmentationResult(null);
     setTimeout(() => {
       try {
         let rgba: Uint8ClampedArray;
@@ -136,6 +143,26 @@ export default function CameraViewfinder({
         console.warn("[CameraViewfinder] Preprocessing error:", err);
       } finally {
         setPreprocessing(false);
+      }
+    }, 10);
+  };
+
+  // Run Phase 2 Step 4 Background Estimation & Adaptive Segmentation
+  const handleSegment = () => {
+    if (!preprocessedResult || segmenting) return;
+    setSegmenting(true);
+    setTimeout(() => {
+      try {
+        const result = segmentLuminanceFrame(preprocessedResult.buffer, {
+          tileSize: 32,
+          sigmaMultiplier: 3.2,
+          minNetIntensity: 5,
+        });
+        setSegmentationResult(result);
+      } catch (err) {
+        console.warn("[CameraViewfinder] Segmentation error:", err);
+      } finally {
+        setSegmenting(false);
       }
     }, 10);
   };
