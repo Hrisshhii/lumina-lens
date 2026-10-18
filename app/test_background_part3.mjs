@@ -3,7 +3,7 @@
  * Full End-to-End Pipeline: Raw RGBA -> Preprocessing (Step 3) -> Adaptive Segmentation (Step 4)
  */
 
-import { SYNTHETIC_ASTERISMS, generateSyntheticRgba } from "./src/engines/vision/syntheticStarfield.ts";
+import { BENCHMARK_ASTERISMS, generateSyntheticRgba } from "./src/engines/vision/syntheticStarfield.ts";
 import { preprocessFrame } from "./src/engines/vision/preprocessing.ts";
 import { segmentLuminanceFrame } from "./src/engines/vision/background.ts";
 
@@ -13,7 +13,7 @@ console.log("===================================================================
 
 // 1. Generate Orion asterism with heavy urban light-pollution dome
 const orionConfig = {
-  ...SYNTHETIC_ASTERISMS.orion,
+  ...BENCHMARK_ASTERISMS.orion,
   gradientGlow: true,
 };
 
