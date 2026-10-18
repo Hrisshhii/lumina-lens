@@ -1,4 +1,4 @@
-# Step 4: Background Estimation & Adaptive Thresholding (In Progress 🔄)
+# Step 4: Background Estimation & Adaptive Thresholding (Completed ✅)
 
 ## Objective
 Design and implement the sky background modeling and adaptive statistical segmentation pipeline for the Lumina Lens Vision Engine. Construct a spatially varying local background surface $B(x, y)$ and noise map $\sigma(x, y)$ to neutralize urban light pollution, lunar airglow, and optical vignetting, and generate a noise-immune binary star candidate mask using a Constant False Alarm Rate (CFAR) statistical threshold $T(x, y) = B(x, y) + k \cdot \sigma(x, y)$.
