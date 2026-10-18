@@ -1,5 +1,5 @@
 import { CameraView } from "expo-camera";
-import {
+import type {
   CapturedFrame,
   DeviceOrientationData,
   FrameResolutionPreset,
