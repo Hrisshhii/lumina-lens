@@ -53,6 +53,10 @@ export default function CameraViewfinder({
   const [resolutionPreset, setResolutionPreset] = useState<FrameResolutionPreset>("standard_1080p");
   const [benchmarkIndex, setBenchmarkIndex] = useState(0);
 
+  // Phase 2 Step 3: Preprocessing state
+  const [preprocessing, setPreprocessing] = useState(false);
+  const [preprocessedResult, setPreprocessedResult] = useState<PreprocessingResult | null>(null);
+
   const toggleFacing = () => {
     setFacing((current) => (current === "back" ? "front" : "back"));
   };
@@ -63,6 +67,7 @@ export default function CameraViewfinder({
   const handleShutterCapture = async () => {
     if (capturing) return;
     setCapturing(true);
+    setPreprocessedResult(null);
     try {
       const frame = await acquireCameraFrame(
         cameraRef,
@@ -83,6 +88,7 @@ export default function CameraViewfinder({
   const handleInjectBenchmark = () => {
     const nextIndex = (benchmarkIndex + 1) % BENCHMARK_KEYS.length;
     setBenchmarkIndex(nextIndex);
+    setPreprocessedResult(null);
     const key = BENCHMARK_KEYS[benchmarkIndex];
     const frame = createSyntheticFrame(
       key,
@@ -92,6 +98,26 @@ export default function CameraViewfinder({
     setLatestFrame(frame);
     onFrameAcquired?.(frame);
   };
+
+  // Run Phase 2 Step 3 Preprocessing pipeline on the current frame
+  const handlePreprocess = () => {
+    if (!latestFrame || preprocessing) return;
+    setPreprocessing(true);
+    setTimeout(() => {
+      try {
+        const result = preprocessCapturedFrame(latestFrame, {
+          enableHotPixelRemoval: true,
+          enableGaussianBlur: true,
+        });
+        setPreprocessedResult(result);
+      } catch (err) {
+        console.warn("[CameraViewfinder] Preprocessing error:", err);
+      } finally {
+        setPreprocessing(false);
+      }
+    }, 10);
+  };
+
 
   // 1. Permission Loading State
   if (!permission) {
