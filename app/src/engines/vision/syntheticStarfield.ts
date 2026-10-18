@@ -147,3 +147,66 @@ export function createSyntheticFrame(
   };
 }
 
+/**
+ * Generates a raw RGBA pixel buffer [R, G, B, A, ...] for a synthetic starfield asterism.
+ * Useful for headless testing, pixel-level computer vision algorithms, and benchmarks.
+ */
+export function generateSyntheticRgba(
+  config: SyntheticFieldConfig,
+  targetWidth?: number,
+  targetHeight?: number
+): Uint8ClampedArray {
+  const width = targetWidth || config.width;
+  const height = targetHeight || config.height;
+  const total = width * height;
+  const rgba = new Uint8ClampedArray(total * 4);
+
+  // 1. Dark sky background gradient with mild Poisson-like noise
+  for (let y = 0; y < height; y++) {
+    const rowOffset = y * width * 4;
+    const gradient = Math.round(8 + (y / height) * 8); // 8 at top, 16 at bottom
+    for (let x = 0; x < width; x++) {
+      const idx = rowOffset + x * 4;
+      const noise = ((Math.random() * 6 - 3) | 0);
+      const val = Math.max(0, Math.min(255, gradient + noise));
+      rgba[idx] = val;         // R
+      rgba[idx + 1] = val;     // G
+      rgba[idx + 2] = val + 3; // B (faint cosmic blue)
+      rgba[idx + 3] = 255;     // A
+    }
+  }
+
+  // 2. Synthesize Gaussian Point Spread Functions for each star
+  for (const star of config.stars) {
+    const cx = star.x * width;
+    const cy = star.y * height;
+    const peakIntensity = Math.min(255, Math.max(40, Math.round(255 - star.magnitude * 40)));
+    const sigma = Math.max(1.0, (5.5 - star.magnitude) * 0.5);
+    const radius = Math.ceil(sigma * 3);
+
+    const minX = Math.max(0, Math.floor(cx - radius));
+    const maxX = Math.min(width - 1, Math.ceil(cx + radius));
+    const minY = Math.max(0, Math.floor(cy - radius));
+    const maxY = Math.min(height - 1, Math.ceil(cy + radius));
+
+    for (let py = minY; py <= maxY; py++) {
+      const dy = py - cy;
+      const rowOffset = py * width * 4;
+      for (let px = minX; px <= maxX; px++) {
+        const dx = px - cx;
+        const distSq = dx * dx + dy * dy;
+        const flux = Math.round(peakIntensity * Math.exp(-distSq / (2 * sigma * sigma)));
+        if (flux > 0) {
+          const idx = rowOffset + px * 4;
+          rgba[idx] = Math.min(255, rgba[idx] + flux);
+          rgba[idx + 1] = Math.min(255, rgba[idx + 1] + flux);
+          rgba[idx + 2] = Math.min(255, rgba[idx + 2] + flux);
+        }
+      }
+    }
+  }
+
+  return rgba;
+}
+
+
