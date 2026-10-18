@@ -333,40 +333,4 @@ export function preprocessFrame(
   };
 }
 
-/**
- * Preprocesses a CapturedFrame directly, deriving or generating the raw pixel buffer
- * when dealing with synthetic benchmark asterisms or live camera frames.
- */
-export function preprocessCapturedFrame(
-  frame: CapturedFrame,
-  options: PreprocessingOptions = {}
-): PreprocessingResult {
-  // If frame is synthetic, generate the calibrated high-precision RGBA buffer
-  if (frame.source === "synthetic") {
-    const targetName = frame.metadata?.targetConstellation?.toLowerCase() || "";
-    const constellationKey = targetName.includes("summer")
-      ? "summer_triangle"
-      : targetName.includes("cassiopeia")
-      ? "cassiopeia"
-      : "orion";
-
-    const config = BENCHMARK_ASTERISMS[constellationKey] || BENCHMARK_ASTERISMS.orion;
-    // For fast real-time UI inspection, scale 1080p to 480x270 or native width
-    const width = Math.min(frame.width, 960);
-    const height = Math.round(width / frame.aspectRatio);
-    const rgba = generateSyntheticRgba(config, width, height);
-    return preprocessFrame(rgba, width, height, options);
-  }
-
-  // Fallback for live frame without accessible canvas
-  const width = Math.min(frame.width, 960);
-  const height = Math.round(width / frame.aspectRatio);
-  const fallbackBuffer = createLuminanceBuffer(width, height, 15);
-  return {
-    buffer: fallbackBuffer,
-    executionTimeMs: 0.5,
-    stagesCompleted: ["baseline_fallback"],
-  };
-}
-
 
