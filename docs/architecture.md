@@ -228,19 +228,58 @@ User Device                Mobile App              FastAPI Backend         Astro
 
 ---
 
-## 6. Future Architectural Extensions
+## 6. Phase 2 Vision Engine Architecture (Current 🔄)
 
-As Lumina Lens progresses beyond Phase 1, the following engines will be integrated into this pipeline:
+Phase 2 has integrated the **Vision Engine** (`app/src/engines/vision/`) into the mobile client pipeline. The following subsystems are operational:
 
-1. **Vision Engine (Phase 2):**
-   - Direct camera frame acquisition via mobile camera stream.
-   - Grayscale conversion, adaptive thresholding, noise reduction.
-   - Blob detection and sub-pixel star centroid localization.
-2. **Plate Solving Engine (Phase 3):**
+### 6.1 Vision Engine Subsystems (`app/src/engines/vision/`)
+
+| Module | File | Responsibility |
+|:---|:---|:---|
+| **Types & Contracts** | `types.ts` | `CapturedFrame`, `LuminanceBuffer`, `BackgroundMesh`, `SegmentationResult`, `SyntheticFieldConfig` |
+| **Synthetic Starfield** | `syntheticStarfield.ts` | Generates calibrated RGBA pixel buffers with Gaussian Airy disk PSFs for Orion, Summer Triangle, and Cassiopeia asterisms |
+| **Frame Acquisition** | `frameAcquisition.ts` | Shutter capture handler linking camera frames to observer GPS and device orientation |
+| **Image Preprocessing** | `preprocessing.ts` | ITU-R BT.709 luminance conversion, CMOS hot-pixel suppression, and separable 3×3 Gaussian smoothing |
+| **Background Estimation** | `background.ts` | Tiled mesh background estimation (Median/MAD), bilinear surface interpolation, CFAR adaptive thresholding, and binary star candidate mask generation |
+
+### 6.2 Phase 2 Data Flow
+
+```text
+Live Camera Sensor (Physical Night Sky)
+                 │
+                 ▼
+     Step 1 & 2: Frame Acquisition
+     (CameraViewfinder / CapturedFrame)
+                 │
+                 ▼
+    Step 3: Preprocessing (preprocessing.ts)
+  • RGB → Luminance Y (ITU-R BT.709 fixed-point)
+  • Hot-pixel suppression (4-neighbor cross median)
+  • Separable 3×3 Gaussian blur (binomial kernel)
+                 │
+                 ▼
+    Step 4: Segmentation (background.ts)
+  • Tiled mesh background surface B(x, y)
+  • Bilinear interpolation → continuous surface
+  • CFAR threshold: T(x, y) = B + k·σ
+  • Binary star candidate mask (Uint8Array)
+                 │
+                 ▼
+  Steps 5–6: Star Centroids & Debug Overlay
+              (Upcoming)
+```
+
+---
+
+## 7. Future Architectural Extensions
+
+As Lumina Lens progresses beyond Phase 2, the following engines will be integrated:
+
+1. **Plate Solving Engine (Phase 3):**
    - Generation of geometric asterism invariants (triangles/quads) from detected star centroids.
    - Kd-tree spatial index search against the Hipparcos catalog.
    - True camera pose determination (Field of View, camera orientation quaternion).
-3. **Augmented Reality Canvas (Phase 4):**
+2. **Augmented Reality Canvas (Phase 4):**
    - High-performance OpenGL/Skia graphics layer drawing labels, constellation stick figures, and celestial grids directly over camera feed.
-4. **AI Astronomy Assistant (Phase 5):**
+3. **AI Astronomy Assistant (Phase 5):**
    - Natural language conversational engine with identified celestial objects injected as live conversational context.
