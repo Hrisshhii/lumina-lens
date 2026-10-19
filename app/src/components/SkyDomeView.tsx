@@ -155,8 +155,7 @@ export default function SkyDomeView({
       </View>
 
       {/* The 2D Celestial Radar Dome Container */}
-      <View
-        style={{ width: domeSize, height: domeSize }}
+      <View style={{ width: domeSize, height: domeSize }}
         className="relative bg-[#050914] rounded-full border border-sky-950/80 shadow-2xl overflow-hidden items-center justify-center"
       >
         {/* Radar Background Glow */}
@@ -361,8 +360,7 @@ export default function SkyDomeView({
           const touchTargetSize = 28;
 
           return (
-            <TouchableOpacity
-              key={star.hip}
+            <TouchableOpacity key={star.hip}
               activeOpacity={0.6}
               onPress={() => onSelectStar(star.hip)}
               hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
@@ -451,8 +449,7 @@ export default function SkyDomeView({
 
         {/* 9. Live Device Aim Reticle (when orientation available & phone tilted up) */}
         {aimPosition && orientation.altitude > 0 && (
-          <View
-            pointerEvents="none"
+          <View pointerEvents="none"
             style={{
               position: "absolute",
               left: aimPosition.x - 14,

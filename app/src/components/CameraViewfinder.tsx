@@ -1,28 +1,9 @@
 import React, { useState, useRef } from "react";
-import {
-  ActivityIndicator,
-  Image,
-  Platform,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { ActivityIndicator,Image,Platform,StyleSheet,Text,TouchableOpacity,View,} from "react-native";
 import { CameraView, CameraType, useCameraPermissions } from "expo-camera";
 import { DeviceOrientation } from "../engines/sensor";
 import { Star } from "../services/api";
-import {
-  CapturedFrame,
-  FrameResolutionPreset,
-  PreprocessingResult,
-  SegmentationResult,
-  acquireCameraFrame,
-  createSyntheticFrame,
-  preprocessFrame,
-  segmentLuminanceFrame,
-  generateSyntheticRgba,
-  BENCHMARK_ASTERISMS,
-} from "../engines/vision";
+import {CapturedFrame,FrameResolutionPreset,PreprocessingResult,SegmentationResult,acquireCameraFrame,createSyntheticFrame,preprocessFrame,segmentLuminanceFrame,generateSyntheticRgba,BENCHMARK_ASTERISMS,} from "../engines/vision";
 
 interface CameraViewfinderProps {
   orientation: DeviceOrientation;
@@ -223,11 +204,7 @@ export default function CameraViewfinder({
     <View style={[styles.container, nightMode && styles.nightModeContainer]}>
       {/* Live Camera Feed */}
       <View style={styles.cameraWrapper}>
-        <CameraView
-          ref={cameraRef}
-          style={StyleSheet.absoluteFill}
-          facing={facing}
-        >
+        <CameraView ref={cameraRef} style={StyleSheet.absoluteFill} facing={facing}>
           {/* Subtle dark-sky contrast vignette */}
           <View
             style={[
@@ -313,8 +290,7 @@ export default function CameraViewfinder({
           )}
 
           {/* Resolution Badge */}
-          <TouchableOpacity
-            style={[styles.resPill, nightMode && styles.nightModeBadge]}
+          <TouchableOpacity style={[styles.resPill, nightMode && styles.nightModeBadge]}
             onPress={() =>
               setResolutionPreset((prev) =>
                 prev === "standard_1080p" ? "preview_720p" : "standard_1080p"
@@ -370,9 +346,7 @@ export default function CameraViewfinder({
                   {!segmentationResult && (
                     <TouchableOpacity
                       style={[styles.segmentBtn, nightMode && styles.nightModeButton]}
-                      onPress={handleSegment}
-                      disabled={segmenting}
-                      activeOpacity={0.7}
+                      onPress={handleSegment} disabled={segmenting} activeOpacity={0.7}
                     >
                       {segmenting ? (
                         <ActivityIndicator size="small" color="#a78bfa" />
@@ -407,9 +381,7 @@ export default function CameraViewfinder({
                 </Text>
                 <TouchableOpacity
                   style={[styles.preprocessBtn, nightMode && styles.nightModeButton]}
-                  onPress={handlePreprocess}
-                  disabled={preprocessing}
-                  activeOpacity={0.7}
+                  onPress={handlePreprocess} disabled={preprocessing} activeOpacity={0.7}
                 >
                   {preprocessing ? (
                     <ActivityIndicator size="small" color="#38bdf8" />
@@ -430,8 +402,7 @@ export default function CameraViewfinder({
           {/* Synthetic Benchmark Injection Button */}
           <TouchableOpacity
             style={[styles.benchmarkButton, nightMode && styles.nightModeButton]}
-            onPress={handleInjectBenchmark}
-            activeOpacity={0.7}
+            onPress={handleInjectBenchmark} activeOpacity={0.7}
           >
             <Text style={styles.benchmarkIcon}>⚡</Text>
             <Text style={[styles.benchmarkText, nightMode && styles.redText]}>
@@ -446,9 +417,7 @@ export default function CameraViewfinder({
               capturing && styles.shutterCapturingRing,
               nightMode && styles.redShutterRing,
             ]}
-            onPress={handleShutterCapture}
-            disabled={capturing}
-            activeOpacity={0.75}
+            onPress={handleShutterCapture} disabled={capturing} activeOpacity={0.75}
           >
             <View
               style={[
@@ -464,8 +433,7 @@ export default function CameraViewfinder({
           {/* Flip Camera Facing */}
           <TouchableOpacity
             style={[styles.smallSideButton, nightMode && styles.nightModeButton]}
-            onPress={toggleFacing}
-            activeOpacity={0.7}
+            onPress={toggleFacing} activeOpacity={0.7}
           >
             <Text style={styles.smallSideIcon}>🔄</Text>
             <Text style={[styles.smallSideText, nightMode && styles.redText]}>
