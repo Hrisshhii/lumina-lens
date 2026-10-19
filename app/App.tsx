@@ -1,32 +1,12 @@
 import React, { useEffect, useState, useCallback } from "react";
-import {
-  Text,
-  View,
-  FlatList,
-  ActivityIndicator,
-  TouchableOpacity,
-  RefreshControl,
-  SafeAreaView,
-  StyleSheet,
-  Platform,
-} from "react-native";
+import {Text,View,FlatList,ActivityIndicator,TouchableOpacity,RefreshControl,SafeAreaView,StyleSheet,Platform,} from "react-native";
 import { StatusBar } from "expo-status-bar";
 
-import {
-  getVisibleStars,
-  getStarByHip,
-  Star,
-  StarProfile,
-  VisibleStarsResponse,
-} from "./src/services/api";
+import {getVisibleStars,getStarByHip,Star,StarProfile,VisibleStarsResponse,} from "./src/services/api";
 import StarDetailModal from "./src/components/StarDetailModal";
 import SkyDomeView from "./src/components/SkyDomeView";
 import CameraViewfinder from "./src/components/CameraViewfinder";
-import {
-  getDeviceLocation,
-  DeviceLocation,
-  useDeviceOrientation,
-} from "./src/engines/sensor";
+import {getDeviceLocation,DeviceLocation,useDeviceOrientation,} from "./src/engines/sensor";
 
 // Default coordinates (Pune, India - Phase 1 test observer fallback)
 const DEFAULT_LATITUDE = 18.5204;
@@ -174,9 +154,7 @@ export default function App() {
     const cardinal = getCompassDirection(item.azimuth);
 
     return (
-      <TouchableOpacity
-        style={styles.starCard}
-        activeOpacity={0.7}
+      <TouchableOpacity style={styles.starCard} activeOpacity={0.7}
         onPress={() => handleStarPress(item.hip)}
       >
         <View style={styles.starCardHeader}>
@@ -322,10 +300,7 @@ export default function App() {
             </TouchableOpacity>
           </View>
 
-          <TouchableOpacity
-            onPress={handleRefresh}
-            style={styles.refreshButton}
-            activeOpacity={0.7}
+          <TouchableOpacity onPress={handleRefresh} style={styles.refreshButton} activeOpacity={0.7}
           >
             <Text style={styles.refreshButtonText}>↻ Refresh</Text>
           </TouchableOpacity>
