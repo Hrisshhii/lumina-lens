@@ -79,4 +79,16 @@ Read [notes/Phase-1/README.md](notes/Phase-1/README.md) for the complete enginee
 - **Step 10:** Debug sky visualization (`SkyDomeView.tsx` 2D celestial radar / dome view with orientation reticle).
 - **Step 11:** Astronomical prediction verification (multi-observer verification test runner `verify_astronomy.py`).
 
-**Status:** Phase 1 Complete ✅. Transitioning to **Phase 2: Computer Vision & Star Detection**.
+**Status:** Phase 1 Complete ✅. Phase 2 is actively in progress.
+
+---
+
+## 🔭 Phase 2 Implementation Logs (In Progress 🔄)
+
+Read [notes/Phase-2/README.md](notes/Phase-2/README.md) for the current engineering logs:
+- **Step 1:** Camera access & live night-sky viewfinder (`CameraViewfinder.tsx`, dark vision red mode, astronomical reticle crosshairs, 3-way view switcher).
+- **Step 2:** Night-sky frame acquisition — `CapturedFrame` contract, `VisionEngine` subsystem, resolution presets, and synthetic asterism benchmark generator (`BENCHMARK_ASTERISMS`).
+- **Step 3:** Image preprocessing — ITU-R BT.709 photopic luminance conversion (fixed-point bitshift), CMOS hot-pixel suppression (4-neighbor cross median), and separable 3×3 Gaussian smoothing (`preprocessing.ts`).
+- **Step 4:** Background estimation & adaptive thresholding — tiled mesh background estimation (histogram-based Median/MAD), bilinear surface interpolation, and CFAR adaptive star-candidate mask generation (`background.ts`).
+
+**Status:** Steps 1–4 complete ✅. Steps 5–6 (blob detection, centroid extraction, and debug overlay) upcoming.
