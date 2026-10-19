@@ -211,12 +211,18 @@ User Device                Mobile App              FastAPI Backend         Astro
 
 | Subsystem | File Path | Primary Responsibility |
 |:---|:---|:---|
-| **Frontend** | `app/App.tsx` | Root screen, state orchestration, GPS badge, Orientation HUD, view switcher, pull-to-refresh, star card list. |
+| **Frontend** | `app/App.tsx` | Root screen, state orchestration, GPS badge, Orientation HUD, 3-way view switcher, pull-to-refresh, star card list. |
+| **Frontend** | `app/src/components/CameraViewfinder.tsx` | Full-bleed night-sky camera viewfinder with astronomical reticle, sensor HUD, Red Night Vision mode, synthetic benchmark injection, and Phase 2 preprocessing/segmentation trigger buttons. |
 | **Frontend** | `app/src/components/SkyDomeView.tsx` | 2D celestial radar / dome view with polar Alt/Az projection, magnitude dot scaling, filter chips, and device aim reticle. |
 | **Frontend** | `app/src/components/StarDetailModal.tsx` | Slide-up modal displaying detailed astrophysical profile and descriptions. |
 | **Frontend** | `app/src/engines/sensor/location.ts` | Requests location permissions and retrieves device latitude, longitude, and altitude. |
 | **Frontend** | `app/src/engines/sensor/orientation.ts` | Custom hook consuming magnetometer and accelerometer with angular filtering. |
 | **Frontend** | `app/src/engines/sensor/index.ts` | Barrel file re-exporting sensor engine utilities. |
+| **Vision Engine** | `app/src/engines/vision/types.ts` | TypeScript data contracts: `CapturedFrame`, `LuminanceBuffer`, `BackgroundMesh`, `SegmentationResult`, `PreprocessingResult`. |
+| **Vision Engine** | `app/src/engines/vision/syntheticStarfield.ts` | Calibrated synthetic RGBA starfield generator with Gaussian Airy disk PSFs for Orion, Summer Triangle, and Cassiopeia (`BENCHMARK_ASTERISMS`). |
+| **Vision Engine** | `app/src/engines/vision/frameAcquisition.ts` | Camera shutter capture handler, synthetic frame injection, and `CapturedFrame` assembly with GPS/orientation metadata. |
+| **Vision Engine** | `app/src/engines/vision/preprocessing.ts` | ITU-R BT.709 photopic luminance conversion, CMOS hot-pixel suppression, and separable 3×3 Gaussian blur. Returns `LuminanceBuffer`. |
+| **Vision Engine** | `app/src/engines/vision/background.ts` | Tiled mesh background estimation (histogram Median/MAD), bilinear surface interpolation, CFAR adaptive thresholding, and binary `starMask` generation. |
 | **Frontend** | `app/src/services/api.ts` | Typed HTTP client for `/health`, `/sky/visible`, and `/stars/{hip_id}`. |
 | **Backend** | `backend/app/main.py` | FastAPI application factory, CORS middleware, router registration, `/health`. |
 | **Backend** | `backend/app/api/sky.py` | Endpoint controller for `GET /sky/visible` with coordinate validation. |
