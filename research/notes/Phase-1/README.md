@@ -119,9 +119,16 @@ lumina-lens/
 
 🎉 **Phase 1 Complete!** All 11 foundational steps are implemented, mathematically verified, and signed off.
 
-## Next (Phase 2)
+## Next (Phase 2 — In Progress 🔄)
 
-* [ ] **Phase 2: Computer Vision & Star Detection:** Camera frame capture, noise reduction, thresholding, and star centroid extraction.
+Phase 2 (Computer Vision & Star Detection) is currently active. Steps 1–4 are complete:
+
+* [x] **Step 1:** Camera access & live night-sky viewfinder (`CameraViewfinder.tsx`, dark vision mode, reticle).
+* [x] **Step 2:** Night-sky frame acquisition & resolution configuration (`VisionEngine`, `CapturedFrame` contracts).
+* [x] **Step 3:** Image preprocessing — photopic luminance conversion, hot-pixel suppression, Gaussian blur (`preprocessing.ts`).
+* [x] **Step 4:** Background estimation & adaptive thresholding — mesh sky model, CFAR segmentation, star candidate mask (`background.ts`).
+* [ ] **Step 5:** Star blob detection & sub-pixel centroid extraction.
+* [ ] **Step 6:** Star candidate debug overlay & real-time visual verification.
 
 ---
 
