@@ -90,11 +90,12 @@ For full architectural specifications, see [docs/architecture.md](docs/architect
 lumina-lens/
 ├── app/                      # React Native / Expo mobile application
 │   ├── src/
-│   │   ├── components/       # UI components (SkyDomeView, StarDetailModal)
+│   │   ├── components/       # UI components (CameraViewfinder, SkyDomeView, StarDetailModal)
 │   │   ├── engines/
-│   │   │   └── sensor/       # Sensor Engine (GPS location & orientation hook)
+│   │   │   ├── sensor/       # Sensor Engine (GPS location & orientation hook)
+│   │   │   └── vision/       # Vision Engine (Phase 2: frame acquisition, preprocessing, segmentation)
 │   │   └── services/         # API client & TypeScript interfaces (api.ts)
-│   ├── App.tsx               # Root application screen, HUD, view switcher & star list
+│   ├── App.tsx               # Root application screen, HUD, 3-way view switcher & star list
 │   └── package.json          # Mobile dependencies & Expo scripts
 ├── backend/                  # FastAPI Python backend
 │   ├── app/
@@ -111,7 +112,8 @@ lumina-lens/
 └── research/                 # Phase research, analyses & step-by-step logs
     ├── notes/
     │   ├── Phase-0.md        # Astronomy fundamentals & system design
-    │   └── Phase-1/          # Step-by-step Phase 1 implementation logs (Steps 1–11)
+    │   ├── Phase-1/          # Step-by-step Phase 1 implementation logs (Steps 1–11)
+    │   └── Phase-2/          # Step-by-step Phase 2 implementation logs (Steps 1–4 complete)
     ├── Backend-Architecture-analysis.md
     ├── Frontend-Architecture-analysis.md
     └── Frontend-Bankend-comms-analysis.md
