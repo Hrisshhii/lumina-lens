@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import {Text,View,FlatList,ActivityIndicator,TouchableOpacity,RefreshControl,SafeAreaView,StyleSheet,Platform,} from "react-native";
 import { StatusBar } from "expo-status-bar";
-
 import {getVisibleStars,getStarByHip,Star,StarProfile,VisibleStarsResponse,} from "./src/services/api";
 import StarDetailModal from "./src/components/StarDetailModal";
 import SkyDomeView from "./src/components/SkyDomeView";
@@ -32,22 +31,17 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
   // View mode switcher: Phase 2 Step 1 introduces "lens"
   const [viewMode, setViewMode] = useState<"lens" | "dome" | "list">("dome");
-
   // Live sensor / GPS location state (Step 9: Sensor Engine)
   const [location, setLocation] = useState<DeviceLocation | null>(null);
   const [isLiveLocation, setIsLiveLocation] = useState(false);
-
   // Active observer coordinates
   const activeLatitude = location?.latitude ?? DEFAULT_LATITUDE;
   const activeLongitude = location?.longitude ?? DEFAULT_LONGITUDE;
-
   // Live device orientation (Step 9: Sensor Engine)
   const orientation = useDeviceOrientation();
   const currentCardinal = getCompassDirection(orientation.azimuth);
-
   // Star detail modal state (Step 8: Star Identity & Metadata)
   const [selectedHip, setSelectedHip] = useState<number | null>(null);
   const [selectedStar, setSelectedStar] = useState<StarProfile | null>(null);
