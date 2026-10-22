@@ -1,11 +1,5 @@
 import React, { useState, useMemo } from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  useWindowDimensions,
-  ScrollView,
-} from "react-native";
+import {View,Text,TouchableOpacity,useWindowDimensions,ScrollView,} from "react-native";
 import { Star } from "../services/api";
 import { DeviceOrientation } from "../engines/sensor";
 
@@ -18,12 +12,7 @@ interface SkyDomeViewProps {
 
 type StarFilter = "all" | "naked_eye" | "prominent" | "named";
 
-export default function SkyDomeView({
-  stars,
-  orientation,
-  onSelectStar,
-  selectedHipId,
-}: SkyDomeViewProps) {
+export default function SkyDomeView({stars,orientation,onSelectStar,selectedHipId,}: SkyDomeViewProps) {
   const { width } = useWindowDimensions();
   const [filter, setFilter] = useState<StarFilter>("all");
 
