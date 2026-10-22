@@ -1,6 +1,5 @@
 from fastapi import FastAPI # pyright: ignore[reportMissingImports]
 from fastapi.middleware.cors import CORSMiddleware # pyright: ignore[reportMissingImports]
-
 from app.api import sky, stars
 
 app=FastAPI(

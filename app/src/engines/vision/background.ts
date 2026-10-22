@@ -1,9 +1,4 @@
-import type {
-  LuminanceBuffer,
-  BackgroundMesh,
-  SegmentationOptions,
-  SegmentationResult,
-} from "./types";
+import type {LuminanceBuffer,BackgroundMesh,SegmentationOptions,SegmentationResult,} from "./types";
 
 /**
  * Fast histogram-based statistics for 8-bit pixel values in [0, 255].
@@ -81,10 +76,7 @@ export function computeTileStats(
  * @param tileSize Dimension of each square mesh cell in pixels (default 32).
  * @returns BackgroundMesh structure containing coarse 2D background and noise floor arrays.
  */
-export function estimateBackgroundMesh(
-  buffer: LuminanceBuffer,
-  tileSize = 32
-): BackgroundMesh {
+export function estimateBackgroundMesh(buffer: LuminanceBuffer,tileSize = 32): BackgroundMesh {
   const { width, height, data } = buffer;
   const gridCols = Math.ceil(width / tileSize);
   const gridRows = Math.ceil(height / tileSize);
