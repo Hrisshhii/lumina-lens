@@ -1,10 +1,5 @@
 import { CameraView } from "expo-camera";
-import type {
-  CapturedFrame,
-  DeviceOrientationData,
-  FrameResolutionPreset,
-  ObserverCoordinates,
-} from "./types";
+import type {CapturedFrame,DeviceOrientationData,FrameResolutionPreset,ObserverCoordinates,} from "./types";
 import { createSyntheticFrame } from "./syntheticStarfield";
 
 export interface FrameAcquisitionOptions {
