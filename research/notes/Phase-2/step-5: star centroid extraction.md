@@ -241,3 +241,4 @@ To ensure modularity and systematic verification, Step 5 is structured into thre
 | **Hot Pixel Rejection** | Rejection of isolated 1-pixel thermal spikes | $100\%$ rejected ($A < 2$) |
 | **Execution Latency** | Full-frame $1080\text{p}$ CCL & centroiding | $\le 15\text{ ms}$ on mobile JS thread |
 | **Asterism Recovery** | Recovery of all prominent stars in Orion benchmark | $100\%$ recovery ($12/12$ stars detected) |
+
