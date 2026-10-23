@@ -28,7 +28,8 @@ research/
 │       ├── step-1: camera integration.md
 │       ├── step-2: night-sky frame acquisition.md
 │       ├── step-3: image preprocessing.md
-│       └── step-4: background estimation & thresholding.md
+│       ├── step-4: background estimation & thresholding.md
+│       └── step-5: star centroid extraction.md
 ├── Backend-Architecture-analysis.md # Detailed backend subsystem analysis
 ├── Frontend-Architecture-analysis.md # Detailed frontend subsystem analysis
 └── Frontend-Bankend-comms-analysis.md # API contracts & integration analysis
@@ -90,5 +91,6 @@ Read [notes/Phase-2/README.md](notes/Phase-2/README.md) for the current engineer
 - **Step 2:** Night-sky frame acquisition — `CapturedFrame` contract, `VisionEngine` subsystem, resolution presets, and synthetic asterism benchmark generator (`BENCHMARK_ASTERISMS`).
 - **Step 3:** Image preprocessing — ITU-R BT.709 photopic luminance conversion (fixed-point bitshift), CMOS hot-pixel suppression (4-neighbor cross median), and separable 3×3 Gaussian smoothing (`preprocessing.ts`).
 - **Step 4:** Background estimation & adaptive thresholding — tiled mesh background estimation (histogram-based Median/MAD), bilinear surface interpolation, and CFAR adaptive star-candidate mask generation (`background.ts`).
+- **Step 5:** Star blob detection & sub-pixel centroid extraction — 8-connected component clustering, intensity-weighted center of mass, PSF morphology (ellipticity, FWHM), and streak rejection.
 
-**Status:** Steps 1–4 complete ✅. Steps 5–6 (blob detection, centroid extraction, and debug overlay) upcoming.
+**Status:** Steps 1–4 complete ✅. Step 5 in progress 🔄.
