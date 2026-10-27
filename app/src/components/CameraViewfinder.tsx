@@ -3,7 +3,21 @@ import { ActivityIndicator,Image,Platform,StyleSheet,Text,TouchableOpacity,View,
 import { CameraView, CameraType, useCameraPermissions } from "expo-camera";
 import { DeviceOrientation } from "../engines/sensor";
 import { Star } from "../services/api";
-import {CapturedFrame,FrameResolutionPreset,PreprocessingResult,SegmentationResult,acquireCameraFrame,createSyntheticFrame,preprocessFrame,segmentLuminanceFrame,generateSyntheticRgba,BENCHMARK_ASTERISMS,} from "../engines/vision";
+import {
+  CapturedFrame,
+  FrameResolutionPreset,
+  PreprocessingResult,
+  SegmentationResult,
+  StarCentroid,
+  CentroidExtractionResult,
+  acquireCameraFrame,
+  createSyntheticFrame,
+  preprocessFrame,
+  segmentLuminanceFrame,
+  extractStarCentroids,
+  generateSyntheticRgba,
+  BENCHMARK_ASTERISMS,
+} from "../engines/vision";
 
 interface CameraViewfinderProps {
   orientation: DeviceOrientation;
