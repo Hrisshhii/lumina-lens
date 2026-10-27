@@ -371,6 +371,7 @@ export default function CameraViewfinder({
                   setLatestFrame(null);
                   setPreprocessedResult(null);
                   setSegmentationResult(null);
+                  setCentroidResult(null);
                 }}
                 hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
               >
