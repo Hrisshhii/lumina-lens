@@ -408,17 +408,47 @@ export default function CameraViewfinder({
                   Y: [{preprocessedResult.buffer.min}..{preprocessedResult.buffer.max}] • μ: {preprocessedResult.buffer.mean.toFixed(1)} • σ: {preprocessedResult.buffer.stdDev.toFixed(1)}
                 </Text>
 
-                {/* Segmentation Actions & Results (Step 4) */}
+                {/* Segmentation Actions & Results (Step 4 & 5) */}
                 {segmentationResult && (
                   <View style={styles.segmentMetricsBox}>
-                    <View style={styles.segmentBadge}>
-                      <Text style={styles.segmentBadgeText}>
-                        🌓 CFAR ({segmentationResult.executionTimeMs.toFixed(0)}ms)
-                      </Text>
+                    <View style={styles.metricsRow}>
+                      <View style={styles.segmentBadge}>
+                        <Text style={styles.segmentBadgeText}>
+                          🌓 CFAR ({segmentationResult.executionTimeMs.toFixed(0)}ms)
+                        </Text>
+                      </View>
+                      {!centroidResult && (
+                        <TouchableOpacity
+                          style={[styles.centroidBtn, nightMode && styles.nightModeButton]}
+                          onPress={handleExtractCentroids}
+                          disabled={extractingCentroids}
+                          activeOpacity={0.7}
+                        >
+                          {extractingCentroids ? (
+                            <ActivityIndicator size="small" color="#f59e0b" />
+                          ) : (
+                            <Text style={styles.centroidBtnText}>⭐ Centroids (Step 5)</Text>
+                          )}
+                        </TouchableOpacity>
+                      )}
                     </View>
                     <Text style={styles.segmentStatsText}>
                       Bg: {segmentationResult.backgroundMesh.globalMedian.toFixed(1)} • Stars: {segmentationResult.candidatePixelCount} px
                     </Text>
+
+                    {/* Centroid Extraction Results (Step 5) */}
+                    {centroidResult && (
+                      <View style={styles.centroidMetricsBox}>
+                        <View style={styles.centroidBadge}>
+                          <Text style={styles.centroidBadgeText}>
+                            ⭐ Centroids ({centroidResult.executionTimeMs.toFixed(0)}ms)
+                          </Text>
+                        </View>
+                        <Text style={styles.centroidStatsText}>
+                          {centroidResult.stars.length} stars resolved • Top Flux: {centroidResult.stars[0]?.flux ?? 0}
+                        </Text>
+                      </View>
+                    )}
                   </View>
                 )}
               </View>
