@@ -98,6 +98,7 @@ export default function CameraViewfinder({
     setBenchmarkIndex(nextIndex);
     setPreprocessedResult(null);
     setSegmentationResult(null);
+    setCentroidResult(null);
     const key = BENCHMARK_KEYS[benchmarkIndex];
     const frame = createSyntheticFrame(
       key,
