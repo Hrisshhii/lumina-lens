@@ -59,6 +59,10 @@ export default function CameraViewfinder({
   const [segmenting, setSegmenting] = useState(false);
   const [segmentationResult, setSegmentationResult] = useState<SegmentationResult | null>(null);
 
+  // Phase 2 Step 5: Blob Detection & Sub-Pixel Centroid Extraction state
+  const [extractingCentroids, setExtractingCentroids] = useState(false);
+  const [centroidResult, setCentroidResult] = useState<CentroidExtractionResult | null>(null);
+
   const toggleFacing = () => {
     setFacing((current) => (current === "back" ? "front" : "back"));
   };
@@ -71,6 +75,7 @@ export default function CameraViewfinder({
     setCapturing(true);
     setPreprocessedResult(null);
     setSegmentationResult(null);
+    setCentroidResult(null);
     try {
       const frame = await acquireCameraFrame(
         cameraRef,
