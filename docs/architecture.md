@@ -223,6 +223,7 @@ User Device                Mobile App              FastAPI Backend         Astro
 | **Vision Engine** | `app/src/engines/vision/frameAcquisition.ts` | Camera shutter capture handler, synthetic frame injection, and `CapturedFrame` assembly with GPS/orientation metadata. |
 | **Vision Engine** | `app/src/engines/vision/preprocessing.ts` | ITU-R BT.709 photopic luminance conversion, CMOS hot-pixel suppression, and separable 3×3 Gaussian blur. Returns `LuminanceBuffer`. |
 | **Vision Engine** | `app/src/engines/vision/background.ts` | Tiled mesh background estimation (histogram Median/MAD), bilinear surface interpolation, CFAR adaptive thresholding, and binary `starMask` generation. |
+| **Vision Engine** | `app/src/engines/vision/centroidExtraction.ts` | 8-connected component clustering, sub-pixel intensity-weighted center of mass, second-order PSF moments, ellipticity streak rejection, and instrumental magnitude. |
 | **Frontend** | `app/src/services/api.ts` | Typed HTTP client for `/health`, `/sky/visible`, and `/stars/{hip_id}`. |
 | **Backend** | `backend/app/main.py` | FastAPI application factory, CORS middleware, router registration, `/health`. |
 | **Backend** | `backend/app/api/sky.py` | Endpoint controller for `GET /sky/visible` with coordinate validation. |
