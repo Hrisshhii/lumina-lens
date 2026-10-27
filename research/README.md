@@ -91,6 +91,6 @@ Read [notes/Phase-2/README.md](notes/Phase-2/README.md) for the current engineer
 - **Step 2:** Night-sky frame acquisition — `CapturedFrame` contract, `VisionEngine` subsystem, resolution presets, and synthetic asterism benchmark generator (`BENCHMARK_ASTERISMS`).
 - **Step 3:** Image preprocessing — ITU-R BT.709 photopic luminance conversion (fixed-point bitshift), CMOS hot-pixel suppression (4-neighbor cross median), and separable 3×3 Gaussian smoothing (`preprocessing.ts`).
 - **Step 4:** Background estimation & adaptive thresholding — tiled mesh background estimation (histogram-based Median/MAD), bilinear surface interpolation, and CFAR adaptive star-candidate mask generation (`background.ts`).
-- **Step 5:** Star blob detection & sub-pixel centroid extraction — 8-connected component clustering, intensity-weighted center of mass, PSF morphology (ellipticity, FWHM), and streak rejection.
+- **Step 5:** Star blob detection & sub-pixel centroid extraction — 8-connected component clustering, intensity-weighted center of mass, PSF morphology (ellipticity, FWHM), and streak rejection (`centroidExtraction.ts`).
 
-**Status:** Steps 1–4 complete ✅. Step 5 in progress 🔄.
+**Status:** Steps 1–5 complete ✅. Step 6 (candidate debug overlay & verification) upcoming.
