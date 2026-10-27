@@ -57,7 +57,7 @@ This document outlines the multi-phase journey of **Lumina Lens**, from initial 
 - [x] **Step 2: Night-Sky Frame Acquisition & Resolution Configuration:** Manage aspect ratios, frame buffers, synced orientation/GPS metadata, and synthetic asterism generator (`VisionEngine`).
 - [x] **Step 3: Image Preprocessing:** Grayscale conversion and background noise reduction (Gaussian blur / median filtering).
 - [x] **Step 4: Background Estimation & Adaptive Thresholding:** Dynamic sky gradient estimation and adaptive luminance thresholding.
-- [ ] **Step 5: Star Blob Detection & Centroid Extraction:** Connected-component labeling and intensity-weighted center-of-mass sub-pixel centroid calculation.
+- [x] **Step 5: Star Blob Detection & Centroid Extraction:** Connected-component labeling and intensity-weighted center-of-mass sub-pixel centroid calculation.
 - [ ] **Step 6: Star Candidate Debug Overlay & Verification:** Real-time reticle circles and intensity badges overlay on live viewfinder to verify extraction accuracy.
 
 ---
