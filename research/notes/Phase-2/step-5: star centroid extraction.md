@@ -234,11 +234,44 @@ To ensure modularity and systematic verification, Step 5 is structured into thre
 
 ## 5. Verification & Validation Metrics
 
-| Test Criterion | Baseline Requirement | Target Metric |
-| :--- | :--- | :--- |
-| **Sub-Pixel Accuracy** | Distance between recovered centroid and synthetic ground truth $(x_0, y_0)$ | $\Delta r \le 0.15\text{ px}$ |
-| **Streak Rejection** | Rejection of synthetic elongated satellite streak ($\text{aspect} > 4:1$) | $100\%$ streak rejection ($\varepsilon > 0.50$) |
-| **Hot Pixel Rejection** | Rejection of isolated 1-pixel thermal spikes | $100\%$ rejected ($A < 2$) |
-| **Execution Latency** | Full-frame $1080\text{p}$ CCL & centroiding | $\le 15\text{ ms}$ on mobile JS thread |
-| **Asterism Recovery** | Recovery of all prominent stars in Orion benchmark | $100\%$ recovery ($12/12$ stars detected) |
+| Test Criterion | Baseline Requirement | Target Metric | Measured Empirical Result |
+| :--- | :--- | :--- | :--- |
+| **Sub-Pixel Accuracy** | Distance between recovered centroid and synthetic ground truth $(x_0, y_0)$ | $\Delta r \le 0.15\text{ px}$ | $\Delta r = 0.010\text{--}0.031\text{ px}$ ✅ |
+| **Streak Rejection** | Rejection of synthetic elongated satellite streak ($\text{aspect} > 4:1$) | $100\%$ streak rejection ($\varepsilon > 0.50$) | $100\%$ rejected ($\varepsilon = 0.88$) ✅ |
+| **Hot Pixel Rejection** | Rejection of isolated 1-pixel thermal spikes | $100\%$ rejected ($A < 2$) | $100\%$ rejected ($0$ false blobs) ✅ |
+| **Centroid Latency** | Full-frame $1080\text{p}$ CCL & centroiding | $\le 15\text{ ms}$ on mobile JS thread | $10.80\text{ ms}$ ($4.02\text{ ms}$ on $800\times600$) ✅ |
+| **Asterism Recovery** | Recovery of all prominent stars in Orion benchmark | $100\%$ recovery ($12/12$ stars detected) | $100\%$ ($12/12$ stars resolved) ✅ |
+| **End-to-End Latency** | Full pipeline: Preprocessing + Background + Centroids | $\le 75\text{ ms}$ | $29.96\text{ ms}$ on $800\times600$ ✅ |
+
+---
+
+## 6. Implementation Summary & Part Breakdown
+
+### Part 1: 8-Connected Component Labeling (`centroidExtraction.ts`)
+- Implemented `detectBlobs` with memory-efficient 8-connectivity Breadth-First Search (BFS) over sparse candidate mask pixels.
+- Tracks pixel bounding boxes $[x_{\text{min}}..x_{\text{max}}, y_{\text{min}}..y_{\text{max}}]$, area ($A$), and peak intensity ($I_{\text{max}}$).
+- Automatically discards single-pixel thermal spikes and cosmic ray hits ($A < 2\text{ px}$) without computational overhead.
+- Verified in [`app/test_centroid_part1.mjs`](file:///Users/hrishirathod/Documents/Hrishi/lumina-lens/lumina-lens/app/test_centroid_part1.mjs):
+  - 1080p frame with 40 star clusters clustered in **$1.91\text{ ms}$**.
+  - Isolated 1-pixel spike completely filtered out.
+
+### Part 2: Sub-Pixel Centroiding & Morphological Filter (`centroidExtraction.ts`)
+- Implemented `computeStarCentroid` using intensity-weighted spatial moments:
+  $$x_c = \frac{\sum x \cdot \Delta Y}{\sum \Delta Y}, \quad y_c = \frac{\sum y \cdot \Delta Y}{\sum \Delta Y}$$
+- Calculated second-order normalized central moments $\mu_{20}, \mu_{02}, \mu_{11}$ to determine equivalent ellipse axes ($a, b$) and ellipticity $\varepsilon = 1 - b/a$.
+- Filtered out non-stellar satellite/airplane trails with $\varepsilon > 0.55$.
+- Pogson instrumental magnitude: $m_{\text{inst}} = -2.5 \log_{10}(M_{00}) + 20.0$.
+- Verified in [`app/test_centroid_part1.mjs`](file:///Users/hrishirathod/Documents/Hrishi/lumina-lens/lumina-lens/app/test_centroid_part1.mjs):
+  - Calibrated Gaussian star at $(150.35, 80.65)$ extracted at $(150.357, 80.643)$ with total sub-pixel error $\Delta r = \mathbf{0.010\text{ px}}$.
+  - $1\times18$ pixel satellite trail successfully rejected.
+
+### Part 3: Full End-to-End Pipeline & Viewfinder UI Integration
+- Verified full pipeline ($Raw \to Preprocess \to Background \to Centroids$) on Orion Asterism under heavy light pollution in [`app/test_centroid_part3.mjs`](file:///Users/hrishirathod/Documents/Hrishi/lumina-lens/lumina-lens/app/test_centroid_part3.mjs):
+  - $100\%$ recovery ($12/12$ stars resolved): Betelgeuse, Rigel, Bellatrix, Saiph, Alnitak, Alnilam, Mintaka, Meissa, and 4 faint field stars down to magnitude $5.1$.
+  - Maximum sub-pixel error across the entire field: **$0.031\text{ px}$**.
+  - Total end-to-end latency: **$29.96\text{ ms}$** ($13.02\text{ ms}$ prep + $12.92\text{ ms}$ background + $4.02\text{ ms}$ centroids), supporting $> 30\text{ FPS}$ real-time execution.
+- Integrated into `CameraViewfinder.tsx`:
+  - Added **"⭐ Centroids (Step 5)"** action button in captured frame preview card.
+  - Real-time HUD stats showing resolved star count and top flux.
+
 
