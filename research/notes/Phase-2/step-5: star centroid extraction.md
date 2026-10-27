@@ -1,4 +1,4 @@
-# Step 5: Star Blob Detection & Sub-Pixel Centroid Extraction (In Progress 🔄)
+# Step 5: Star Blob Detection & Sub-Pixel Centroid Extraction (Completed ✅)
 
 ## Objective
 Design and implement the astronomical point-source extraction and sub-pixel localization pipeline for the Lumina Lens Vision Engine. Transform the binary candidate star mask and gradient-flattened net luminance buffer ($\Delta Y$) from Step 4 into an astrometrically calibrated catalog of detected star candidates, calculating sub-pixel centroid coordinates $(x_c, y_c)$, integrated luminous flux ($F$), Full Width at Half Maximum ($\text{FWHM}$), and Point Spread Function (PSF) morphological parameters to reject non-stellar artifacts.
