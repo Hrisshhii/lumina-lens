@@ -18,7 +18,7 @@ Phase 1 (Foundation & Sky Prediction) is **100% complete and verified**. Phase 2
 - [x] **Step 2:** Night-Sky Frame Acquisition & Resolution Configuration (frame contracts, synced orientation/GPS, resolution presets, and synthetic asterism generator `VisionEngine`).
 - [x] **Step 3:** Image Preprocessing (grayscale luminance conversion & noise filters).
 - [x] **Step 4:** Background Estimation & Adaptive Luminance Thresholding.
-- [ ] **Step 5:** Star Blob Detection & Sub-Pixel Centroid Extraction.
+- [x] **Step 5:** Star Blob Detection & Sub-Pixel Centroid Extraction.
 - [ ] **Step 6:** Star Candidate Debug Overlay & Real-Time Visual Verification.
 
 ---
