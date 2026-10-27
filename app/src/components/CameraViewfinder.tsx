@@ -933,6 +933,45 @@ const styles = StyleSheet.create({
     color: "#e2e8f0",
     fontWeight: "500",
   },
+  centroidBtn: {
+    backgroundColor: "rgba(245, 158, 11, 0.35)",
+    borderWidth: 1,
+    borderColor: "#f59e0b",
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    borderRadius: 6,
+  },
+  centroidBtnText: {
+    fontSize: 9,
+    fontWeight: "700",
+    color: "#fde68a",
+  },
+  centroidMetricsBox: {
+    marginTop: 3,
+    paddingTop: 3,
+    borderTopWidth: 1,
+    borderTopColor: "rgba(148, 163, 184, 0.15)",
+  },
+  centroidBadge: {
+    alignSelf: "flex-start",
+    backgroundColor: "rgba(245, 158, 11, 0.2)",
+    borderColor: "#f59e0b",
+    borderWidth: 1,
+    paddingHorizontal: 6,
+    paddingVertical: 1,
+    borderRadius: 4,
+    marginBottom: 2,
+  },
+  centroidBadgeText: {
+    fontSize: 9,
+    fontWeight: "700",
+    color: "#fbbf24",
+  },
+  centroidStatsText: {
+    fontSize: 9,
+    color: "#fef3c7",
+    fontWeight: "500",
+  },
   // Bottom Controls
   bottomBarContainer: {
     position: "absolute",
