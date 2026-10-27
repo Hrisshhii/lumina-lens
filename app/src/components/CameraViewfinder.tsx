@@ -114,6 +114,7 @@ export default function CameraViewfinder({
     if (!latestFrame || preprocessing) return;
     setPreprocessing(true);
     setSegmentationResult(null);
+    setCentroidResult(null);
     setTimeout(() => {
       try {
         let rgba: Uint8ClampedArray;
@@ -152,6 +153,7 @@ export default function CameraViewfinder({
   const handleSegment = () => {
     if (!preprocessedResult || segmenting) return;
     setSegmenting(true);
+    setCentroidResult(null);
     setTimeout(() => {
       try {
         const result = segmentLuminanceFrame(preprocessedResult.buffer, {
@@ -164,6 +166,31 @@ export default function CameraViewfinder({
         console.warn("[CameraViewfinder] Segmentation error:", err);
       } finally {
         setSegmenting(false);
+      }
+    }, 10);
+  };
+
+  // Run Phase 2 Step 5 Blob Detection & Sub-Pixel Centroid Extraction
+  const handleExtractCentroids = () => {
+    if (!segmentationResult || extractingCentroids) return;
+    setExtractingCentroids(true);
+    setTimeout(() => {
+      try {
+        const result = extractStarCentroids(
+          segmentationResult.starMask,
+          segmentationResult.netLuminance,
+          {
+            minPixelCount: 2,
+            maxEllipticity: 0.55,
+            minFlux: 12.0,
+          },
+          segmentationResult.backgroundMesh.globalStdDev
+        );
+        setCentroidResult(result);
+      } catch (err) {
+        console.warn("[CameraViewfinder] Centroid extraction error:", err);
+      } finally {
+        setExtractingCentroids(false);
       }
     }, 10);
   };
