@@ -29,7 +29,8 @@ research/
 │       ├── step-2: night-sky frame acquisition.md
 │       ├── step-3: image preprocessing.md
 │       ├── step-4: background estimation & thresholding.md
-│       └── step-5: star centroid extraction.md
+│       ├── step-5: star centroid extraction.md
+│       └── step-6: star candidate debug overlay.md
 ├── Backend-Architecture-analysis.md # Detailed backend subsystem analysis
 ├── Frontend-Architecture-analysis.md # Detailed frontend subsystem analysis
 └── Frontend-Bankend-comms-analysis.md # API contracts & integration analysis
@@ -92,5 +93,6 @@ Read [notes/Phase-2/README.md](notes/Phase-2/README.md) for the current engineer
 - **Step 3:** Image preprocessing — ITU-R BT.709 photopic luminance conversion (fixed-point bitshift), CMOS hot-pixel suppression (4-neighbor cross median), and separable 3×3 Gaussian smoothing (`preprocessing.ts`).
 - **Step 4:** Background estimation & adaptive thresholding — tiled mesh background estimation (histogram-based Median/MAD), bilinear surface interpolation, and CFAR adaptive star-candidate mask generation (`background.ts`).
 - **Step 5:** Star blob detection & sub-pixel centroid extraction — 8-connected component clustering, intensity-weighted center of mass, PSF morphology (ellipticity, FWHM), and streak rejection (`centroidExtraction.ts`).
+- **Step 6:** Star candidate debug overlay & verification — sub-pixel viewport projection, SVG targeting reticles, interactive star inspector, and real-time visual verification.
 
-**Status:** Steps 1–5 complete ✅. Step 6 (candidate debug overlay & verification) upcoming.
+**Status:** Steps 1–5 complete ✅. Step 6 in progress 🔄.
