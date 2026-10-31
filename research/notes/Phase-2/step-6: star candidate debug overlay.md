@@ -159,3 +159,4 @@ To ensure modularity and high rendering performance on mobile devices, Step 6 is
 | **Rendering Latency** | SVG overlay render time for $\le 50$ star reticles | $\le 4\text{ ms}$ on mobile JS thread |
 | **Dark Adaptation** | Full compliance with Red Night Vision mode in dark mode | All overlay elements shift to $> 620\text{ nm}$ red spectrum |
 | **Asterism Validation** | Ground-truth visual alignment on Orion, Summer Triangle, Cassiopeia | Correct identification and reticle placement on all major stars |
+
