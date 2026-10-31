@@ -27,7 +27,7 @@ In Phase 1, we calculated where stars *should* be theoretically based on GPS coo
 - [Step 3: Image Preprocessing](./step-3:%20image%20preprocessing.md)
 - [Step 4: Background Estimation & Adaptive Thresholding](./step-4:%20background%20estimation%20&%20thresholding.md)
 - [Step 5: Star Blob Detection & Centroid Extraction](./step-5:%20star%20centroid%20extraction.md)
-- [Step 6: Star Candidate Debug Overlay](./step-6:%20star%20candidate%20debug%20overlay.md) *(Upcoming)*
+- [Step 6: Star Candidate Debug Overlay](./step-6:%20star%20candidate%20debug%20overlay.md) *(In Progress 🔄)*
 
 ---
 
