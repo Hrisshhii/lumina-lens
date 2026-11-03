@@ -244,7 +244,13 @@ export default function CameraViewfinder({
   const currentBenchmarkName = BENCHMARK_ASTERISMS[BENCHMARK_KEYS[benchmarkIndex]]?.name || "Orion";
 
   return (
-    <View style={[styles.container, nightMode && styles.nightModeContainer]}>
+    <View
+      style={[styles.container, nightMode && styles.nightModeContainer]}
+      onLayout={(e: LayoutChangeEvent) => {
+        const { width, height } = e.nativeEvent.layout;
+        setViewLayout({ width, height });
+      }}
+    >
       {/* Live Camera Feed */}
       <View style={styles.cameraWrapper}>
         <CameraView ref={cameraRef} style={StyleSheet.absoluteFill} facing={facing}>
@@ -257,6 +263,21 @@ export default function CameraViewfinder({
           />
         </CameraView>
       </View>
+
+      {/* Phase 2 Step 6: Star Candidate Debug Overlay */}
+      {showStarOverlay && centroidResult && latestFrame && viewLayout.width > 0 && (
+        <StarOverlay
+          stars={centroidResult.stars}
+          frameWidth={latestFrame.width}
+          frameHeight={latestFrame.height}
+          viewWidth={viewLayout.width}
+          viewHeight={viewLayout.height}
+          selectedStarId={selectedStarCandidate?.id}
+          onSelectStar={(star) => setSelectedStarCandidate(star)}
+          nightMode={nightMode}
+          showLabels={true}
+        />
+      )}
 
       {/* Astro Crosshair & Reticle Overlay */}
       {showReticle && (

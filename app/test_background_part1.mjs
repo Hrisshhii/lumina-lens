@@ -49,13 +49,9 @@ for (const s of stars) {
   }
 }
 
-const buffer = {
-  width,
-  height,
+const buffer = {width,height,
   stride: width,
-  data,
-  min: 10,
-  max: 255,
+  data,min: 10,max: 255,
   mean: 50,
   stdDev: 25,
 };
