@@ -5,10 +5,7 @@ import { DeviceOrientation } from "../engines/sensor";
 import { Star } from "../services/api";
 import {CapturedFrame,FrameResolutionPreset,
   PreprocessingResult,SegmentationResult,
-  StarCentroid,CentroidExtractionResult,
-  acquireCameraFrame,createSyntheticFrame,
-  preprocessFrame,segmentLuminanceFrame,
-  extractStarCentroids,generateSyntheticRgba,BENCHMARK_ASTERISMS,
+  StarCentroid,CentroidExtractionResult,acquireCameraFrame,createSyntheticFrame,preprocessFrame,segmentLuminanceFrame,extractStarCentroids,generateSyntheticRgba,BENCHMARK_ASTERISMS,
 } from "../engines/vision";
 
 interface CameraViewfinderProps {
