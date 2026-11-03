@@ -109,6 +109,7 @@ export default function CameraViewfinder({
     setPreprocessing(true);
     setSegmentationResult(null);
     setCentroidResult(null);
+    setSelectedStarCandidate(null);
     setTimeout(() => {
       try {
         let rgba: Uint8ClampedArray;
@@ -148,6 +149,7 @@ export default function CameraViewfinder({
     if (!preprocessedResult || segmenting) return;
     setSegmenting(true);
     setCentroidResult(null);
+    setSelectedStarCandidate(null);
     setTimeout(() => {
       try {
         const result = segmentLuminanceFrame(preprocessedResult.buffer, {
