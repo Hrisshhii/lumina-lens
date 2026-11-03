@@ -85,14 +85,14 @@ Read [notes/Phase-1/README.md](notes/Phase-1/README.md) for the complete enginee
 
 ---
 
-## 🔭 Phase 2 Implementation Logs (In Progress 🔄)
+## 🔭 Phase 2 Implementation Logs (Completed ✅)
 
-Read [notes/Phase-2/README.md](notes/Phase-2/README.md) for the current engineering logs:
+Read [notes/Phase-2/README.md](notes/Phase-2/README.md) for the complete engineering logs:
 - **Step 1:** Camera access & live night-sky viewfinder (`CameraViewfinder.tsx`, dark vision red mode, astronomical reticle crosshairs, 3-way view switcher).
 - **Step 2:** Night-sky frame acquisition — `CapturedFrame` contract, `VisionEngine` subsystem, resolution presets, and synthetic asterism benchmark generator (`BENCHMARK_ASTERISMS`).
 - **Step 3:** Image preprocessing — ITU-R BT.709 photopic luminance conversion (fixed-point bitshift), CMOS hot-pixel suppression (4-neighbor cross median), and separable 3×3 Gaussian smoothing (`preprocessing.ts`).
 - **Step 4:** Background estimation & adaptive thresholding — tiled mesh background estimation (histogram-based Median/MAD), bilinear surface interpolation, and CFAR adaptive star-candidate mask generation (`background.ts`).
 - **Step 5:** Star blob detection & sub-pixel centroid extraction — 8-connected component clustering, intensity-weighted center of mass, PSF morphology (ellipticity, FWHM), and streak rejection (`centroidExtraction.ts`).
-- **Step 6:** Star candidate debug overlay & verification — sub-pixel viewport projection, SVG targeting reticles, interactive star inspector, and real-time visual verification.
+- **Step 6:** Star candidate debug overlay & verification — sub-pixel viewport projection (`overlayMath.ts`), interactive star reticle overlay (`StarOverlay.tsx`), candidate inspector card, and multi-asterism validation.
 
-**Status:** Steps 1–5 complete ✅. Step 6 in progress 🔄.
+**Status:** Phase 2 Complete ✅. Transitioning to **Phase 3: Plate Solving & Pattern Recognition**.
