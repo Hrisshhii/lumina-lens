@@ -212,7 +212,8 @@ User Device                Mobile App              FastAPI Backend         Astro
 | Subsystem | File Path | Primary Responsibility |
 |:---|:---|:---|
 | **Frontend** | `app/App.tsx` | Root screen, state orchestration, GPS badge, Orientation HUD, 3-way view switcher, pull-to-refresh, star card list. |
-| **Frontend** | `app/src/components/CameraViewfinder.tsx` | Full-bleed night-sky camera viewfinder with astronomical reticle, sensor HUD, Red Night Vision mode, synthetic benchmark injection, and Phase 2 preprocessing/segmentation trigger buttons. |
+| **Frontend** | `app/src/components/CameraViewfinder.tsx` | Full-bleed night-sky camera viewfinder with astronomical reticle, sensor HUD, Red Night Vision mode, synthetic benchmark injection, and Phase 2 preprocessing/segmentation/centroiding controls. |
+| **Frontend** | `app/src/components/StarOverlay.tsx` | Interactive candidate star reticle overlay projecting sub-pixel centroids onto screen space with touch inspection, dynamic flux radius, and Red Night Vision styling. |
 | **Frontend** | `app/src/components/SkyDomeView.tsx` | 2D celestial radar / dome view with polar Alt/Az projection, magnitude dot scaling, filter chips, and device aim reticle. |
 | **Frontend** | `app/src/components/StarDetailModal.tsx` | Slide-up modal displaying detailed astrophysical profile and descriptions. |
 | **Frontend** | `app/src/engines/sensor/location.ts` | Requests location permissions and retrieves device latitude, longitude, and altitude. |
@@ -224,6 +225,7 @@ User Device                Mobile App              FastAPI Backend         Astro
 | **Vision Engine** | `app/src/engines/vision/preprocessing.ts` | ITU-R BT.709 photopic luminance conversion, CMOS hot-pixel suppression, and separable 3×3 Gaussian blur. Returns `LuminanceBuffer`. |
 | **Vision Engine** | `app/src/engines/vision/background.ts` | Tiled mesh background estimation (histogram Median/MAD), bilinear surface interpolation, CFAR adaptive thresholding, and binary `starMask` generation. |
 | **Vision Engine** | `app/src/engines/vision/centroidExtraction.ts` | 8-connected component clustering, sub-pixel intensity-weighted center of mass, second-order PSF moments, ellipticity streak rejection, and instrumental magnitude. |
+| **Vision Engine** | `app/src/engines/vision/overlayMath.ts` | Aspect-ratio-preserving coordinate mapping from sensor frame space to viewport screen space (`mapFrameToScreen`), and logarithmic reticle sizing (`getReticleRadius`). |
 | **Frontend** | `app/src/services/api.ts` | Typed HTTP client for `/health`, `/sky/visible`, and `/stars/{hip_id}`. |
 | **Backend** | `backend/app/main.py` | FastAPI application factory, CORS middleware, router registration, `/health`. |
 | **Backend** | `backend/app/api/sky.py` | Endpoint controller for `GET /sky/visible` with coordinate validation. |
