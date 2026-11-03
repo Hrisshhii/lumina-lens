@@ -49,3 +49,4 @@ export function getReticleRadius(flux: number): number {
   const extra = Math.max(0, Math.log10(Math.max(10, flux) / 100) * 4.5);
   return Math.max(minR, Math.min(maxR, Math.round(baseR + extra)));
 }
+
