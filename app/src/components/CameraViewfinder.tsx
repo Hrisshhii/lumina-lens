@@ -50,6 +50,11 @@ export default function CameraViewfinder({
   const [extractingCentroids, setExtractingCentroids] = useState(false);
   const [centroidResult, setCentroidResult] = useState<CentroidExtractionResult | null>(null);
 
+  // Phase 2 Step 6: Star Candidate Debug Overlay state
+  const [showStarOverlay, setShowStarOverlay] = useState(true);
+  const [selectedStarCandidate, setSelectedStarCandidate] = useState<StarCentroid | null>(null);
+  const [viewLayout, setViewLayout] = useState<{ width: number; height: number }>({ width: 0, height: 0 });
+
   const toggleFacing = () => {
     setFacing((current) => (current === "back" ? "front" : "back"));
   };
@@ -63,6 +68,7 @@ export default function CameraViewfinder({
     setPreprocessedResult(null);
     setSegmentationResult(null);
     setCentroidResult(null);
+    setSelectedStarCandidate(null);
     try {
       const frame = await acquireCameraFrame(
         cameraRef,
@@ -86,6 +92,7 @@ export default function CameraViewfinder({
     setPreprocessedResult(null);
     setSegmentationResult(null);
     setCentroidResult(null);
+    setSelectedStarCandidate(null);
     const key = BENCHMARK_KEYS[benchmarkIndex];
     const frame = createSyntheticFrame(
       key,

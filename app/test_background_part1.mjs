@@ -3,12 +3,7 @@
  * Background Mesh Estimation & Continuous Surface Interpolation
  */
 
-import {
-  computeTileStats,
-  estimateBackgroundMesh,
-  evaluateBackgroundAt,
-  generateContinuousSurfaces
-} from "./src/engines/vision/background.ts";
+import {computeTileStats,estimateBackgroundMesh,evaluateBackgroundAt,generateContinuousSurfaces} from "./src/engines/vision/background.ts";
 
 console.log("================================================================================");
 console.log("🌌 LUMINA LENS — Phase 2 Step 4 (Part 1): Background Mesh & Surface Verification");
