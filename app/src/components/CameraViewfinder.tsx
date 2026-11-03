@@ -1,9 +1,10 @@
 import React, { useState, useRef } from "react";
-import { ActivityIndicator,Image,Platform,StyleSheet,Text,TouchableOpacity,View,} from "react-native";
+import { ActivityIndicator, Image, LayoutChangeEvent, Platform, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { CameraView, CameraType, useCameraPermissions } from "expo-camera";
 import { DeviceOrientation } from "../engines/sensor";
 import { Star } from "../services/api";
 import {CapturedFrame,FrameResolutionPreset,PreprocessingResult,SegmentationResult,StarCentroid,CentroidExtractionResult,acquireCameraFrame,createSyntheticFrame,preprocessFrame,segmentLuminanceFrame,extractStarCentroids,generateSyntheticRgba,BENCHMARK_ASTERISMS,} from "../engines/vision";
+import StarOverlay from "./StarOverlay";
 
 interface CameraViewfinderProps {
   orientation: DeviceOrientation;
