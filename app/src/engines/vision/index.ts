@@ -9,5 +9,6 @@ export * from "./frameAcquisition";
 export * from "./preprocessing";
 export * from "./background";
 export * from "./centroidExtraction";
+export * from "./overlayMath";
 
 

@@ -1,9 +1,4 @@
-import {
-  createLuminanceBuffer,
-  calculateLuminanceStats,
-  suppressHotPixels,
-  separableGaussianBlur3x3,
-} from "./src/engines/vision/preprocessing.ts";
+import {createLuminanceBuffer,calculateLuminanceStats,suppressHotPixels,separableGaussianBlur3x3,} from "./src/engines/vision/preprocessing.ts";
 
 console.log("=================================================================");
 console.log(" ✦ STEP 3 PART 2: ASTRONOMICAL SPATIAL FILTERING VERIFICATION ✦");
