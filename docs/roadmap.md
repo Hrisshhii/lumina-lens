@@ -10,8 +10,8 @@ This document outlines the multi-phase journey of **Lumina Lens**, from initial 
 |:---|:---|:---|:---|
 | **Phase 0** | Research & Architecture | ✅ **Completed** | Mathematical foundations, catalog research, system blueprint |
 | **Phase 1** | Foundation & Sky Prediction | ✅ **Completed** | Working mobile app, live GPS, orientation HUD, Skyfield ephemeris, star profiles |
-| **Phase 2** | Computer Vision & Star Detection | 🔄 **In Progress** | Camera frame capture, noise filtering, blob detection, centroid extraction |
-| **Phase 3** | Plate Solving & Pattern Matching | ⏳ **Planned** | Triangle asterism matching, lost-in-space solver, camera pose determination |
+| **Phase 2** | Computer Vision & Star Detection | ✅ **Completed** | Camera frame capture, noise filtering, blob detection, centroid extraction, debug overlay |
+| **Phase 3** | Plate Solving & Pattern Matching | 🔄 **Current Phase** | Triangle asterism matching, lost-in-space solver, camera pose determination |
 | **Phase 4** | Augmented Reality & Constellations | ⏳ **Planned** | Real-time AR overlay, constellation lines, interactive celestial dome |
 | **Phase 5** | Deep Sky Objects & AI Assistant | ⏳ **Planned** | Messier/NGC catalogs, LLM-powered astronomical conversational companion |
 | **Phase 6** | Offline Mode & Astrophotography | ⏳ **Planned** | Fully on-device catalog database, long-exposure image stacking |
