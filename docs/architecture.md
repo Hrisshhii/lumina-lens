@@ -251,6 +251,7 @@ Phase 2 has integrated the **Vision Engine** (`app/src/engines/vision/`) into th
 | **Image Preprocessing** | `preprocessing.ts` | ITU-R BT.709 luminance conversion, CMOS hot-pixel suppression, and separable 3×3 Gaussian smoothing |
 | **Background Estimation** | `background.ts` | Tiled mesh background estimation (Median/MAD), bilinear surface interpolation, CFAR adaptive thresholding, and binary star candidate mask generation |
 | **Centroid Extraction** | `centroidExtraction.ts` | 8-connected component clustering, sub-pixel intensity-weighted center of mass, second-order PSF moments, ellipticity streak rejection, and instrumental magnitude |
+| **Overlay Math** | `overlayMath.ts` | Aspect-ratio-preserving coordinate transformation and dynamic reticle scaling |
 
 ### 6.2 Phase 2 Data Flow
 
@@ -282,7 +283,10 @@ Live Camera Sensor (Physical Night Sky)
   • Calibrated StarCentroid[] array
                  │
                  ▼
-    Step 6: Visual Debug Overlay (Upcoming)
+    Step 6: Visual Debug Overlay (StarOverlay.tsx)
+  • Frame -> Screen aspect ratio mapping (overlayMath.ts)
+  • Dynamic reticle rings & sub-pixel crosshairs
+  • Interactive touch candidate inspector card
 ```
 
 ---
