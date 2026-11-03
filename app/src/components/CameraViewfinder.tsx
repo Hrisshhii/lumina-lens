@@ -453,17 +453,52 @@ export default function CameraViewfinder({
                       Bg: {segmentationResult.backgroundMesh.globalMedian.toFixed(1)} • Stars: {segmentationResult.candidatePixelCount} px
                     </Text>
 
-                    {/* Centroid Extraction Results (Step 5) */}
+                    {/* Centroid Extraction Results (Step 5 & 6) */}
                     {centroidResult && (
                       <View style={styles.centroidMetricsBox}>
-                        <View style={styles.centroidBadge}>
-                          <Text style={styles.centroidBadgeText}>
-                            ⭐ Centroids ({centroidResult.executionTimeMs.toFixed(0)}ms)
-                          </Text>
+                        <View style={styles.metricsRow}>
+                          <View style={styles.centroidBadge}>
+                            <Text style={styles.centroidBadgeText}>
+                              ⭐ Centroids ({centroidResult.executionTimeMs.toFixed(0)}ms)
+                            </Text>
+                          </View>
+                          <TouchableOpacity
+                            style={[
+                              styles.overlayToggleBtn,
+                              showStarOverlay && styles.overlayToggleBtnActive,
+                              nightMode && styles.nightModeButton,
+                            ]}
+                            onPress={() => setShowStarOverlay((prev) => !prev)}
+                            activeOpacity={0.7}
+                          >
+                            <Text style={[styles.overlayToggleBtnText, nightMode && styles.redText]}>
+                              {showStarOverlay ? "👁️ Hide Overlay" : "👁️ Show Overlay"}
+                            </Text>
+                          </TouchableOpacity>
                         </View>
                         <Text style={styles.centroidStatsText}>
                           {centroidResult.stars.length} stars resolved • Top Flux: {centroidResult.stars[0]?.flux ?? 0}
                         </Text>
+
+                        {/* Selected Star Candidate Inspector Badge (Step 6) */}
+                        {selectedStarCandidate && (
+                          <View style={[styles.starInspectorCard, nightMode && styles.nightModeBadge]}>
+                            <View style={styles.starInspectorHeader}>
+                              <Text style={[styles.starInspectorTitle, nightMode && styles.redText]}>
+                                Star Candidate #{selectedStarCandidate.id}
+                              </Text>
+                              <TouchableOpacity onPress={() => setSelectedStarCandidate(null)}>
+                                <Text style={styles.starInspectorClose}>✕</Text>
+                              </TouchableOpacity>
+                            </View>
+                            <Text style={styles.starInspectorDetails}>
+                              Center: ({selectedStarCandidate.x}, {selectedStarCandidate.y}) • FWHM: {selectedStarCandidate.fwhm}px
+                            </Text>
+                            <Text style={styles.starInspectorDetails}>
+                              Flux: {selectedStarCandidate.flux} • Ellipticity: {selectedStarCandidate.ellipticity} • Mag: {selectedStarCandidate.instrumentalMagnitude}
+                            </Text>
+                          </View>
+                        )}
                       </View>
                     )}
                   </View>
@@ -988,6 +1023,52 @@ const styles = StyleSheet.create({
     fontSize: 9,
     color: "#fef3c7",
     fontWeight: "500",
+  },
+  overlayToggleBtn: {
+    backgroundColor: "rgba(14, 165, 233, 0.25)",
+    borderWidth: 1,
+    borderColor: "#0284c7",
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 5,
+  },
+  overlayToggleBtnActive: {
+    backgroundColor: "rgba(14, 165, 233, 0.45)",
+    borderColor: "#38bdf8",
+  },
+  overlayToggleBtnText: {
+    fontSize: 8,
+    fontWeight: "700",
+    color: "#7dd3fc",
+  },
+  starInspectorCard: {
+    marginTop: 4,
+    backgroundColor: "rgba(15, 23, 42, 0.90)",
+    borderWidth: 1,
+    borderColor: "#22c55e",
+    borderRadius: 6,
+    padding: 6,
+  },
+  starInspectorHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 2,
+  },
+  starInspectorTitle: {
+    fontSize: 10,
+    fontWeight: "700",
+    color: "#4ade80",
+  },
+  starInspectorClose: {
+    fontSize: 11,
+    color: "#94a3b8",
+    paddingHorizontal: 4,
+  },
+  starInspectorDetails: {
+    fontSize: 8.5,
+    color: "#cbd5e1",
+    lineHeight: 12,
   },
   // Bottom Controls
   bottomBarContainer: {
