@@ -81,11 +81,13 @@
 
 ---
 
-## Frontend Roadmap for Phase 2: Computer Vision & Star Detection
+## Frontend Roadmap for Phase 2: Computer Vision & Star Detection (Completed ✅)
 
 1. **Camera Stream Integration (Phase 2):**
-   - Integrate high-frame-rate camera stream (`expo-camera` or VisionCamera) for night-sky frame acquisition.
+   - ✅ Integrated high-frame-rate camera stream via `expo-camera` for night-sky frame acquisition (`CameraViewfinder.tsx`).
 2. **Camera Frame Overlay Canvas:**
-   - Layer canvas / graphics primitives over live camera frames for star candidate highlighting.
-3. **Custom Hooks Extraction:**
+   - ✅ Layered SVG reticle overlay component (`StarOverlay.tsx`) over live camera frames for star candidate highlighting with interactive touch inspection, dynamic flux-based radius scaling, and Red Night Vision compliance.
+3. **Vision Engine Pipeline:**
+   - ✅ Complete pipeline: Frame Acquisition → ITU-R BT.709 Preprocessing → Background Estimation & CFAR Thresholding → Sub-Pixel Centroid Extraction → Debug Overlay Verification.
+4. **Custom Hooks Extraction:**
    - Extract `useVisibleStars(lat, lon)` into `src/hooks/` to further decouple data-fetching lifecycle from `App.tsx` presentation.
