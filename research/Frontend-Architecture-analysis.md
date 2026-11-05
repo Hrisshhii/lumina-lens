@@ -94,6 +94,9 @@
 | **Base URL Config** | Hardcoded dev URLs | ✅ **Resolved.** Inlined `process.env.EXPO_PUBLIC_API_URL` for physical LAN testing with emulator fallbacks. |
 | **Styling Architecture** | StyleSheet.create blocks | ✅ **Resolved.** Migrated to Tailwind CSS via NativeWind v5 + Tailwind CSS v4. |
 | **Type Checking** | Unchecked | ✅ **Clean.** Passing `npx tsc --noEmit` with 0 type errors. |
+| **Camera Integration (Phase 2)** | None | ✅ **Resolved.** `expo-camera` live viewfinder with `CameraViewfinder.tsx`, dark vision red mode, sensor HUD, astronomical crosshair reticle, and 3-way view switcher. |
+| **Vision Engine Pipeline (Phase 2)** | None | ✅ **Resolved.** Complete 6-step pipeline: Frame Acquisition → Preprocessing → Background Estimation → Centroid Extraction → Debug Overlay, all in `app/src/engines/vision/`. |
+| **Star Candidate Overlay (Phase 2)** | None | ✅ **Resolved.** Interactive `StarOverlay.tsx` with sub-pixel reticles, touch inspection, flux-based sizing, and Red Night Vision compliance. |
 
 ---
 
