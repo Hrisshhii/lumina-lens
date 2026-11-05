@@ -9,6 +9,9 @@ Lumina Lens employs a client-server architecture where the mobile client communi
 ```text
 app/App.tsx (Main UI & Sensor Orchestration)
    │
+   ├──► app/src/components/CameraViewfinder.tsx (Live Camera + Vision Pipeline)
+   │        └──► app/src/engines/vision/* (Frame → Preprocess → Segment → Centroid → Overlay)
+   │
    ▼
 app/src/services/api.ts (Typed HTTP Client)
    │  GET /sky/visible?latitude={lat}&longitude={lon}&limit=50
