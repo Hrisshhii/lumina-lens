@@ -30,6 +30,12 @@
   - Pull-to-refresh (`RefreshControl`) via `handleRefresh`: re-queries device GPS and recalculates the dynamic sky.
 
 ### 4. `app/src/components/` — UI Components
+- **`CameraViewfinder.tsx` — Live Night-Sky Camera Viewfinder (Phase 2):**
+  - **Responsibility:** Full-bleed camera viewfinder with `expo-camera`, astronomical crosshair reticle, Red Night Vision mode, sensor HUD, camera facing flip, and the Phase 2 vision pipeline controls (frame acquisition, preprocessing, segmentation, centroid extraction, and debug overlay).
+  - **Features:** Live camera feed, synthetic benchmark injection (Orion, Summer Triangle, Cassiopeia), resolution preset toggle (1080p/720p), integrated Star Candidate Inspector card, and Star Overlay toggle.
+- **`StarOverlay.tsx` — Star Candidate Debug Overlay (Phase 2):**
+  - **Responsibility:** Interactive reticle overlay projecting sub-pixel star centroids onto screen space with touch inspection, dynamic flux-based radius scaling, ID/FWHM label pills, and full Red Night Vision compliance.
+  - **Coordinate Mapping:** Uses `overlayMath.ts` for aspect-ratio-preserving contain-fit projection from sensor frame space to viewport screen space.
 - **`SkyDomeView.tsx` — 2D Celestial Radar / Dome:**
   - **Responsibility:** Polar projection canvas rendering stars according to local topocentric angles ($\text{Alt, Az}$).
   - **Coordinate Mapping:** Center is Zenith ($90^\circ$ Alt, $r = 0$), perimeter is Horizon ($0^\circ$ Alt, $r = R$).
