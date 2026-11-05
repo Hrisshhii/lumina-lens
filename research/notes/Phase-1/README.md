@@ -67,9 +67,11 @@ lumina-lens/
 │
 ├── app/                 # React Native / Expo application
 │   ├── src/
-│   │   ├── components/  # StarDetailModal.tsx
+│   │   ├── components/  # CameraViewfinder.tsx, StarOverlay.tsx, SkyDomeView.tsx, StarDetailModal.tsx
 │   │   ├── engines/
-│   │   │   └── sensor/  # location.ts, orientation.ts, index.ts
+│   │   │   ├── sensor/  # location.ts, orientation.ts, index.ts
+│   │   │   └── vision/  # Phase 2: types.ts, syntheticStarfield.ts, frameAcquisition.ts,
+│   │   │                #   preprocessing.ts, background.ts, centroidExtraction.ts, overlayMath.ts
 │   │   └── services/    # api.ts
 │   └── App.tsx          # Main screen, live GPS badge & Orientation HUD
 │
