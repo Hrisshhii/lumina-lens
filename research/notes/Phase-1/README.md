@@ -47,6 +47,10 @@ The project contains a fully operational frontend-backend pipeline:
 ```text
 Lumina Lens Mobile Client (app/)
 ├── Sensor Engine (GPS & Orientation HUD)
+├── Vision Engine (Phase 2: Frame → Preprocess → Segment → Centroid → Overlay)
+├── CameraViewfinder (Live Night-Sky Camera + Pipeline Controls)
+├── StarOverlay (Interactive Star Candidate Reticle Overlay)
+├── SkyDomeView (2D Celestial Radar / Dome)
 ├── StarDetailModal (Astrophysical Identity & Metadata)
 └── api.ts (Typed HTTP Client)
        │
