@@ -60,7 +60,17 @@
   - Returns `{ azimuth, altitude, available }`.
 - **`index.ts`**: Barrel export for sensor utilities.
 
-### 6. `app/src/services/api.ts` — API Client
+### 6. `app/src/engines/vision/` — Vision Engine (Phase 2)
+- **`types.ts`**: TypeScript data contracts: `CapturedFrame`, `LuminanceBuffer`, `BackgroundMesh`, `SegmentationResult`, `StarCentroid`, `CentroidExtractionResult`, `PreprocessingResult`, `SyntheticFieldConfig`.
+- **`syntheticStarfield.ts`**: Calibrated synthetic RGBA starfield generator with Gaussian Airy disk PSFs for Orion, Summer Triangle, and Cassiopeia asterisms (`BENCHMARK_ASTERISMS`).
+- **`frameAcquisition.ts`**: Camera shutter capture handler, synthetic frame injection, and `CapturedFrame` assembly with GPS/orientation metadata.
+- **`preprocessing.ts`**: ITU-R BT.709 photopic luminance conversion (fixed-point bitshift), CMOS hot-pixel suppression (4-neighbor cross median), and separable 3×3 Gaussian smoothing. Returns `PreprocessingResult` with `LuminanceBuffer`.
+- **`background.ts`**: Tiled mesh background estimation (histogram-based Median/MAD), bilinear surface interpolation, CFAR adaptive thresholding ($T = B + k\sigma$), and binary star candidate mask generation.
+- **`centroidExtraction.ts`**: 8-connected component clustering, sub-pixel intensity-weighted center of mass, second-order PSF moments (FWHM, ellipticity), streak rejection ($\varepsilon \le 0.55$), and Pogson instrumental magnitude.
+- **`overlayMath.ts`**: Aspect-ratio-preserving coordinate mapping (`mapFrameToScreen`) and logarithmic reticle sizing (`getReticleRadius`).
+- **`index.ts`**: Barrel file re-exporting all vision engine modules.
+
+### 7. `app/src/services/api.ts` — API Client
 - **Responsibility:** Strongly typed communication with the FastAPI backend.
 - **Base URL:** Environment-driven with platform fallbacks:
   - `process.env.EXPO_PUBLIC_API_URL` (for physical device testing over LAN / staging)
