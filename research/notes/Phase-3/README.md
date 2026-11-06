@@ -65,3 +65,4 @@ In Phase 1, we calculated topocentric positions from ephemeris tables and sensor
 2. **Robustness to Noise:** Successfully match fields with up to $20\%$ spurious false centroids or missing stars.
 3. **High Astrometric Precision:** Pointing solution $(\text{RA}, \text{Dec})$ accurate to within $< 0.1^\circ$ ($6\text{ arcmin}$).
 4. **Field of View (FOV) Agnostic:** Automatically converge on optical FOV between $30^\circ$ and $80^\circ$ without manual calibration.
+

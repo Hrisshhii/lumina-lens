@@ -128,3 +128,4 @@ To build and verify Step 1 cleanly:
 | **Scale Invariance** | $|\Delta r_1| < 10^{-5}, |\Delta r_2| < 10^{-5}$ across $0.5\times$ to $2.5\times$ zoom | Accommodates variable camera FOV |
 | **Collinear Rejection** | $L_1 + L_2 \approx L_3$ rejected automatically | Straight lines provide degenerate astrometric solutions |
 | **Extraction Execution Time** | $< 5\text{ ms}$ for 20 stars ($\approx 50$ candidate triangles) | High-speed real-time mobile loop budget |
+
