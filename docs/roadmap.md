@@ -62,15 +62,16 @@ This document outlines the multi-phase journey of **Lumina Lens**, from initial 
 
 ---
 
-## Phase 3: Plate Solving & Pattern Recognition (Planned ⏳)
+## Phase 3: Plate Solving & Pattern Recognition (Current 🔄)
 
-**Objective:** Match observed star centroids with catalog star positions without prior knowledge of camera direction.
+**Objective:** Match observed star centroids with catalog star positions without prior knowledge of camera direction (Lost-in-Space solving).
 
-- [ ] Generate scale-invariant triangle asterisms from star centroids.
-- [ ] Pre-calculate and index catalog triangle fingerprints into a spatial Kd-tree.
-- [ ] Implement fast geometric hash lookups to match observed triangles against catalog asterisms.
-- [ ] Solve camera orientation quaternion, precise center coordinates $(\text{RA}, \text{Dec})$, and Field of View (FOV).
-- [ ] Align celestial coordinate grid with camera pixel plane.
+- [ ] **Step 1: Asterism Generation & Geometric Invariants (Current 🔄):** Generate scale-invariant, rotation-invariant triangle hashes $(r_1, r_2)$ and interior angles from star centroid triplets.
+- [ ] **Step 2: Catalog Asterism Precomputation & Spatial Indexing:** Pre-calculate and index Hipparcos catalog triangle fingerprints into a compact spatial Kd-tree.
+- [ ] **Step 3: Asterism Matching & Hypothesis Verification:** Implement fast geometric hash lookups, candidate voting, and RANSAC consensus matching.
+- [ ] **Step 4: Camera Attitude Determination & WCS Calibration:** Solve camera orientation quaternion, precise center coordinates $(\text{RA}, \text{Dec})$, and true Field of View (FOV) via SVD/Kabsch.
+- [ ] **Step 5: Dynamic Celestial Grid & Constellation Projection:** Project celestial coordinate grids and constellation lines onto the camera sensor plane.
+- [ ] **Step 6: Plate Solving Debug Visualizer & Real-Time Verification:** Interactive match vector overlays, catalog alignment verification, and live diagnostics HUD.
 
 ---
 
