@@ -10,19 +10,19 @@ This directory contains the foundational research, technical feasibility analyse
 research/
 ├── notes/
 │   ├── Phase-0.md                  # Comprehensive astronomy & engineering fundamentals
-│   └── Phase-1/                    # Step-by-step implementation logs for Phase 1
-│       ├── README.md               # Phase 1 master overview, architecture & checklist
-│       ├── step-1: verify git repository.md
-│       ├── step-2: create mobile application.md
-│       ├── step-3: start expo development server.md
-│       ├── step-4: add web support.md
-│       ├── step-5: astronomy engine v1.md
-│       ├── step-6: hipparcos catalog integration.md
-│       ├── step-7: connect mobile app to visible stars api.md
-│       ├── step-8: star identity & metadata.md
-│       ├── step-9: sensor engine.md
-│       ├── step-10: debug sky visualization.md
-│       └── step-11: astronomical prediction verification.md
+│   ├── Phase-1/                    # Step-by-step implementation logs for Phase 1
+│   │   ├── README.md               # Phase 1 master overview, architecture & checklist
+│   │   ├── step-1: verify git repository.md
+│   │   ├── step-2: create mobile application.md
+│   │   ├── step-3: start expo development server.md
+│   │   ├── step-4: add web support.md
+│   │   ├── step-5: astronomy engine v1.md
+│   │   ├── step-6: hipparcos catalog integration.md
+│   │   ├── step-7: connect mobile app to visible stars api.md
+│   │   ├── step-8: star identity & metadata.md
+│   │   ├── step-9: sensor engine.md
+│   │   ├── step-10: debug sky visualization.md
+│   │   └── step-11: astronomical prediction verification.md
 │   ├── Phase-2/                    # Computer Vision & Star Detection logs
 │   │   ├── README.md               # Phase 2 master overview & vision pipeline
 │   │   ├── step-1: camera integration.md
@@ -105,7 +105,7 @@ Read [notes/Phase-2/README.md](notes/Phase-2/README.md) for the complete enginee
 ## 🧭 Phase 3 Implementation Logs (Current 🔄)
 
 Read [notes/Phase-3/README.md](notes/Phase-3/README.md) for the complete engineering logs:
-- **Step 1:** Asterism generation & geometric invariants — scale-invariant triangle hashes, normalized side ratios $, interior angles, and counter-clockwise cyclic parity ().
+- **Step 1:** Asterism generation & geometric invariants — scale-invariant triangle hashes, normalized side ratios $(r_1, r_2)$, interior angles, and counter-clockwise cyclic parity (`triangleInvariants.ts`).
 - **Step 2:** Catalog asterism precomputation & spatial indexing (Kd-tree / hash table).
 - **Step 3:** Asterism matching & Lost-in-Space hypothesis verification (geometric voting & RANSAC).
 - **Step 4:** Camera attitude determination & WCS astrometric calibration (Wahba's problem, SVD/Kabsch, FOV solving).
