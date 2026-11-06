@@ -4,14 +4,7 @@
  * centers of mass, second-order PSF moments, ellipticity, and instrumental magnitude.
  */
 
-import type {
-  LuminanceBuffer,
-  RawBlob,
-  RawBlobPixel,
-  StarCentroid,
-  CentroidExtractionOptions,
-  CentroidExtractionResult,
-} from "./types";
+import type {LuminanceBuffer,RawBlob,RawBlobPixel,StarCentroid,CentroidExtractionOptions,CentroidExtractionResult,} from "./types";
 
 const DEFAULT_OPTIONS: Required<CentroidExtractionOptions> = {
   minPixelCount: 2,
