@@ -98,4 +98,18 @@ Read [notes/Phase-2/README.md](notes/Phase-2/README.md) for the complete enginee
 - **Step 5:** Star blob detection & sub-pixel centroid extraction — 8-connected component clustering, intensity-weighted center of mass, PSF morphology (ellipticity, FWHM), and streak rejection (`centroidExtraction.ts`).
 - **Step 6:** Star candidate debug overlay & verification — sub-pixel viewport projection (`overlayMath.ts`), interactive star reticle overlay (`StarOverlay.tsx`), candidate inspector card, and multi-asterism validation.
 
-**Status:** Phase 2 Complete ✅. Transitioning to **Phase 3: Plate Solving & Pattern Recognition**.
+**Status:** Phase 2 Complete ✅.
+
+---
+
+## 🧭 Phase 3 Implementation Logs (Current 🔄)
+
+Read [notes/Phase-3/README.md](notes/Phase-3/README.md) for the complete engineering logs:
+- **Step 1:** Asterism generation & geometric invariants — scale-invariant triangle hashes, normalized side ratios $, interior angles, and counter-clockwise cyclic parity ().
+- **Step 2:** Catalog asterism precomputation & spatial indexing (Kd-tree / hash table).
+- **Step 3:** Asterism matching & Lost-in-Space hypothesis verification (geometric voting & RANSAC).
+- **Step 4:** Camera attitude determination & WCS astrometric calibration (Wahba's problem, SVD/Kabsch, FOV solving).
+- **Step 5:** Dynamic celestial grid & constellation projection.
+- **Step 6:** Plate solving debug visualizer & real-time performance benchmarking.
+
+**Status:** Phase 3 Step 1 (Documentation & Specifications) Active 🔄.
