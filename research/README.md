@@ -23,14 +23,17 @@ research/
 │       ├── step-9: sensor engine.md
 │       ├── step-10: debug sky visualization.md
 │       └── step-11: astronomical prediction verification.md
-│   └── Phase-2/                    # Computer Vision & Star Detection logs
-│       ├── README.md               # Phase 2 master overview & vision pipeline
-│       ├── step-1: camera integration.md
-│       ├── step-2: night-sky frame acquisition.md
-│       ├── step-3: image preprocessing.md
-│       ├── step-4: background estimation & thresholding.md
-│       ├── step-5: star centroid extraction.md
-│       └── step-6: star candidate debug overlay.md
+│   ├── Phase-2/                    # Computer Vision & Star Detection logs
+│   │   ├── README.md               # Phase 2 master overview & vision pipeline
+│   │   ├── step-1: camera integration.md
+│   │   ├── step-2: night-sky frame acquisition.md
+│   │   ├── step-3: image preprocessing.md
+│   │   ├── step-4: background estimation & thresholding.md
+│   │   ├── step-5: star centroid extraction.md
+│   │   └── step-6: star candidate debug overlay.md
+│   └── Phase-3/                    # Plate Solving & Geometric Pattern Recognition logs
+│       ├── README.md               # Phase 3 master overview & solver pipeline
+│       └── step-1: asterism generation & geometric invariants.md
 ├── Backend-Architecture-analysis.md # Detailed backend subsystem analysis
 ├── Frontend-Architecture-analysis.md # Detailed frontend subsystem analysis
 └── Frontend-Bankend-comms-analysis.md # API contracts & integration analysis
