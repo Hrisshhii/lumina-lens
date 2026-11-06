@@ -1,7 +1,4 @@
-import {
-  BENCHMARK_ASTERISMS,
-  generateSyntheticRgba,
-} from "./src/engines/vision/syntheticStarfield.ts";
+import {BENCHMARK_ASTERISMS,generateSyntheticRgba,} from "./src/engines/vision/syntheticStarfield.ts";
 import { preprocessFrame } from "./src/engines/vision/preprocessing.ts";
 
 console.log("=================================================================");
