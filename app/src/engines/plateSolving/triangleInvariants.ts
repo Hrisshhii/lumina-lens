@@ -5,7 +5,7 @@
  * for star centroid triplets to facilitate Lost-in-Space plate solving.
  */
 
-import { StarPoint, TriangleDescriptor } from "./types";
+import type { StarPoint, TriangleDescriptor } from "./types";
 
 /**
  * Calculates Euclidean 2D distance between two points.

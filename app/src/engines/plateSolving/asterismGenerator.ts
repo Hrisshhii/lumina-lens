@@ -5,7 +5,7 @@
  * while preventing combinatorial explosion on dense starfields.
  */
 
-import { StarPoint, TriangleDescriptor, AsterismExtractionConfig } from "./types";
+import type { StarPoint, TriangleDescriptor, AsterismExtractionConfig } from "./types";
 import { euclideanDistance, computeTriangleDescriptor } from "./triangleInvariants";
 
 const DEFAULT_CONFIG: Required<AsterismExtractionConfig> = {
