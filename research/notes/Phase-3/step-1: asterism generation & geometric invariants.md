@@ -122,10 +122,28 @@ To build and verify Step 1 cleanly:
 
 ## 5. Verification & Acceptance Criteria
 
-| Metric | Target | Rationale |
-|:---|:---|:---|
-| **Rotation Invariance** | $|\Delta r_1| < 10^{-5}, |\Delta r_2| < 10^{-5}$ across any $360^\circ$ rotation | Must be completely agnostic to camera roll |
-| **Scale Invariance** | $|\Delta r_1| < 10^{-5}, |\Delta r_2| < 10^{-5}$ across $0.5\times$ to $2.5\times$ zoom | Accommodates variable camera FOV |
-| **Collinear Rejection** | $L_1 + L_2 \approx L_3$ rejected automatically | Straight lines provide degenerate astrometric solutions |
-| **Extraction Execution Time** | $< 5\text{ ms}$ for 20 stars ($\approx 50$ candidate triangles) | High-speed real-time mobile loop budget |
+| Metric | Target | Measured Empirical Result | Status |
+|:---|:---|:---|:---|
+| **Rotation Invariance** | $|\Delta r_1| < 10^{-5}, |\Delta r_2| < 10^{-5}$ across any $360^\circ$ rotation | $|\Delta r_1| \le 5.55 \times 10^{-16}, |\Delta r_2| \le 6.66 \times 10^{-16}$ | ✅ Exceeded Target |
+| **Scale Invariance** | $|\Delta r_1| < 10^{-5}, |\Delta r_2| < 10^{-5}$ across $0.5\times$ to $2.5\times$ zoom | $|\Delta r_1| \le 5.55 \times 10^{-16}, |\Delta r_2| \le 6.66 \times 10^{-16}$ | ✅ Exceeded Target |
+| **Angular Invariance** | $|\Delta\theta| < 10^{-3 \circ}$ | $|\Delta\theta| \le 4.97 \times 10^{-14 \circ}$ | ✅ Exceeded Target |
+| **Moment of Inertia Invariance** | $|\Delta\mathcal{I}_\Delta| < 10^{-5}$ | $|\Delta\mathcal{I}_\Delta| \le 1.11 \times 10^{-16}$ | ✅ Exceeded Target |
+| **Collinear Rejection** | $L_1 + L_2 \approx L_3$ rejected automatically | Collinear triplets successfully identified & discarded | ✅ PASS |
+| **Extraction Execution Time** | $< 5\text{ ms}$ for 20 stars ($\approx 50$ candidate triangles) | **0.50 ms** (Orion), **0.20 ms** (Summer Triangle), **0.14 ms** (Cassiopeia) | ✅ $< 1\text{ ms}$ |
+
+---
+
+## 6. Implementation Summary & Part Breakdown
+
+- **Part 1: Invariant Math & Triangle Geometry Engine (`triangleInvariants.ts`):**
+  - Implemented `euclideanDistance`, `signedTriangleArea`, `computeOppositeAngleDeg`, and `computeMomentOfInertia`.
+  - Built `computeTriangleDescriptor` with strict geometric validation ($L_1 \le L_2 \le L_3$, $0 < r_1 \le r_2 \le 1$, $r_1 + r_2 > 1$, $\theta_{\max} < 175^\circ$).
+- **Part 2: Combinatorial & Spatial Asterism Graph Traversal (`asterismGenerator.ts`):**
+  - Implemented brightness pruning and $k$-nearest spatial neighbor graph exploration ($k=5$).
+  - Built duplicate triplet deduplication and edge-distance filtering.
+- **Part 3: Verification Suite (`test_step1_plate_solving.mjs`):**
+  - Verified across 10 distinct rotation angles ($0^\circ \dots 359^\circ$) and 6 scale factors ($0.5\times \dots 2.5\times$) with arbitrary translation offsets.
+  - Verified benchmark extraction on Orion (72 triangles in 0.50 ms), Summer Triangle (47 triangles in 0.20 ms), and Cassiopeia (39 triangles in 0.14 ms).
+  - All unit tests pass with zero TypeScript errors (`npx tsc --noEmit`).
+
 

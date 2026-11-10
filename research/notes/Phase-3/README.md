@@ -12,7 +12,7 @@ In Phase 1, we calculated topocentric positions from ephemeris tables and sensor
 
 ## Phase 3 Step Breakdown
 
-1. [ ] **Step 1: Asterism Generation & Geometric Invariants (Triangle Descriptors):**  
+1. [x] **Step 1: Asterism Generation & Geometric Invariants (Triangle Descriptors) (Completed ✅):**  
    Generate scale-invariant, rotation-invariant geometric hashes from star centroid triplets (angles, side ratios, perimeter invariants).
 2. [ ] **Step 2: Catalog Asterism Precomputation & Spatial Indexing:**  
    Pre-compute reference asterisms from the Hipparcos catalog and index them into a compact Kd-tree / spatial hash grid for sub-millisecond lookup.
