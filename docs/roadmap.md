@@ -66,8 +66,8 @@ This document outlines the multi-phase journey of **Lumina Lens**, from initial 
 
 **Objective:** Match observed star centroids with catalog star positions without prior knowledge of camera direction (Lost-in-Space solving).
 
-- [ ] **Step 1: Asterism Generation & Geometric Invariants (Current 🔄):** Generate scale-invariant, rotation-invariant triangle hashes $(r_1, r_2)$ and interior angles from star centroid triplets.
-- [ ] **Step 2: Catalog Asterism Precomputation & Spatial Indexing:** Pre-calculate and index Hipparcos catalog triangle fingerprints into a compact spatial Kd-tree.
+- [x] **Step 1: Asterism Generation & Geometric Invariants (Completed ✅):** Generate scale-invariant, rotation-invariant triangle hashes $(r_1, r_2)$ and interior angles from star centroid triplets.
+- [ ] **Step 2: Catalog Asterism Precomputation & Spatial Indexing (Current 🔄):** Pre-calculate and index Hipparcos catalog triangle fingerprints into a compact spatial Kd-tree.
 - [ ] **Step 3: Asterism Matching & Hypothesis Verification:** Implement fast geometric hash lookups, candidate voting, and RANSAC consensus matching.
 - [ ] **Step 4: Camera Attitude Determination & WCS Calibration:** Solve camera orientation quaternion, precise center coordinates $(\text{RA}, \text{Dec})$, and true Field of View (FOV) via SVD/Kabsch.
 - [ ] **Step 5: Dynamic Celestial Grid & Constellation Projection:** Project celestial coordinate grids and constellation lines onto the camera sensor plane.
