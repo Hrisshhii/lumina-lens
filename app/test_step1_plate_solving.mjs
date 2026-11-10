@@ -11,13 +11,8 @@
  */
 
 import assert from "node:assert";
-import {
-  computeTriangleDescriptor,
-  euclideanDistance,
-} from "./src/engines/plateSolving/triangleInvariants.ts";
-import {
-  extractAsterismTriangles,
-} from "./src/engines/plateSolving/asterismGenerator.ts";
+import {computeTriangleDescriptor,euclideanDistance,} from "./src/engines/plateSolving/triangleInvariants.ts";
+import {extractAsterismTriangles,} from "./src/engines/plateSolving/asterismGenerator.ts";
 import { BENCHMARK_ASTERISMS } from "./src/engines/vision/syntheticStarfield.ts";
 
 console.log("================================================================================");
