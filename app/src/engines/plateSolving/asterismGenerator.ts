@@ -6,7 +6,7 @@
  */
 
 import type { StarPoint, TriangleDescriptor, AsterismExtractionConfig } from "./types";
-import { euclideanDistance, computeTriangleDescriptor } from "./triangleInvariants";
+import { euclideanDistance, computeTriangleDescriptor } from "./triangleInvariants.ts";
 
 const DEFAULT_CONFIG: Required<AsterismExtractionConfig> = {
   maxStars: 20,
