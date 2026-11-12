@@ -1,5 +1,4 @@
 import type { CapturedFrame, DeviceOrientationData, ObserverCoordinates, SyntheticFieldConfig } from "./types";
-
 /**
  * Pre-calibrated astronomical benchmark asterisms for offline vision pipeline testing.
  */

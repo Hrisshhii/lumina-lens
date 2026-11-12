@@ -53,7 +53,6 @@ export function detectBlobs(
     const rowOffset = y * width;
     for (let x = 0; x < width; x++) {
       const idx = rowOffset + x;
-
       // Skip non-star or already-visited pixels
       if (starMask[idx] === 0 || visited[idx] === 1) {
         continue;
@@ -82,7 +81,6 @@ export function detectBlobs(
         const cx = queueX[qHead];
         const cy = queueY[qHead];
         qHead++;
-
         const cIdx = cy * width + cx;
         const intensity = data[cIdx];
 
@@ -151,11 +149,7 @@ export function detectBlobs(
  * @param localNoise Optional local background noise floor (sigma) for SNR estimation.
  * @returns Calibrated StarCentroid, or null if rejected by morphological filters.
  */
-export function computeStarCentroid(
-  blob: RawBlob,
-  options?: CentroidExtractionOptions,
-  localNoise = 2.0
-): StarCentroid | null {
+export function computeStarCentroid(blob: RawBlob,options?: CentroidExtractionOptions,localNoise = 2.0): StarCentroid | null {
   const minFlux = options?.minFlux ?? DEFAULT_OPTIONS.minFlux;
   const maxEllipticity = options?.maxEllipticity ?? DEFAULT_OPTIONS.maxEllipticity;
   const minFwhm = options?.minFwhm ?? DEFAULT_OPTIONS.minFwhm;
@@ -287,7 +281,6 @@ export function extractStarCentroids(
 
   // Sort stars by visual brightness (instrumental magnitude ascending / flux descending)
   stars.sort((a, b) => b.flux - a.flux);
-
   // Re-index sorted stars 1..N
   for (let i = 0; i < stars.length; i++) {
     stars[i].id = i + 1;

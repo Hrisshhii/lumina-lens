@@ -11,10 +11,7 @@ interface StarDetailModalProps {
   onRetry: () => void;
 }
 
-function DetailRow({label,value,}: {
-  label: string;
-  value: string;
-}) {
+function DetailRow({label,value,}: {label: string;value: string;}) {
   return (
     <View className="flex-row justify-between border-b border-cosmos-border py-1.5">
       <Text className="mr-3 shrink text-xs text-slate-400">
@@ -47,7 +44,6 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
 // Star identity and metadata bottom sheet.
 export default function StarDetailModal({visible,loading,error,profile,onClose,onRetry,}: StarDetailModalProps) {
   if (!visible) return null;
-
   const displayName = profile?.primary_name?.trim() || `HIP ${profile?.hip_id ?? ""}`;
   const alternateNames = profile?.alternate_names ?? [];
 
@@ -77,8 +73,7 @@ export default function StarDetailModal({visible,loading,error,profile,onClose,o
   return (
     <View className="absolute inset-0 z-[9999]" style={{ elevation: 50 }}>
       {/* Backdrop */}
-      <Pressable onPress={onClose}
-        className="absolute inset-0 bg-slate-950/80"
+      <Pressable onPress={onClose} className="absolute inset-0 bg-slate-950/80"
         accessibilityRole="button"
         accessibilityLabel="Close star details"
       />
@@ -93,10 +88,7 @@ export default function StarDetailModal({visible,loading,error,profile,onClose,o
         {/* Header */}
         <View className="flex-row items-center justify-between border-b border-cosmos-border px-5 pb-3 pt-2">
           <View className="mr-3 flex-1">
-            <Text
-              className="text-[22px] font-bold text-slate-50"
-              numberOfLines={1}
-            >
+            <Text className="text-[22px] font-bold text-slate-50" numberOfLines={1}>
               {loading || error ? "Star Details" : displayName}
             </Text>
 
