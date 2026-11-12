@@ -102,8 +102,7 @@ export default function StarDetailModal({visible,loading,error,profile,onClose,o
           <TouchableOpacity onPress={onClose}
             hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
             className="h-8 w-8 items-center justify-center rounded-full bg-slate-800"
-            accessibilityRole="button"
-            accessibilityLabel="Close"
+            accessibilityRole="button" accessibilityLabel="Close"
           >
             <Text className="text-base font-semibold text-slate-400">
               ✕
@@ -134,19 +133,13 @@ export default function StarDetailModal({visible,loading,error,profile,onClose,o
             </Text>
 
             <View className="flex-row gap-3">
-              <TouchableOpacity
-                className="rounded-lg bg-slate-800 px-5 py-2.5"
-                onPress={onRetry}
-              >
+              <TouchableOpacity className="rounded-lg bg-slate-800 px-5 py-2.5" onPress={onRetry}>
                 <Text className="text-sm font-semibold text-slate-200">
                   Retry
                 </Text>
               </TouchableOpacity>
 
-              <TouchableOpacity
-                className="rounded-lg bg-blue-600 px-5 py-2.5"
-                onPress={onClose}
-              >
+              <TouchableOpacity className="rounded-lg bg-blue-600 px-5 py-2.5" onPress={onClose}>
                 <Text className="text-sm font-semibold text-white">
                   Close
                 </Text>
@@ -155,8 +148,7 @@ export default function StarDetailModal({visible,loading,error,profile,onClose,o
           </View>
         ) : profile ? (
           /* Star profile */
-          <ScrollView
-            className="flex-1"
+          <ScrollView className="flex-1"
             contentContainerClassName="gap-4 p-5 pb-8"
             showsVerticalScrollIndicator={false}
           >
@@ -185,22 +177,19 @@ export default function StarDetailModal({visible,loading,error,profile,onClose,o
                 <SectionTitle>Identity</SectionTitle>
 
                 {profile.bayer_designation ? (
-                  <DetailRow
-                    label="Bayer designation"
+                  <DetailRow label="Bayer designation"
                     value={profile.bayer_designation}
                   />
                 ) : null}
 
                 {profile.flamsteed_designation ? (
-                  <DetailRow
-                    label="Flamsteed designation"
+                  <DetailRow label="Flamsteed designation"
                     value={profile.flamsteed_designation}
                   />
                 ) : null}
 
                 {profile.constellation ? (
-                  <DetailRow
-                    label="Constellation"
+                  <DetailRow label="Constellation"
                     value={profile.constellation}
                   />
                 ) : null}
@@ -213,36 +202,31 @@ export default function StarDetailModal({visible,loading,error,profile,onClose,o
                 <SectionTitle>Catalog Position</SectionTitle>
 
                 {profile.right_ascension_hours != null ? (
-                  <DetailRow
-                    label="Right ascension"
+                  <DetailRow label="Right ascension"
                     value={`${profile.right_ascension_hours.toFixed(3)} h`}
                   />
                 ) : null}
 
                 {profile.declination_degrees != null ? (
-                  <DetailRow
-                    label="Declination"
+                  <DetailRow label="Declination"
                     value={`${profile.declination_degrees.toFixed(3)}°`}
                   />
                 ) : null}
 
                 {profile.parallax_mas != null ? (
-                  <DetailRow
-                    label="Parallax"
+                  <DetailRow label="Parallax"
                     value={`${profile.parallax_mas.toFixed(2)} mas`}
                   />
                 ) : null}
 
                 {profile.proper_motion_ra_mas != null ? (
-                  <DetailRow
-                    label="Proper motion (RA)"
+                  <DetailRow label="Proper motion (RA)"
                     value={`${profile.proper_motion_ra_mas.toFixed(2)} mas/yr`}
                   />
                 ) : null}
 
                 {profile.proper_motion_dec_mas != null ? (
-                  <DetailRow
-                    label="Proper motion (Dec)"
+                  <DetailRow label="Proper motion (Dec)"
                     value={`${profile.proper_motion_dec_mas.toFixed(2)} mas/yr`}
                   />
                 ) : null}
@@ -255,22 +239,19 @@ export default function StarDetailModal({visible,loading,error,profile,onClose,o
                 <SectionTitle>Physical Properties</SectionTitle>
 
                 {profile.magnitude != null ? (
-                  <DetailRow
-                    label="Apparent magnitude"
+                  <DetailRow label="Apparent magnitude"
                     value={profile.magnitude.toFixed(2)}
                   />
                 ) : null}
 
                 {profile.spectral_type ? (
-                  <DetailRow
-                    label="Spectral type"
+                  <DetailRow label="Spectral type"
                     value={profile.spectral_type}
                   />
                 ) : null}
 
                 {profile.distance_light_years != null ? (
-                  <DetailRow
-                    label="Distance"
+                  <DetailRow label="Distance"
                     value={`${profile.distance_light_years.toFixed(1)} light-years`}
                   />
                 ) : null}
