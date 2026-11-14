@@ -15,14 +15,7 @@ export interface StarOverlayProps {
   showLabels?: boolean;
 }
 
-export default function StarOverlay({
-  stars,
-  frameWidth,
-  frameHeight,
-  viewWidth,
-  viewHeight,
-  selectedStarId,
-  onSelectStar,
+export default function StarOverlay({stars,frameWidth,frameHeight,viewWidth,viewHeight,selectedStarId,onSelectStar,
   nightMode = false,
   showLabels = true,
 }: StarOverlayProps) {
