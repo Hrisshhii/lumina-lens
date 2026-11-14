@@ -55,7 +55,7 @@ const baseTriangle = [
   { id: 30, x: 420.1, y: 450.7 },
 ];
 
-const baseDesc = computeTriangleDescriptor(baseTriangle[0], baseTriangle[1], baseTriangle[2]);
+const baseDesc=computeTriangleDescriptor(baseTriangle[0], baseTriangle[1], baseTriangle[2]);
 assert(baseDesc !== null, "Base triangle must be valid");
 
 // Test across 12 distinct rotation angles, variable scale factors, and translation offsets
@@ -131,8 +131,7 @@ for (const key of asterismKeys) {
   const triangles = extractAsterismTriangles(starPoints, {
     maxStars: 20,
     kNearestNeighbors: 5,
-    minSidePixels: 20,
-    maxSidePixels: 800,
+    minSidePixels: 20, maxSidePixels: 800,
   });
   const elapsed = performance.now() - startTime;
 
