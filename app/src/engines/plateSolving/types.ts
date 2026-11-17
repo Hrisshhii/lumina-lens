@@ -50,3 +50,39 @@ export interface AsterismExtractionConfig {
   /** Maximum angle tolerance for collinear degeneracy rejection (default: 172 degrees) */
   maxCollinearAngleDeg?: number;
 }
+
+/**
+ * Step 2: Catalog Asterism & Spatial Indexing Contracts
+ */
+
+export interface CatalogStarRecord {
+  hip: number;
+  name?: string;
+  raDeg: number;
+  decDeg: number;
+  mag: number;
+  unitVector: [number, number, number];
+}
+
+export interface CatalogAsterism {
+  id: number;
+  starIds: [number, number, number]; // [HIP_A, HIP_B, HIP_C]
+  r1: number;                        // L1 / L3
+  r2: number;                        // L2 / L3
+  angularSpanDeg: number;            // Largest angular side length theta_3 in degrees
+  momentOfInertia: number;
+  constellation?: string;
+}
+
+export interface KdTreeNode {
+  point: [number, number];           // [r1, r2]
+  asterism: CatalogAsterism;
+  left: KdTreeNode | null;
+  right: KdTreeNode | null;
+  axis: 0 | 1;                       // 0 for r1, 1 for r2
+}
+
+export interface NearestMatchResult {
+  asterism: CatalogAsterism;
+  distance: number;
+}
